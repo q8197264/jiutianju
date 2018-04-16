@@ -10,12 +10,10 @@ $configs =  array(
     //SESSION 的设置
     'SESSION_AUTO_START'    => true,
     'SESSION_TYPE'          => 'DB',   
-    'DEFAULT_APP'           => 'Baocms',
-
-    
+    'DEFAULT_APP'           => 'Jiutianju',
 
     //URL设置
-    'URL_MODEL'            => 1,
+    'URL_MODEL'            => 2,
     'URL_HTML_SUFFIX'      => '.html',
     'URL_ROUTER_ON'        => true,
     'URL_CASE_INSENSITIVE' => true, //url不区分大小写
@@ -40,14 +38,11 @@ $configs =  array(
     'APP_AUTOLOAD_PATH'     => '@.TagLib',
     'TAGLIB_BUILD_IN'       => 'Cx,Calldata',
 	
-	//数据库备份增加的傻逼玩意，qq：120585022
+	//数据库备份，qq：120585022
 	'DATA_BACKUP_PATH' => '/www/mysql.bak/data/',//备份目录
 	'DATA_BACKUP_PART_SIZE' => 20971520,//文件大小
 	'DATA_BACKUP_COMPRESS' => 1,
 	'DATA_BACKUP_COMPRESS_LEVEL' => 9,
-
-    
-
 );
 
 return array_merge($configs,$dbconfigs);

@@ -1,3 +1,0 @@
-<?php
-//000000000600a:1:{i:0;a:25:{s:11:"activity_id";s:1:"5";s:7:"cate_id";s:1:"1";s:7:"shop_id";s:3:"102";s:7:"tuan_id";s:1:"0";s:7:"city_id";s:2:"10";s:7:"area_id";s:2:"13";s:11:"business_id";s:2:"33";s:5:"title";s:2:"sm";s:5:"intro";s:6:"sdfsdf";s:5:"photo";s:34:"2018/04/15/thumb_5ad31a3275403.jpg";s:5:"thumb";s:52:"a:1:{i:0;s:34:"2018/04/15/thumb_5ad31a3cd4c5a.jpg";}";s:7:"details";s:13:"<p>sdfdsf</p>";s:5:"price";s:1:"0";s:7:"bg_date";s:10:"2018-04-15";s:8:"end_date";s:10:"2018-05-12";s:4:"time";s:25:"2018年05月24日 7点半";s:8:"sign_end";s:10:"2018-05-11";s:4:"addr";s:9:"找不到";s:7:"orderby";s:1:"0";s:5:"audit";s:1:"1";s:6:"closed";s:1:"0";s:8:"sign_num";s:1:"1";s:11:"create_time";s:10:"1523784297";s:9:"create_ip";s:15:"182.129.174.113";s:8:"template";N;}}
-?>

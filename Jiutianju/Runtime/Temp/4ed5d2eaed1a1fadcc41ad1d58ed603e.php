@@ -1,3 +1,0 @@
-<?php
-//000000086400a:2:{i:8;a:14:{s:7:"city_id";s:1:"8";s:4:"name";s:9:"朝阳市";s:5:"photo";s:28:"2017/07/17/596c81033f377.jpg";s:6:"pinyin";s:11:"chaoyansghi";s:7:"is_open";s:1:"0";s:6:"domain";s:1:"1";s:3:"lng";s:10:"119.649543";s:3:"lat";s:9:"41.409538";s:7:"orderby";s:1:"0";s:12:"first_letter";s:1:"C";s:5:"theme";s:6:"baocms";s:6:"closed";s:1:"0";s:11:"create_time";N;s:9:"create_ip";N;}i:10;a:14:{s:7:"city_id";s:2:"10";s:4:"name";s:9:"泸州市";s:5:"photo";s:28:"2018/04/14/5ad1c7e74b8fe.jpg";s:6:"pinyin";s:6:"luzhou";s:7:"is_open";s:1:"1";s:6:"domain";s:1:"0";s:3:"lng";s:10:"105.448488";s:3:"lat";s:9:"28.877075";s:7:"orderby";s:1:"1";s:12:"first_letter";s:1:"L";s:5:"theme";s:6:"suning";s:6:"closed";s:1:"0";s:11:"create_time";N;s:9:"create_ip";N;}}
-?>
