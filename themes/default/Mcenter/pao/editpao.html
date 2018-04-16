@@ -1,0 +1,162 @@
+<include file="public:header"/>
+<style>
+.list-media-x {margin-top: 0rem;}
+.list-media-x li { border-bottom: none; border-top: 0 solid #eee;}
+.tgdd_nrt{border:1px solid #eee;color:#666;font-size:14px;line-height:35px;background-color:#fff;margin-bottom:20px;overflow:hidden;height:auto}
+.tgdd_nrb{border:1px solid #eee;color:#666;font-size:14px;line-height:35px;background-color:#fbfbfb;margin-bottom:20px}
+.tgdd_nrt th{font-size:14px;font-weight:700;height:40px;line-height:40px;color:#444;background-color:#F5F5F5}
+.tgdd_nrt .tgdd_pic{float:left;margin-right:10px;padding:5px 0}
+.tgdd_nrBh{color:#999;border:1px solid #eee;font-size:12px;line-height:36px;background-color:#F5F5F5}
+.tgdd_nrBh .tgdd_bh{font-family:'寰蒋闆呴粦'}
+.tgdd_del{background-image:url(../images/del_03.jpg);background-repeat:no-repeat;background-position:left center;display:inline-block;color:red}
+.tgdd_del:hover{color:#fd8f52}
+.tgdd_nrC{border:1px solid #eee;background-color:#fff}
+.tgdd_nrC td{padding-top:15px;padding-bottom:15px;border-right:1px solid #F5F5F5}
+.tgdd_tdtw{text-align:left;width:335px}
+.tgdd_tw{overflow:hidden;padding-left:20px}
+.tgdd_hui{background:#FFF;padding:20px}
+.tgdd_hui1{border-right:1px solid #eee}
+.tgdd_hui img{margin-right:5px;float:left}
+.tgdd_tw .lef{float:left;margin-left:10px}
+.tgdd_tw .lef a{font-size:12px;line-height:20px;height:20px;color:#666}
+.tgdd_tw .lef p{font-size:12px;line-height:20px;color:#999;height:20px;overflow:hidden}
+.tgdd_nrCtd{font-family:'寰蒋闆呴粦';color:#666;font-size:12px;line-height:18px}
+.orderDet{font-family:"寰蒋闆呴粦";font-size:12px;color:#fd8f52;display:block}
+.x{width:100%;text-align:center}
+.x a,.x span{display:inline-block;border:1px solid #dbdbdb;line-height:30px;font-weight:700;height:30px;padding:0 12px;color:#444;text-align:center;margin-right:3px;margin-left:3px;margin-top:30px;margin-bottom:30px;cursor:pointer}
+.x .current{border:1px solid #ff318c;color:#fff;background-color:#ff318c}
+.x a:hover{border-color:#ff318c;color:#ff318c}
+.tgdd_tw.bullionLog_ye{padding-left:0}
+.tgdd_nrCtd.bullionLog_td{color:#999}
+.tgdd_tdtw{text-align:left;width:335px}
+.tgdd_tw{overflow:hidden;padding-left:20px}
+.tgdd_tw .lef{//padding-left:18px;width:190px}
+.tgdd_tw .lef a{font-size:12px;line-height:18px;color:#666}
+.tgdd_tw .lef p{font-size:12px;line-height:18px;color:#999}
+.tgdd_tw .lef .myChange_sp{color:#da000a}
+.tgdd_nrC td{padding-left:5px;}
+.address_del{color:#c3c1c1}
+.address_mr ul li span{font-size:14px}
+.address_mr ul li a{display:block;font-size:14px}
+.address_mr ul li a:hover{color:#da000a}
+.addAddress{padding-top:20px}
+.addAddress_t{font-size:14px;line-height:20px;font-weight:700;color:#333}
+.addAddress_nr ul li{overflow:hidden;height:auto;padding-top:15px}
+.addAddress_nr ul li .left{text-align:right;font-size:12px;line-height:30px;color:#333;width:105px}
+.addAddress_nr ul li .left span{background-image:url(../images/tsx_03.jpg);background-repeat:no-repeat;background-position:left center;font-size:14px;color:#333}
+.addAddress_nr ul li .lef select{line-height:32px;height:32px;width:257px;color:#666;margin-right:14px;border:1px solid #e3e3e3}
+.addAddress_nr ul li .lef textarea{line-height:32px;height:120px;width:350px;color:#666;margin-right:14px;border:1px solid #e3e3e3;padding-left:5px;resize:none}
+.addAddress_jd{height:30px;width:478px;padding-left:5px;border:1px solid #e3e3e3;font-size:12px;color:#666;line-height:30px}
+.addAddress_jd.addAddress_wz{width:250px}
+.addAddress_nr{padding:15px;background:#f8f8f8;border:1px solid #e3e3e3}
+.addAddress_bcqx{padding-left:0px;padding-top:22px;text-align:center;}
+.addAddress_bcqx2{text-align:left;text-indent:0;padding-left:105px}
+.addAddress_bcqx input{height:36px;width:80px;margin-right:10px;font-size:14px;line-height:34px;color:#545454;background-color:#FFF;border-top-width:0;border-right-width:0;border-bottom-width:0;border-left-width:0;border-top-style:none;border-right-style:none;border-bottom-style:none;border-left-style:none;cursor:pointer}
+.addAddress_bcqx input.bc{background-color:#fd8f52;color:#FFF;width:137px}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('pao/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			编辑跑腿
+		</div>
+	<div class="top-signed">
+	</div>
+</header>
+
+<div class="list-media-x">
+<div class="blank-10 bg"></div>
+<div class="content_right">  
+<div class="tgdd">
+    <form  target="x-frame" action="<{:U('pao/editpao',array('record_id'=>$detail['record_id']))}>" method="post">
+        <div class="addAddress_nr">
+            <ul>
+                <li>
+                    <div class=""><span>标题：</span></div>
+                    <div class="">
+                        <input type="text" name="record_title" value="<{$detail.record_title|default=''}>" class="addAddress_jd addAddress_wz" />
+					</div>
+                </li>
+                <li>
+                    <div class=""><span>分类：</span></div>
+                    <div class="">
+                        <select name="category_id"  class="addAddress_jd addAddress_wz">
+						<?php
+						foreach($categorylist as $k => $v){
+						?>
+							<option value="<?php echo $v['category_id'];?>" <?php if($detail['category_id']==$v['category_id']){ echo 'selected="selected"'; } ?>><{$v.category_name}> - 最低出价￥<?php echo $v['category_price'];?></option>
+						<?php
+						}
+						?>
+						</select>
+					</div>
+                </li>
+                <li>
+                    <div class="" style="float:left;"><span>跑腿内容：</span></div>
+                    <div class="" style="float:left;">    
+						<script type="text/plain" id="record_content" name="record_content" class="post-editor" style="width:320px;height:200px;"><{$detail.record_content|htmlspecialchars_decode}></script>
+						<link rel="stylesheet" href="__PUBLIC__/umeditor/themes/default/css/umeditor.min.css" type="text/css">
+						<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.simple.js"></script>
+						<script type="text/javascript" charset="utf-8" src="__PUBLIC__/umeditor/umeditor.min.js"></script>
+						<script type="text/javascript" src="__PUBLIC__/umeditor/lang/zh-cn/zh-cn.js"></script>
+						<script>
+							um = UM.getEditor('record_content', {
+								imageUrl: "<{:U('public/editor')}>",
+								imagePath: '__ROOT__/attachs/editor/',
+								lang: 'zh-cn',
+								langPath: UMEDITOR_CONFIG.UMEDITOR_HOME_URL + "lang/",
+								focus: false
+							});
+						</script>
+
+					</div>
+                </li>
+                <li>
+                    <div class=""><span>出价：</span></div>
+                    <div class="">
+                        <input class="addAddress_jd addAddress_wz" type="text" name="record_price" value="<{$detail.record_price|default=''}>" />元
+					</div>
+                </li>
+                <li>
+					<strong class="addAddress_t">送货地址信息</strong>
+                </li>
+                <li>
+                    <div class=""><span>收货人：</span></div>
+                    <div class="">
+                        <input class="addAddress_jd addAddress_wz" type="text" name="record_people" value="<{$detail.record_people|default=''}>" />
+					</div>
+                </li>
+                <li>
+                    <div class=""><span>电话号码：</span></div>
+                    <div class="">
+                        <input class="addAddress_jd addAddress_wz" type="text" name="record_phone" value="<{$detail.record_phone|default=''}>" />
+					</div>
+                </li>
+                <li>
+                    <div class=""><span>城市：</span></div>
+                    <div class="">
+						<select name="record_city" class="addAddress_jd addAddress_wz">
+							<option value="朝阳市" <?php if($detail['record_city']=='朝阳市'){ echo 'selected="selected"'; } ?>>朝阳市</option>
+							<option value="建平县" <?php if($detail['record_city']=='建平县'){ echo 'selected="selected"'; } ?>>建平县</option>
+						</select>
+					</div>
+                </li>
+                <li>
+                    <div class=""><span>地址：</span></div>
+                    <div class="">
+                        <input type="text" name="record_address" value="<{$detail.record_address|default=''}>" class="addAddress_jd addAddress_wz" />
+					</div>
+                </li>
+
+            </ul>
+			<div style="clear:both;height:20px;"></div>
+			<div class="container"><input class="button button-block button-big bg-dot" type="submit" value="保存" /></div>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+
+
+<include file="public:footer"/>

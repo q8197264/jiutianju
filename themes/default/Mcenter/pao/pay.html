@@ -1,0 +1,126 @@
+<include  file='public:header'/>   
+<style>
+.layui-layer-molv .layui-layer-title {background-color: #F8F8F8;border-bottom: 1px solid #eee;color: #333;}
+
+</style>
+	<header class="top-fixed bg-yellow bg-inverse" sty>
+		<div class="top-back">
+			<a class="top-addr" href="javascript:history.back();"><i class="icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">
+			确认支付
+		</div>
+	</header>  
+
+
+<div class="tuan-order">
+		<div class="clear"></div>
+		<form action="<{:U('pao/pay2',array('order_id'=>$detail['record_id']))}>" method="post" target="x-frame">
+			<div class="mode_dingdan">
+					<div class="blank-10 bg"></div>
+		<div class="line border-top border-bottom">
+			<div class="container">
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						标题：
+					</span>
+					<span class="float-right">
+						<{$detail.record_title}>
+					</span>
+				</div>
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						单价：
+					</span>
+					<span class="float-right">
+						￥<{$detail['record_price']}>元
+					</span>
+				</div>
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						数量：
+					</span>
+					<span class="float-right">
+						1
+					</span>
+				</div>
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						应付总额：
+					</span>
+					<span class="float-right">
+						￥<{$detail['record_price']}>元
+					</span>
+				</div>
+			</div>
+		</div>
+				<div class="x12 row left">选择支付方式</div>
+				<div class="clear"></div>
+				<ul class="mode_zx">
+					<li  class="on">在线付款</li>
+				</ul>
+				<div class="order_type table1">
+					<ul id="pay-method" class="pay-method">
+				<foreach name="payment" item="var">
+				<li data-rel="<{$var.code}>" class="media media-x payment">
+					<a class="float-left"  href="javascript:;">
+						<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+					</a>
+					<div class="media-body">
+						<div class="line">
+							<div class="x10">
+							<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+							</div>
+							<div class="x2">
+								<span class="radio txt txt-small radius-circle bg-green"><i class="icon-check"></i></span>
+							</div>
+						</div>
+					</div>
+				</li>
+				</foreach>
+			</ul>
+			<input id="code" type="hidden" name="code" value="" />
+						<div class="clear"></div>
+					</div>
+					<script>
+						$(function(){
+							$(".seat-check-radio").click(function(){
+								$(".seat-check-radio").removeClass("on");
+								$(this).addClass("on");
+							});
+							$(".order_style ul.zfList li").click(function(){
+								$(".order_style ul.zfList li").removeClass("current");
+								$(this).addClass("current");
+							});
+						});
+                    </script>
+					<div class="order_p1">
+						
+				<div class="x12 row border-bottom">
+					<span class="float-left">
+						需支付：
+					</span>
+					<span class="float-right">
+						￥<{$detail['record_price']}>
+					</span>
+				</div>
+						<div class=""> <input type="submit" name="sub" class="button button-block button-big bg-yellow submit" value="去支付" >
+						</div>
+					</div>
+		<div class="clear"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+ 	<script>
+		$("#pay-method li").click(function(){
+			var code = $(this).attr("data-rel");
+			$("#code").val(code);
+			$("#pay-method li").each(function(){
+				$(this).removeClass("active");
+			});
+			$(this).addClass("active");
+		});
+    </script>
+
+<include file="public:footer"/>

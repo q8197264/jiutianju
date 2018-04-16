@@ -1,0 +1,98 @@
+<include file='public:header'/> 
+   <header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<if condition="empty($cat)">
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="icon-angle-left"></i></a>
+			<else />
+			<a class="top-addr" href="<{:U('tieba/index')}>"><i class="icon-angle-left"></i></a>
+			</if>
+		</div>
+		<div class="top-title">
+			跑腿
+		</div>
+		<div class="top-share">
+			
+		</div>
+	</header>
+<style>
+.topSm{display:none;}
+.line{border-bottom: 1px dotted #ccc;margin: 10px 0;}
+</style>
+<div style="clear:both;"></div>
+<div class="container">
+	<div class="line">
+		<div class="x12">
+			<div class="bar-left " data-style="" data-offset-fixed="10">
+				<div class="blank-10"></div>
+				<div class="collapse bar-cate">
+<!-- 					<div class="cate-index"><a href="<{:U('pao/index')}>"><i class="icon-reorder"></i> 全部</a></div> -->
+					<?php
+					foreach($cate_list as $k => $v){
+					?>
+					<div class="text-center x3 <?php if($cid==$v['category_id']){ ?>active<?php } ?>">
+						<div class="button button-small bg-yellow"><h4><a href='<{:U("pao/index",array("cid"=>$v[category_id]))}>'><{$v.category_name}></a></h4></div>
+					</div>
+					<?php
+					}
+					?>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="x12">
+			<div class="bar-status">
+				<hr>
+				<h4><if condition="$cid eq 0">全部跑腿<else /><{$cate_name}></if>
+				<div class="text-right button button-small bg-yellow">
+				&nbsp;&nbsp;&nbsp;<a class="text-right btn" href="<{:U('/mcenter/pao/index',array('cat'=>$item2['cate_id']))}>"><i class="icon-pencil-square-o"></i> 我要发布跑腿</a>
+				</div></h4>
+				<br>
+				<span>跑腿总数：<em><{$counts}></em></span>
+				</br>
+				</hr>
+			</div>
+			<div class="bar-list" style="padding:5px 10px;">
+				<if condition="!empty($list)">
+				<ul class="tie-list">
+					<foreach name="list" item="item">
+					<a href="<{:U('pao/detail',array('id'=>$item['record_id']))}>">
+					<li class="line">
+						<div class="x12">
+						    <h4>
+							<div class="title">
+								<span style="color:#f00;font-weight: bold;">
+								<{$item['record_title']}><br><small>
+								</span>
+								<?php echo date('Y-m-d H:i:s',$item['fenpei_add']);?></small>							
+							</div>
+							</h4>
+						</div>
+						<div class="x12">
+							<{:msubstr(strip_tags(htmlspecialchars_decode($item['record_content'])),0,100)}>
+						</div>
+					</li>
+					</a>
+					</foreach>
+				</ul>
+				<else />
+				<div class="blank-20"></div>
+				<div class="text-center">
+					这里暂时没有人来发布跑腿，就等你来破了！
+				</div>
+				</if>
+				<div class="blank-20"></div>
+				<div class="text-center">
+					<div class="pagination">
+						<{$page}>
+					</div>
+				</div>
+				<div class="blank-20"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="/static/default/pc/css/zoom.css" />
+<script src="/static/default/pc/js/zoom.js"></script>
+<include  file='public:footer'/>  

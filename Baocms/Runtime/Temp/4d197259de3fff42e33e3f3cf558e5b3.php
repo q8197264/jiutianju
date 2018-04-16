@@ -1,0 +1,3 @@
+<?php
+//000000086400a:3:{i:1;a:6:{s:7:"rank_id";s:1:"1";s:9:"rank_name";s:4:"vip1";s:4:"icon";s:5:"class";s:5:"icon1";s:5:"class";s:8:"prestige";s:3:"200";s:6:"rebate";s:1:"1";}i:2;a:6:{s:7:"rank_id";s:1:"2";s:9:"rank_name";s:4:"vip2";s:4:"icon";s:4:"vip2";s:5:"icon1";s:4:"vip2";s:8:"prestige";s:3:"800";s:6:"rebate";s:1:"2";}i:3;a:6:{s:7:"rank_id";s:1:"3";s:9:"rank_name";s:4:"vip3";s:4:"icon";s:4:"vip3";s:5:"icon1";s:4:"vip3";s:8:"prestige";s:4:"2000";s:6:"rebate";s:1:"3";}}
+?>

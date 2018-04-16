@@ -1,0 +1,76 @@
+<include file="public:header"/>
+<div class="content_right">  
+<style>
+.lef{line-height:30px;}
+</style>
+<div class="tgdd">
+        <div class="addAddress_nr">
+            <p class="addAddress_t">查看</p>
+            <ul>
+                <li>
+                    <div class="left"><span>标题：</span></div>
+                    <div class="lef">
+                        <{$detail.record_title|default=''}>
+					</div>
+                </li>
+                <li>
+                    <div class="left"><span>分类：</span></div>
+                    <div class="lef">
+						<?php
+						foreach($categorylist as $k => $v){
+						?>
+							<?php if($detail['category_id']==$v['category_id']){ ?>
+								<{$v.category_name}> - 最低出价￥<?php echo $v['category_price'];?>
+						<?php
+								break;
+							}
+						}
+						?>
+					</div>
+                </li>
+                <li>
+                    <div class="left" style="width:105px;float:left;"><span>跑腿内容：</span></div>
+                    <div class="lef" style="width:600px;float:left;line-height:25px;">
+                        <{$detail.record_content|htmlspecialchars_decode}>
+					</div>
+                </li>
+                <li>
+                    <div class="left"><span>出价：</span></div>
+                    <div class="lef">
+                        <{$detail.record_price|default=''}>元
+					</div>
+                </li>
+                <li>
+					<strong class="addAddress_t">送货地址信息</strong>
+                </li>
+                <li>
+                    <div class="left"><span>收货人：</span></div>
+                    <div class="lef">
+                        <{$detail.record_people|default=''}>
+					</div>
+                </li>
+                <li>
+                    <div class="left"><span>电话号码：</span></div>
+                    <div class="lef">
+                       <{$detail.record_phone|default=''}>
+					</div>
+                </li>
+                <li>
+                    <div class="left"><span>城市：</span></div>
+                    <div class="lef">北京
+					</div>
+                </li>
+                <li>
+                    <div class="left"><span>地址：</span></div>
+                    <div class="lef">
+                        <{$detail.record_address|default=''}>
+					</div>
+                </li>
+
+            </ul>
+            <div class="addAddress_bcqx"><input class="bc" type="button" value="返回" onclick="javascript:history.go(-1);"/></div>
+        </div>
+</div>
+</div>
+</div>
+<include file="public:footer"/>

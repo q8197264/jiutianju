@@ -1,0 +1,24 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">跑腿</li>
+        <li class="li2">跑腿设置</li>
+    </ul>
+</div>
+<form  target="baocms_frm" action="<{:U('pao/set')}>" method="post">
+    <div class="mainScAdd">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+
+                <tr>
+                    <td class="lfTdBt">跑腿拆成比率：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="setting_value" value="<{$info.setting_value}>" class="scAddTextName w150" /> （请按照100拆分 接任务:平台，例如：80:20）
+                    </td>
+                </tr> 
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </div>
+</form>
+<include  file='public:footer'/>       

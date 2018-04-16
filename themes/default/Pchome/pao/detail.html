@@ -1,0 +1,133 @@
+<include file='public:header_pao'/> <div class="blank-10"></div>
+<style>
+.bc{background:#fd8f52;padding:8px 15px;color:#fff;border:1px solid #fd8f52;}
+.topSm{display:none;}
+</style>
+<div class="container">
+	<div class="line">
+		<div class="x3">
+			<div class="bar-left fixed" data-style="fixed-top" data-offset-fixed="10">
+				<div class="blank-10"></div>
+				<div class="collapse bar-cate">
+					<div class="cate-index"><a href="<{:U('pao/index')}>"><i class="icon-reorder"></i> 全部</a></div>
+					<?php
+					foreach($cate_list as $k => $v){
+					?>
+					<div class="panel <?php if($cid==$v['category_id']){ ?>active<?php } ?>">
+						<div class="panel-head"><h4><a href='<{:U("pao/index",array("cid"=>$v[category_id]))}>'><{$v.category_name}></a></h4></div>
+					</div>
+					<?php
+					}
+					?>
+				</div>
+			</div>
+		</div>
+		<div class="x9">
+			<div class="bar-status">
+				<h2><{$detail.record_title}></h2>
+				<span style="float:right;right:10px;width:100px;display:block;"><a class="sort-post" href="<{:U('/member/pao/index')}>"><i class="icon-pencil-square-o"></i> 我要发布跑腿</a></span>
+			</div>
+			<div class="blank-10"></div>
+			<div class="bar-list" style="padding:5px 20px;">
+				<ul class="tie-list">
+					<li class="line">
+						<div class="x12">
+							<div class="title">
+								<strong>跑腿要求：</strong>
+							</div>
+						</div>
+					</li>
+					<li class="">
+						<div class="x12">							
+							<{$detail.record_content|htmlspecialchars_decode}>
+							<div class="">
+							</div>
+						</div>
+					</li>
+					<li class="line">
+						<div class="x12">
+							<strong>价格：<{$detail.record_price}></strong>
+						</div>
+					</li>
+					<li class="line">
+						<div class="x12">
+							<strong>收货人：<{$detail.record_people}></strong>
+						</div>
+					</li>
+					<li class="line">
+						<div class="x12">
+							<strong>联系电话：<{$detail.record_phone}></strong>
+						</div>
+					</li>
+					<li class="line">
+						<div class="x12">
+							<strong>城市：<{$detail.record_city}></strong>
+						</div>
+					</li>
+					<li class="line">
+						<div class="x12">
+							<strong>地址：<{$detail.record_address}></strong>
+						</div>
+					</li>
+					<li class="line">
+						<div class="x12">
+							<?php
+							if($detail['is_finished']==1){
+							?>
+							<input type="button" value="该跑腿已经完成"  class="bc"/>
+							<?php
+							}
+							else{
+								if($detail['fabu_uid']!=$uid){
+									if($detail['jie_uid']<1){
+							?>
+								<input type="button" id="qd_btn" value="我要抢单" onclick="javascript:qiangdan('<{$detail.record_id}>');" class="bc"/>
+							<?php
+									}
+									else if($detail['jie_uid']==$uid){
+									?>
+						<a class="bc" href="<{:U('/member/pao/records')}>">查看我的抢单</a>
+									<?php
+									}
+									else{
+									?>
+								<input type="button" value="该跑腿已经被别人抢单"  class="bc"/>
+									<?php
+									}
+								}
+								else{
+								?>
+								<input type="button" value="我发布的跑腿"  class="bc"/>
+								<?php
+								}
+							}
+							?>
+						</div>
+					</li>
+				</ul>
+				<div class="blank-20"></div>
+				<div class="blank-20"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="/static/default/pc/css/zoom.css" />
+<script src="/static/default/pc/js/zoom.js"></script>
+<script>
+	function qiangdan(id){
+		if(confirm("确定要抢单？")){
+			$("#qd_btn").attr("disabled",true);
+			$.post("<{:U('/pao/doqd')}>",{id:id},function(data){
+				if(data==1){
+					alert('抢单成功，请开始跑腿吧！');
+					location.reload();
+				}
+				else{
+					alert('抢单失败！');
+					location.reload();
+				}
+			});
+		}
+	}
+</script>
+<include  file='public:footer'/>  

@@ -1,0 +1,111 @@
+<include file="public:header"/>
+<style>
+.list-media-x {margin-top: 0rem;}
+.list-media-x li { border-bottom: none; border-top: thin solid #eee;}
+.tgdd_nrt{border:1px solid #eee;color:#666;font-size:14px;line-height:35px;background-color:#fff;margin-bottom:20px;overflow:hidden;height:auto}
+.tgdd_nrb{border:1px solid #eee;color:#666;font-size:14px;line-height:35px;background-color:#fbfbfb;margin-bottom:20px}
+.tgdd_nrt th{font-size:14px;font-weight:700;height:40px;line-height:40px;color:#444;background-color:#F5F5F5}
+.tgdd_nrt .tgdd_pic{float:left;margin-right:10px;padding:5px 0}
+.tgdd_nrBh{color:#999;border:1px solid #eee;font-size:12px;line-height:36px;background-color:#F5F5F5}
+.tgdd_nrBh .tgdd_bh{font-family:'寰蒋闆呴粦'}
+.tgdd_del{background-image:url(../images/del_03.jpg);background-repeat:no-repeat;background-position:left center;display:inline-block;color:red}
+.tgdd_del:hover{color:#fd8f52}
+.tgdd_nrC{border:1px solid #eee;background-color:#fff}
+.tgdd_nrC td{padding-top:15px;padding-bottom:15px;border-right:1px solid #F5F5F5}
+.tgdd_tdtw{text-align:left;width:335px}
+.tgdd_tw{overflow:hidden;padding-left:20px}
+.tgdd_hui{background:#FFF;padding:20px}
+.tgdd_hui1{border-right:1px solid #eee}
+.tgdd_hui img{margin-right:5px;float:left}
+.tgdd_tw .lef{float:left;margin-left:10px}
+.tgdd_tw .lef a{font-size:12px;line-height:20px;height:20px;color:#666}
+.tgdd_tw .lef p{font-size:12px;line-height:20px;color:#999;height:20px;overflow:hidden}
+.tgdd_nrCtd{font-family:'寰蒋闆呴粦';color:#666;font-size:12px;line-height:18px}
+.orderDet{font-family:"寰蒋闆呴粦";font-size:12px;color:#fd8f52;display:block}
+.x{width:100%;text-align:center}
+.x a,.x span{display:inline-block;border:1px solid #dbdbdb;line-height:30px;font-weight:700;height:30px;padding:0 12px;color:#444;text-align:center;margin-right:3px;margin-left:3px;margin-top:30px;margin-bottom:30px;cursor:pointer}
+.x .current{border:1px solid #ff318c;color:#fff;background-color:#ff318c}
+.x a:hover{border-color:#ff318c;color:#ff318c}
+.tgdd_tw.bullionLog_ye{padding-left:0}
+.tgdd_nrCtd.bullionLog_td{color:#999}
+.tgdd_tdtw{text-align:left;width:335px}
+.tgdd_tw{overflow:hidden;padding-left:20px}
+.tgdd_tw .lef{//padding-left:18px;width:190px}
+.tgdd_tw .lef a{font-size:12px;line-height:18px;color:#666}
+.tgdd_tw .lef p{font-size:12px;line-height:18px;color:#999}
+.tgdd_tw .lef .myChange_sp{color:#da000a}
+.tgdd_nrC td{padding-left:5px;}
+.addAddress_nr li{margin-bottom:10px;}
+</style>
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('member/index')}>"><i class="icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">
+			查看详情
+		</div>
+	<div class="top-signed">
+	</div>
+</header>
+
+<div class="list-media-x">  
+        <div class="addAddress_nr" style="padding:10px;">
+            <ul>
+                <li>
+                    <div class=""><b>标题：</b>
+                        <{$detail.record_title|default=''}>
+					</div>
+                </li>
+                <li>
+                    <div class=""><b>分类：</b>
+						<?php
+						foreach($categorylist as $k => $v){
+						?>
+							<?php if($detail['category_id']==$v['category_id']){ ?>
+								<{$v.category_name}> - 最低出价￥<?php echo $v['category_price'];?>
+						<?php
+								break;
+							}
+						}
+						?>
+					</div>
+                </li>
+                <li>
+                    <div class=""><b>跑腿内容：</b></div>
+                    <div class="">
+                        <{$detail.record_content|htmlspecialchars_decode}>
+					</div>
+                </li>
+                <li>
+                    <div class=""><b>出价：</b>
+                        <{$detail.record_price|default=''}>元
+					</div>
+                </li>
+                <li>
+					<strong class="addAddress_t">送货地址信息</strong>
+                </li>
+                <li>
+                    <div class=""><b>收货人：</b>
+                        <{$detail.record_people|default=''}>
+					</div>
+                </li>
+                <li>
+                    <div class=""><b>电话号码：</b>
+                       <{$detail.record_phone|default=''}>
+					</div>
+                </li>
+                <li>
+                    <div class=""><b>城市：</b> <{$detail.record_city|default=''}>
+					</div>
+                </li>
+                <li>
+                    <div class=""><b>地址：</b>
+                        <{$detail.record_address|default=''}>
+					</div>
+                </li>
+
+            </ul>
+            <div class="addAddress_bcqx"><input class="button button-block button-big bg-yellow" type="button" value="返回" onclick="javascript:history.go(-1);"/></div>
+        </div>
+</div>
+<include file="public:footer"/>
