@@ -42,7 +42,7 @@ class CommonAction extends Action{
     protected function weixin_jssdk($appid, $secret){
         static $jssdk = null;
         if ($jssdk === null) {
-            include_once 'Jiutianju/Lib//Action/Weixin/jssdk.php';
+            require_once('Jiutianju/Lib/Action/Weixin/jssdk.php');
             $jssdk = new WeixinJSSDK($appid, $secret);
         }
         return $jssdk;

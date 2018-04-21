@@ -1,8 +1,7 @@
 <?php
 
-
-
-class PublicAction extends CommonAction {
+class PublicAction extends CommonAction
+{
     //根据后面实际需要 调整缩略图大小
     public function uploadify() {
         $model = $this->_get('model');
