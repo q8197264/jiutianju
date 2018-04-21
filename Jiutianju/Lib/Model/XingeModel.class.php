@@ -133,7 +133,7 @@ class XingeModel {
 
         /* 生成签名 */
         $signature = sha1(implode($data));
-       // file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/bb.txt',$signature);
+       // file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/bb.txt',$signature);
         return $signature === $sign;
     }
 

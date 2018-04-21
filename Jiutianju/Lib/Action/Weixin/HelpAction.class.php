@@ -284,7 +284,7 @@ class HelpAction extends CommonAction {
 				$bb['help_id'] = $aa['help_id'];
 				$obj->save($bb);
 
-				include "Baocms/Lib/Action/weixin/jssdk.php";
+				include "Jiutianju/Lib//Action/weixin/jssdk.php";
 				//Import::L('weixin/jssdk.php');
                 $jsSdk = $this->weixin_jssdk($weixin['app_id'], $weixin['app_key']);
 				$jsSdk1 = $jsSdk->getSignPackage();

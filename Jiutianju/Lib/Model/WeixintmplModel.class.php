@@ -16,7 +16,7 @@ class WeixintmplModel extends CommonModel{
 			}
 			$pao_records = D("PaoRecords");
             $detail = $pao_records->field("record_id,record_title,record_price")->where("record_id='".$order_id."'")->find();
-            include_once "Baocms/Lib/Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
             $notice_data = array(
                 'url'       =>  "http://".$_SERVER['HTTP_HOST']."/member/pao/viewpao/record_id/".$order_id.".html",
                 'first'   => '亲,您的订单创建成功!',
@@ -40,7 +40,7 @@ class WeixintmplModel extends CommonModel{
 			}else{
 				$pay_type = '在线支付' ;
 			}
-            include_once 'Baocms/Lib/Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
             $notice_data = array(
 				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/tuan/detail/order_id/' . $order_id . '.html', 
 				'first' => '亲,您的订单创建成功!', 
@@ -67,7 +67,7 @@ class WeixintmplModel extends CommonModel{
 			$Order = D('Order')->find($order_id);
 			$num = D('Ordergoods')->where(array('order_id'=>$order_id))->sum('num');
 			$goods_name = $this->get_mall_order_goods_name($order_id);//获取商城订单名称
-            include_once 'Baocms/Lib/Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
             $notice_data = array(
 				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/goods/index/aready/' . $order_id . '.html', 
 				'first' => '亲,您的订单创建成功!', 
@@ -93,7 +93,7 @@ class WeixintmplModel extends CommonModel{
 			$Bookingorder = D('Bookingorder')->find($order_id);
 			$Booking = D('Booking')->find($Bookingorder['shop_id']);
 			
-            include_once "Baocms/Lib/Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
             $notice_data = array(
                 'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/booking/detail/order_id/".$order_id.".html",
                 'first'   => '亲,您的订单创建成功!',
@@ -118,7 +118,7 @@ class WeixintmplModel extends CommonModel{
 			}
 			$Hotelorder = D('Hotelorder')->find($order_id);
 			$Hotel = D('Hotel')->find($Hotelorder['hotel_id']);
-            include_once "Baocms/Lib/Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
             $notice_data = array(
                 'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/hotel/detail/order_id/".$order_id.".html",
                 'first'   => '亲,您的订单创建成功!',
@@ -143,7 +143,7 @@ class WeixintmplModel extends CommonModel{
 			}
 			$Farmgorder = D('Farmorder')->find($order_id);
 			$Farm = D('Farm')->find($Farmorder['farm_id']);
-            include_once "Baocms/Lib/Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
             $notice_data = array(
                 'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/hotel/detail/order_id/".$order_id.".html",
                 'first'   => '亲,您的订单创建成功!',
@@ -168,7 +168,7 @@ class WeixintmplModel extends CommonModel{
 			}
 			$order = D('Eleorder')->find($order_id);
             $product_name = $this->get_ele_order_product_name($order_id);
-            include_once 'Baocms/Lib/Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
             $notice_data = array(
 				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/eleorder/detail/order_id/' . $order_id . '.html', 
 				'first' => '亲,您的订单创建成功!', 
@@ -225,7 +225,7 @@ class WeixintmplModel extends CommonModel{
 				$refund_num = '1';
 				$refund_price = round($Tuancode['real_money']/100,2).'元';
 			}
-            include_once 'Baocms/Lib/Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
             $_order_refund_data = array(
 				'url' => $url, 
 				'first' => $type_refund_name.'通知提醒', 
@@ -270,7 +270,7 @@ class WeixintmplModel extends CommonModel{
 				$confirm_refund_price = round($Tuancode['real_money']/100,2).'元';
 			}
 		   $config = D('Setting')->fetchAll();
-           include_once "Baocms/Lib/Net/Wxmesg.class.php";
+           include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
            $_confirm_refund_data_balance = array(
 				'url' => $url, 
 				'topcolor' => '#F55555', 
@@ -328,7 +328,7 @@ class WeixintmplModel extends CommonModel{
 				$pay_type = '在线支付';
 			}
 		
-            include_once 'Baocms/Lib/Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
             $_order_delivery_data = array(
 				'url' => $url, 
 				'first' => $type_delivery_name.'发货通知提醒', 
@@ -412,7 +412,7 @@ class WeixintmplModel extends CommonModel{
 		   $users = D('Users')->find($logs['user_id']);
            $price = round($logs['need_pay'] / 100, 2);
            $balance = round($users['money'] / 100, 2);
-           include_once "Baocms/Lib/Net/Wxmesg.class.php";
+           include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
            $_data_balance = array(
 				'url' => $url, 
 				'topcolor' => '#F55555', 
@@ -549,7 +549,7 @@ class WeixintmplModel extends CommonModel{
 			  $order_user_information = '购买人信息：'.$Users['nickname'].'-'.$Users ['mobile'];
 		   }
 		   $config = D('Setting')->fetchAll();
-           include_once "Baocms/Lib/Net/Wxmesg.class.php";
+           include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
            $_data_order_notice = array(
 				'url' => $url, 
 				'topcolor' => '#F55555', 
@@ -623,7 +623,7 @@ class WeixintmplModel extends CommonModel{
 				$delete_order_user_information = $Users['nickname'];;
 			}
 		    $config = D('Setting')->fetchAll();
-            include_once "Baocms/Lib/Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
             $_data_delete_order_notice = array(
 				'url' => $url, 
 				'topcolor' => '#F55555', 
@@ -651,7 +651,7 @@ class WeixintmplModel extends CommonModel{
 		}
 		$Users = D('Users')->find($user_id);
 		$t = time(); 
-        include_once "Baocms/Lib/Net/Wxmesg.class.php";
+        include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
         $_cash_data = array(
              'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/",
              'first'   => $tpye_name,

@@ -31,7 +31,7 @@ class CardAction extends CommonAction {
 					$card[$k]['card_type'] = $v['card_type'];
 					$card[$k]['iid'] = base64_encode($v[strtolower($v['card_type'])]['base_info']['id']);
 				}
-				include_once "Baocms/Lib/Action/weixin/jssdk.php";
+				include_once "Jiutianju/Lib//Action/weixin/jssdk.php";
 				//Import::L('weixin/jssdk.php');
 				$jsSdk = new WeixinJSSDK($weixin['appid'], $weixin['secret']);
 				$jsSdk1 = $jsSdk->getSignPackage();

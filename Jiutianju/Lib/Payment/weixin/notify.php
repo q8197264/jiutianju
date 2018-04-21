@@ -6,7 +6,7 @@
     require_once 'WxPay.Notify.php';
     require_once 'WxLog.class.php';
 //初始化日志
-    $logHandler = new CLogFileHandler( getcwd().'/Baocms/Lib/Payment/logs/'.date( 'Y-m-d' ) . '.weixin.log' );
+    $logHandler = new CLogFileHandler( getcwd().'/Jiutianju/Lib//Payment/logs/'.date( 'Y-m-d' ) . '.weixin.log' );
 
     $log = WxLog::Init( $logHandler , 15 );
 

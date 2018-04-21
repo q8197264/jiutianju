@@ -109,7 +109,7 @@ class WeixinModel {
     {
         static $clients = array();
 		if($weixin_admin = D('Shopdetails')->find($shop_id)){
-			include_once "Baocms/Lib/Action/Weixin/wechat.class.php";
+			include_once "Jiutianju/Lib//Action/Weixin/wechat.class.php";
 			$client = new WechatClient($weixin_admin['app_id'], $weixin_admin['app_key']);
 		}
         return $client;
@@ -342,7 +342,7 @@ class WeixinModel {
 
         /* 生成签名 */
         $signature = sha1(implode($data));
-       // file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/bb.txt',$signature);
+       // file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/bb.txt',$signature);
         return $signature === $sign;
     }
 

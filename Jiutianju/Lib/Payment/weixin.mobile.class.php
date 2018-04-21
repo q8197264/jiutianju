@@ -125,16 +125,16 @@ class weixin {
         }
        // file_put_contents('ccc.txt', var_export($data,true));
         if (empty($data['return_code']) || $data['return_code'] != 'SUCCESS') {
-            //file_put_contents('/www/web/baocms_cn/public_html/Baocms/Lib/Payment/aaa.txt', '1');
+            //file_put_contents('/www/web/baocms_cn/public_html/Jiutianju/Lib//Payment/aaa.txt', '1');
             return false;
         }
         if (empty($data['result_code']) || $data['result_code'] != 'SUCCESS') {
-            //file_put_contents('/www/web/baocms_cn/public_html/Baocms/Lib/Payment/aaa.txt', '2');
+            //file_put_contents('/www/web/baocms_cn/public_html/Jiutianju/Lib//Payment/aaa.txt', '2');
 
             return false;
         }
         if (empty($data['out_trade_no'])){
-           // file_put_contents('/www/web/baocms_cn/public_html/Baocms/Lib/Payment/aaa.txt', '3');
+           // file_put_contents('/www/web/baocms_cn/public_html/Jiutianju/Lib//Payment/aaa.txt', '3');
 
             return false;
         }

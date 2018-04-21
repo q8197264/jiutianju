@@ -206,7 +206,7 @@ public function booking($order_id) {
 					$uid = $val['user_id'];
 					D('Porder') -> where(array('id' => $val['order_id'], 'order_status' => 2)) -> save(array('tuan_status' => 3, 'order_status' => 3));
 					//====================拼团成功通知===========================
-					include_once "Baocms/Lib/Net/Wxmesg.class.php";
+					include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
 					$_data_ctsuccess = array(//整体变更
 						'url' => "http://" . $_SERVER['HTTP_HOST'] . "/mobile/pintuan/tuan/id/" . $tuan['tuan_id'] . ".html", 
 						'topcolor' => '#F55555', 
@@ -324,7 +324,7 @@ public function booking($order_id) {
 									$uid = $val['user_id'];
 									D('Porder') -> where(array('id' => $val['order_id'], 'order_status' => 2)) -> save(array('tuan_status' => 3, 'order_status' => 3));
 									//====================拼团成功通知===========================
-									include_once "Baocms/Lib/Net/Wxmesg.class.php";
+									include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
 									$_data_ctsuccess = array(//整体变更
 										'url' => "http://" . $_SERVER['HTTP_HOST'] . "/mobile/pintuan/tuan/id/" . $tuan_id . ".html", 
 										'topcolor' => '#F55555', 

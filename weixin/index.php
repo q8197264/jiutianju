@@ -1,9 +1,9 @@
 <?php
 
 /*
- * 软件为合肥生活宝网络公司出品，未经授权许可不得使用！
+ * 
  * 作者：尤哥
- * 官网：www.baocms.com
+ * 官网：www.jiutianju.com
  * 邮件: 376621340@qq.com
  */
 if (ini_get('magic_quotes_gpc')) {

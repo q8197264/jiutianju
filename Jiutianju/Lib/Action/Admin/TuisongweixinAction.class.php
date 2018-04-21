@@ -119,7 +119,7 @@ class TuisongweixinAction extends CommonAction{
 				   $nickname = $value['account '];   
 			    }
 				
-				include_once "Baocms/Lib/Net/Wxmesg.class.php";
+				include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
 				$_data_tuisongweixin = array(//整体变更
 					'url'       =>  $detail['url'],
 					'topcolor'  =>  '#F55555',

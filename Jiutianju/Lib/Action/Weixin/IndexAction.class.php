@@ -178,7 +178,7 @@ class IndexAction extends CommonAction
             $data['get'] = $_GET;
             $data['post'] = $_POST;
             $data['data'] = $this->weixin->request();
-            file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/aaa.txt', var_export($data, true));
+            file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/aaa.txt', var_export($data, true));
             $weixin_msg = unserialize($this->shopdetails['weixin_msg']);
             if ($weixin_msg['type'] == 1) {
                 $this->weixin->response($weixin_msg['description'], 'text');
@@ -193,7 +193,7 @@ class IndexAction extends CommonAction
         $data['get'] = $_GET;
         $data['post'] = $_POST;
         $data['data'] = $this->weixin->request();
-        //file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/aaa.txt', var_export($data['data'], true));
+        //file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/aaa.txt', var_export($data['data'], true));
         if (!empty($data['data'])) {
             $datas = explode('_', $data['data']['EventKey']);
             $id = $datas[1];
@@ -205,7 +205,7 @@ class IndexAction extends CommonAction
                 $shop_id = $detail['soure_id'];
                 $shop = D('Shop')->find($shop_id);
                 $content[] = array($shop['shop_name'], $shop['addr'], $this->getImage($shop['photo']), __HOST__ . '/mobile/shop/detail/shop_id/' . $shop_id . '.html');
-                //file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/bbb.txt', var_export($content, true));
+                //file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/bbb.txt', var_export($content, true));
                 $result = D('Connect')->getConnectByOpenid('weixin', $data['data']['FromUserName']);
                 if (!empty($result)) {
                     $user_id = $result['uid'];
@@ -231,7 +231,7 @@ class IndexAction extends CommonAction
                 $tuan_id = $detail['soure_id'];
                 $tuan = D('Tuan')->find($tuan_id);
                 $content[] = array($tuan['title'], $tuan['intro'], $this->getImage($tuan['photo']), __HOST__ . '/mobile/tuan/detail/tuan_id/' . $tuan_id . '.html');
-                file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/bbb.txt', var_export($content, true));
+                file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/bbb.txt', var_export($content, true));
                 $result = D('Connect')->getConnectByOpenid('weixin', $data['data']['FromUserName']);
                 if (!empty($result)) {
                     $user_id = $result['uid'];
@@ -258,7 +258,7 @@ class IndexAction extends CommonAction
                 $goods = D('Goods')->find($goods_id);
                 $shops = D('Shop')->find($goods['shop_id']);
                 $content[] = array($goods['title'], $shops['shop_name'], $this->getImage($goods['photo']), __HOST__ . '/mobile/mall/detail/goods_id/' . $goods_id . '.html');
-                //file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/bbb.txt', var_export($content, true));
+                //file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/bbb.txt', var_export($content, true));
                 $result = D('Connect')->getConnectByOpenid('weixin', $data['data']['FromUserName']);
                 if (!empty($result)) {
                     $user_id = $result['uid'];
@@ -285,7 +285,7 @@ class IndexAction extends CommonAction
     public function scan()
     {
         $data['data'] = $this->weixin->request();
-        //file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/ccc.txt', var_export($data['data'], true));
+        //file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/ccc.txt', var_export($data['data'], true));
         if (!empty($data['data'])) {
             $id = $data['data']['EventKey'];
             if (!($detail = D('Weixinqrcode')->find($id))) {
@@ -296,7 +296,7 @@ class IndexAction extends CommonAction
                 $shop_id = $detail['soure_id'];
                 $shop = D('Shop')->find($shop_id);
                 $content[] = array($shop['shop_name'], $shop['addr'], $this->getImage($shop['photo']), __HOST__ . '/mobile/shop/detail/shop_id/' . $shop_id . '.html');
-                //file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/bbb.txt', var_export($content, true));
+                //file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/bbb.txt', var_export($content, true));
                 $result = D('Connect')->getConnectByOpenid('weixin', $data['data']['FromUserName']);
                 if (!empty($result)) {
                     $user_id = $result['uid'];
@@ -318,7 +318,7 @@ class IndexAction extends CommonAction
                 $tuan_id = $detail['soure_id'];
                 $tuan = D('Tuan')->find($tuan_id);
                 $content[] = array($tuan['title'], $tuan['intro'], $this->getImage($tuan['photo']), __HOST__ . '/mobile/tuan/detail/tuan_id/' . $tuan_id . '.html');
-                //file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/aaa.txt', var_export($content, true));
+                //file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/aaa.txt', var_export($content, true));
                 $result = D('Connect')->getConnectByOpenid('weixin', $data['data']['FromUserName']);
                 if (!empty($result)) {
                     $user_id = $result['uid'];
@@ -339,7 +339,7 @@ class IndexAction extends CommonAction
                 $goods = D('Goods')->find($goods_id);
                 $shops = D('Shop')->find($goods['shop_id']);
                 $content[] = array($goods['title'], $shops['shop_name'], $this->getImage($goods['photo']), __HOST__ . '/mobile/mall/detail/goods_id/' . $goods_id . '.html');
-                //file_put_contents('/www/web/bao_baocms_cn/public_html/Baocms/Lib/Action/Weixin/aaa.txt', var_export($content, true));
+                //file_put_contents('/www/web/bao_baocms_cn/public_html/Jiutianju/Lib//Action/Weixin/aaa.txt', var_export($content, true));
                 $result = D('Connect')->getConnectByOpenid('weixin', $data['data']['FromUserName']);
                 if (!empty($result)) {
                     $user_id = $result['uid'];

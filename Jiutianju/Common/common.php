@@ -183,7 +183,7 @@ function bao_msubstr($str,$start,$length,$suffix){
 
 
 function getenglish($str){
-	include_once "Baocms/Lib/libs/English/english.php";
+	include_once "Jiutianju/Lib//libs/English/english.php";
 	$english = (array)new english();
 	if($english["str_place"][$str]){
 		return $english["str_place"][$str];
