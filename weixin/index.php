@@ -27,9 +27,9 @@ define('GROUP_NAME','Weixin');
 //调试模式
 define('APP_DEBUG',true);
 //定义项目名称
-define('APP_NAME', 'Baocms');
+define('APP_NAME', 'Jiutianju');
 define('NOW_TIME',time());
 //定义项目路径
-define('APP_PATH', BASE_PATH.'/Baocms/');
+define('APP_PATH', BASE_PATH.'/'.APP_NAME.'/');
 //加载框架入文件
 require BASE_PATH.'/Core/ThinkPHP.php';
