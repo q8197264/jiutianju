@@ -126,7 +126,6 @@ class CommonAction extends Action
         $this->assign('city', $city);
         $this->assign('city_id', $this->city_id);
         $this->getTemplateTheme();
-        echo '-initilaize-';
         $this->template_setting = d('Templatesetting')->detail($this->theme);
         $this->assign('CONFIG', $this->_CONFIG);
         $this->assign('MEMBER', $this->member);
@@ -261,7 +260,6 @@ class CommonAction extends Action
         if (isset($this->theme)) {
             $theme = $this->theme;
         } else {
-            echo 2;
             $default = D('Template')->getDefaultTheme();
             $themes  = D('Template')->fetchAll();
             if (C('TMPL_DETECT_THEME')) {
