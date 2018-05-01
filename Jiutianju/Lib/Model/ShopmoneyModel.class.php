@@ -4,6 +4,60 @@ class ShopmoneyModel extends CommonModel{
     protected $pk   = 'money_id';
     protected $tableName =  'shop_money';
 
+    public function getType() {
+        return array(
+			'goods' => '商城',
+			'appoint' => '家政',
+			'tuan' => '抢购',
+			'ele' => '外卖',
+			'booking'  => '订座',
+			'breaks'=>'优惠买单',
+			'cloud'=>'云购订单',
+			'crowd' =>'众筹',
+			'hotel' =>'酒店',
+			'farm'=>'农家乐', 
+			'ktv'=>'KTV',
+			'book'=>'服务预约',
+			'edu'=>'教育课程'
+		);
+    }
+	
+	//返回商户订单表的支付类型
+	public function get_money_type($type) {
+		$types = $this->getType();
+		$result = array_flip($types);//反转数组
+		$types = array_search($type, $result);
+		if(!empty($types)){
+			return $types;
+		}else{
+			return false;
+		}
+        return false;
+	}
+	
+	//商户资金结算
+    public function insertData($order_id,$id, $shop_id, $jiesuan_price, $type, $info){
+		$Shop = D('Shop')->where(array('shop_id'=>$shop_id))->find();
+        $data = array();
+		$data['shop_id'] = $shop_id;
+		$data['city_id'] = $Shop['city_id'];
+		$data['area_id'] = $Shop['area_id'];
+		$data['money'] = $jiesuan_price;
+		$data['type'] = $type;
+		$data['order_id'] = $order_id;
+		$data['intro'] = $info;
+		$data['create_time'] = NOW_TIME;
+		$data['create_ip'] = get_client_ip();
+		D('Shopmoney')->add($data);
+		D('Users')->addGold($Shop['user_id'], $jiesuan_price, $info);//写入金币
+		$config = D('Setting')->fetchAll();
+		if($config['profit']['profit']){
+			D('Userprofitlogs')->profitUsers($order_id, $id,$shop_id, $jiesuan_price, $type);//分销，1，订单ID，2：其他ID，3：商家ID，4：结算价格，5：类型
+		}	
+		return true;
+    }
+	
+	
     public function sumByIds($bg_date,$end_date,$shop_ids = array()){
         if(empty($shop_ids)) return array();
         $bg_time =  (int) strtotime($bg_date.' 00:00:00');
@@ -224,5 +278,94 @@ class ShopmoneyModel extends CommonModel{
        $showdata['price'] = join(',',$price);
        return $showdata;
     }
+	
+	
+	
+	
+	//新版带城市的月订单统计数量
+	 public function CityMonthCount($month = '',$city_ids = ''){
+        $sql = "";
+        $month = $month ? str_replace('-', '', $month): '';
+        for($i=0;$i<count($city_ids);$i++){
+			$uname=$uname."'".$city_ids[$i]."',";
+		}
+	
+		$the_city_id ="city_id in(".$uname."'')";
+        if($month && $city_ids){
+            $sql="select count(1) as num from (SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m') as m,city_id  FROM ".$this->getTableName()." where ".$the_city_id."  and FROM_UNIXTIME(create_time,'%Y%m') = '{$month}'  group  by  FROM_UNIXTIME(create_time,'%Y%m'),city_id)tb  ";         
+        }else{
+            $sql="select count(1) as num from (SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m') as m,city_id  FROM ".$this->getTableName()." where ".$the_city_id."  group  by  FROM_UNIXTIME(create_time,'%Y%m'),city_id)tb  ";  
+        }
+        $data = $this->query($sql);
+        return (int)$data[0]['num'];
+
+
+    }
+	
+	
+	//新版带城市的月订单统计输出
+    public function CityMonth($month = '',$city_ids = '',$start,$num){
+        $sql = "";
+        $month = $month ? str_replace('-', '', $month): '';
+        $start = (int)$start;
+        $num = (int)$num;
+        for($i=0;$i<count($city_ids);$i++){
+			$uname=$uname."'".$city_ids[$i]."',";
+		}
+		$the_city_id ="city_id in(".$uname."'')";
+        if($month && $city_ids){
+			$sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m')  as m,city_id  FROM ".$this->getTableName()." where ".$the_city_id."  and FROM_UNIXTIME(create_time,'%Y%m') = '{$month}' group  by  FROM_UNIXTIME(create_time,'%Y%m'),city_id  order by FROM_UNIXTIME(create_time,'%Y%m') desc   limit {$start},{$num} ";   
+        }else{
+         $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m')  as m,city_id  FROM ".$this->getTableName()." where ".$the_city_id."   group  by  FROM_UNIXTIME(create_time,'%Y%m'),city_id  order by FROM_UNIXTIME(create_time,'%Y%m') desc   limit {$start},{$num} ";  
+        }
+        $data = $this->query($sql);
+        return $data;
+    }
+	//新版地区统计
+	 public function AreaMonthCount($month = '',$area_id = ''){
+        $sql = "";
+        $month = $month ? str_replace('-', '', $month): '';
+        $area_id = (int)$area_id;
+        if($month && $area_id){
+            $sql="select count(1) as num from (SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m') as m,area_id  FROM ".$this->getTableName()." where FROM_UNIXTIME(create_time,'%Y%m') = '{$month}' and area_id='{$area_id}' group  by  FROM_UNIXTIME(create_time,'%Y%m'),area_id)tb  ";         
+        }else{
+            if($month){
+                $sql=" select count(1) as num from (SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m') as m,area_id  FROM ".$this->getTableName()." where FROM_UNIXTIME(create_time,'%Y%m') = '{$month}'  group  by  FROM_UNIXTIME(create_time,'%Y%m'),area_id)tb  ";         
+
+            }elseif($area_id){
+                $sql=" select count(1) as num from (SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m')  as m,shop_id  FROM ".$this->getTableName()." where area_id='{$area_id}'   group  by  FROM_UNIXTIME(create_time,'%Y%m'),area_id)tb  ";         
+            }else{
+                $sql=" select count(1) as num from (SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m')  as m,area_id  FROM ".$this->getTableName()."    group  by  FROM_UNIXTIME(create_time,'%Y%m'),area_id)tb  ";         
+            }
+        }
+        $data = $this->query($sql);
+        return (int)$data[0]['num'];
+    }
+	
+	//新版地区数据
+	  public function AreaMonth($month = '',$area_id = '',$start,$num){
+        $sql = "";
+        $month = $month ? str_replace('-', '', $month): '';
+        $start = (int)$start;
+        $num = (int)$num;
+        $area_id = (int)$area_id;
+        if($month && $area_id){
+            $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m') as m,area_id  FROM ".$this->getTableName()." where FROM_UNIXTIME(create_time,'%Y%m') = '{$month}' and area_id='{$area_id}' group  by  FROM_UNIXTIME(create_time,'%Y%m'),shop_id order by FROM_UNIXTIME(create_time,'%Y%m') desc  limit {$start},{$num} ";         
+        }else{
+            if($month){
+                $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m') as m,area_id  FROM ".$this->getTableName()." where FROM_UNIXTIME(create_time,'%Y%m') = '{$month}'  group  by  FROM_UNIXTIME(create_time,'%Y%m'),area_id  order by FROM_UNIXTIME(create_time,'%Y%m') desc   limit {$start},{$num}  ";         
+            }elseif($area_id){
+                $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m')  as m,area_id  FROM ".$this->getTableName()." where area_id='{$area_id}'   group  by  FROM_UNIXTIME(create_time,'%Y%m'),shop_id  order by FROM_UNIXTIME(create_time,'%Y%m') desc   limit {$start},{$num} ";         
+            }else{
+                $sql="SELECT sum(money) as money,FROM_UNIXTIME(create_time,'%Y%m')  as m,area_id  FROM ".$this->getTableName()."    group  by  FROM_UNIXTIME(create_time,'%Y%m'),area_id  order by FROM_UNIXTIME(create_time,'%Y%m') desc  limit {$start},{$num}  ";         
+            }
+        }
+        $data = $this->query($sql);
+        return $data;
+    }
+	
+	
+	
+
 
 }

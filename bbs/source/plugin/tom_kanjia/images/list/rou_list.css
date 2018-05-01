@@ -1,0 +1,121 @@
+body{
+	background:#FFDEB3;
+	min-width:320px;
+}
+.fl{
+	float:left;
+}
+.fr{
+	float:right;
+}
+.red-color{
+	color:#FF2931 !important;
+}
+.red-bg{
+	background:#FF2931 !important;
+	color:#fff;
+}
+/* listgoods */
+.x_header-bar .header-banner{
+	width:100%;
+}
+.x_header-bar .header-banner img{
+	width:100%;
+}
+.x_details .x_browse{
+	line-height:40px;
+	height:40px;
+	padding:0 10px;
+	font-size:.9em;
+	background:#fff;
+}
+.x_details .x_browse img{
+	width:100%;
+}
+.x_details .x_browse .b-num{
+	padding-left:30px;
+	background:url(./yanj.png)no-repeat 0 center;
+	background-size:20px auto;
+}
+.x_details .shop-area{
+	width:100%;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	-ms-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	box-sizing:border-box;
+}
+.x_details .shop-area .shop-list{
+	padding:0 10px 20px;
+	overflow:hidden;
+}
+.x_details .shop-area .shop-list li{
+	padding:12px 4%;
+	margin-top:20px;
+	background:url(dit_03.png)no-repeat center;
+	background-size:100% 108%;
+}
+.x_details .shop-area .shop-list .sp-img{
+	width:98px;
+	height:100px;
+	text-align:center;
+	position:relative;
+}
+.x_details .shop-area .shop-list .sp-img img{
+	width:90px;
+	height:100px;
+}
+.x_details .shop-area .shop-list .sp-img .sy{
+	position:absolute;
+	bottom:0;
+	right:4px;
+	font-size:.8px;
+	padding:2px 8px;
+	background:rgba(0,0,0,.5);
+	color:#fff;
+	-webkit-border-top-left-radius:8px;
+	-moz-border-top-left-radius:8px;
+	-ms-border-top-left-radius:8px;
+	-o-border-top-left-radius:8px;
+	border-top-left-radius:8px;
+}
+.x_details .shop-area .shop-list .xq{
+	margin-left:108px;
+}
+.x_details .shop-area .shop-list .xq .q-title{
+	font-size:.9em;
+	color:#000;
+	font-weight:600;
+	line-height:20px;
+	height:40px;
+	overflow:hidden;
+}
+.x_details .shop-area .shop-list .xq .q-two{
+	line-height:24px;
+	font-size:.7em;
+	color:#7d7d7d;
+	height:24px;
+}
+.x_details .shop-area .shop-list .xq .q-two .t-d{
+	text-decoration:line-through;
+}
+.x_details .shop-area .shop-list .xq .q-price span{
+	margin-top:10px;
+	line-height:24px;
+	display:inline-block;
+}
+.x_details .shop-area .shop-list .xq .q-price .ljk{
+	width: 80px;
+	  text-align: center;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	-ms-border-radius:4px;
+	-o-border-radius:4px;
+	border-radius:4px;
+	background:#d7d7d7;
+}
+/****************************************** pages **************************************************/
+.pages{width: 90%; height: 32px; margin-top: 10px; margin-right: auto; margin-left: auto;}
+.pages li{ width: 50%; height: 30px; float: left; text-align: center; }
+.pages li span{ height: 28px; width: 80%; display: block; line-height: 30px; margin-right: auto; margin-left: auto; color: #CCC; }
+.pages li a{ height: 28px; width: 80%; display: block; line-height: 30px; margin-right: auto; margin-left: auto;  color: #716969; }

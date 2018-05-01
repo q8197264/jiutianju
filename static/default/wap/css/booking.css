@@ -53,8 +53,8 @@
 .ding-form .select{border:none;width:100%;background:#fff;}
 
 /*包厢选择*/
-.room-item{display:block;position:relative;width:95%;border-radius:5px;overflow:hidden;}
-.room-item img{width:100%;height:100px;}
+.room-item{display:block;position:relative;width:95%;border-radius:3px;overflow:hidden;}
+.room-item img{width:100%;}
 .room-item p{position:absolute;width:100%;height:24px;line-height:24px;background:rgba(0,0,0,0.4);bottom:0;margin:0;color:#FFF;padding:0 10px;}
 .room-item .status{position:absolute;top:0;right:10px;color:#fff;padding:2px 5px;font-size:12px;}
 .room-item .man{background:#F00;}
@@ -66,58 +66,32 @@
 .footer-btn{background-color: #FFF;height:50px; line-height:50px;}
 .footer-cart .btn-long{width: 80%; height: 2.2rem; position: relative; left: 10%; line-height: 2.20rem; background: #2FBDAA; border-radius: 0.34rem; text-align: center; font-size: 16px; margin:0.45rem 0; }
 .footer-cart .btn-long a{color: #FFF; }
+/*新版订座页面开始*/
+.www_hatudou_com_form .date{border:none;width:100%;}
+.www_hatudou_com_form .date[disabled]{background:#fff;color:#999;}
+.www_hatudou_com_form .select{border:none;width:100%;background:#fff;}
+.www_hatudou_com_form .text-input{border:none;width:100%;}
+.www_hatudou_com_form .text-select{border:none;width:100%;background:#fff!important;}
+.www_hatudou_com_row {padding: 10px;overflow: hidden;}
+.address_bg {background: url("../image/mall/address_bg.png") left top repeat-x;background-size: auto 83px;height: 85px;overflow: hidden;padding: 15px;color: #999999;border-bottom: 1px solid #f1dbb8;border-top: 1px solid #f1dbb8;}
 
-/*订座页面*/
-.fl {float: left;}
-.fr {float: right;}
-.page-center-box{position:absolute;top:3.0rem;left:0;right:0;width:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;bottom:.5rem}
-.mb10{margin-bottom:.6rem}
-.seatYuyue_slct table tr{border-bottom:.1rem solid #e6e6e6;background:#fff}
-.seatYuyue_slct table tr th{font-weight:400;width:3.5rem;padding-left:1.1rem;text-align:left;height:2.5rem;line-height:2.5rem;font-size:12px;color:#666}
-.seatYuyue_slct table tr td .int_box{position:relative;padding-right:1.24rem}
-.seatYuyue_slct table tr td input{width:100%;height:1.4rem;line-height:1.4rem;border:none;background:0 0;text-align:right;font-size:12px}
-.seatYuyue_slct table tr td .int_box .linkIco{position:absolute;right:0.5rem;top:50%;margin-top:-0.26rem}
-.linkIco{content:'';display:inline-block;vertical-align:middle;width:0.6rem;height:0.6rem;border-bottom:0.1rem solid #c9c9c9;border-right:0.1rem solid #c9c9c9;transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45d eg);-o-transform:rotate(-45deg)}
-.border_b{border-bottom:.1rem solid #e5e5e5 !important}
-.seatYuyue_name{background:#fff;padding:.1rem .8rem;height:2.5rem;line-height:2.5rem}
-.seatYuyue_name input[type=text]{width:100%;height:2.5rem;line-height:2.5rem;border:none;background:0 0;font-size:12px;margin-left: 0.3rem;}
-.seatYuyue_name .box{width:10rem;text-align:right}
-.seatYuyue_name .box .radioBox_int{margin-right:0.5rem}
-.radioBox_int.on{background:url(../image/hotel/radio.png) no-repeat;}
-.radioBox_int{display:inline-block;width:2.2rem;height:2.2rem;background:url(../image/hotel/radio_gray.png) no-repeat;vertical-align:middle;margin-top: 0.4rem;}
-.seatYuyue_int{width:100%;height:2.5rem;line-height:2.5rem;border:none;background:#fff;font-size:12px;text-indent:1.1rem}
-.seatYuyue_room{background:#fff;padding:2.2rem 0 2.1rem 2.2rem}
-button,input,select,textarea{font-size:12px;margin:0;outline:0 none;vertical-align:baseline;-webkit-tap-highlight-color:transparent}
-.seatYuyue_room .list{width:50%;display:block;float:left}
-.seatYuyue_room .list .box.on{border-color:#2fbdaa}
-.seatYuyue_room .list .box{border:.1rem solid #e6e6e6;border-radius:.2rem;background:#fff;text-align:center;margin-right:2.2rem;margin-bottom:.1rem;height:2.5rem;padding:.5rem 0;line-height:1.8rem;position:relative}
-big{font-size:larger}
-small{font-size:smaller}
-.black9{color:#999!important}
-.seatYuyue_room .list .box.on .ico{display:inline-block;width:2.2rem;height:2.2rem;background:url(../image/hotel/radio.png) no-repeat;vertical-align:middle;position:absolute;top:-.6rem;right:-.8rem}
-.ico{display:inline-block;font-size:0;vertical-align:middle;background-repeat:no-repeat}
-.clear{clear:both;font-size:0;height:0;line-height:0}
-footer{height:3.0rem;border-top:1px #CCC solid;position:fixed;bottom:0;z-index:999;background:#EEE;width:100%}
-.long_btn.bgcl1{background:#f60}
-button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
-.long_btn{display:block;opacity:1;width:100%;cursor:pointer;text-align:center;color:#fff;border-radius:.03rem;outline:0;-webkit-appearance:none;border:none;background-color:#2fbdaa;height:2.2rem;line-height:2.2rem;font-size:16px}
 .maskOne{display:none;width:80%;position:fixed;z-index:101;left:50%;margin-left:-40%;top:35%;margin-top:-1rem;background:#fff;overflow:hidden;border-radius:.05rem}
-.maskOne .title{background:#eee;padding:0 .1rem;line-height:.4rem;font-size:.16rem;color:#333;overflow:hidden}
-.maskOne .title .close{font-size: 18px;}
+.maskOne .title .close{font-size:18px;line-height: 36px;}
+.maskOne .title{background:#eee;padding: 0 0.5rem;line-height:2.4rem;font-size:16px;color:#333;overflow:hidden}
 .maskOne .cont{padding:1.8rem .6rem}
-.seatYuyue_num_mask .cont, .seatYuyue_time_mask .cont {height:8rem;margin: 0.6rem 0;overflow-y: scroll;}
+
+
 .font_line24{line-height:.84rem}
 .font_size14{font-size:14px}
-.seatYuyue_sclt_mask .btn_box{text-align:center}
-.seatYuyue_sclt_mask .btn_box .pub_btn{padding:0 .1rem;margin:.2rem .05rem}
 .pub_btn{display:inline-block;opacity:1;cursor:pointer;text-align:center;color:#fff;border-radius:.3rem;outline:0;-webkit-appearance:none;border:none;background-color:#2fbdaa;height:2.3rem;line-height:2.3rem;font-size:14px}
-.seatYuyue_sclt_mask .btn_box .pub_btn{padding:0 .6rem;margin:.6rem .55rem}
 .pub_btn.bgcl1{background:#f60}
 .mask_bg{position:fixed;width:100%;height:100%;display:none;z-index:100;background:rgba(0,0,0,.3);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000, endColorstr=#BF000000)}
-.maskOne .title{background:#eee;padding:0.3rem;line-height:2.4rem;font-size:16px;color:#333;overflow:hidden}
-.seatYuyue_num_mask .list,.seatYuyue_time_mask .list{display:block;width:6.5rem;margin:0 auto;text-align:center;height:2.0rem;line-height:2.0rem;background:#daecea;margin-bottom:.12rem;font-size:14px;color:#666}
-.radioBox_int input {width: 100%;height: 100%;opacity: 0;filter: alpha(opacity=0);}
-button, input, select, textarea {font-size:16pxem;margin: 0;outline: 0 none; vertical-align: baseline;-webkit-tap-highlight-color: rgba(0,0,0,0);}
+
+.hatudou_booking_mask .btn_box{text-align:center}
+.hatudou_booking_mask .btn_box .pub_btn{padding:0 .1rem;margin:.2rem .05rem}
+.hatudou_booking_mask .btn_box .pub_btn{padding:0 .6rem;margin:.6rem .55rem}
+.hatudou_booking_mask .cont, .hatudou_booking_mask .cont {height:9rem;margin: 0.6rem 0;overflow-y: scroll;}
+.hatudou_booking_mask .list,.hatudou_booking_mask .list{display:block;width:6.5rem;margin:0 auto;text-align:center;height:2.0rem;line-height:2.0rem;background:#daecea;margin-bottom:.12rem;font-size:14px;color:#666}
 
 /*商品列表*/
 .item-list{list-style:none;padding:0 10px;}
@@ -148,6 +122,7 @@ button, input, select, textarea {font-size:16pxem;margin: 0;outline: 0 none; ver
 .cart-bar .num{float:left;height:50px;line-height:50px;font-size:18px;color:#E33;padding:0 5px;}
 .cart-bar i{float:left;color:#999;font-size:22px;margin-right:5px;}
 .cart-bar .result{float:right;margin-top:8px;}
+.cart-bar .tudou_result{margin-top:8px;}
 .cart-bar .jquery-last{color:#f00;font-size:12px;margin-left:20px;}
 /*支付确认*/
 .pay-form .row{padding:0 10px;overflow:hidden}
@@ -157,6 +132,31 @@ button, input, select, textarea {font-size:16pxem;margin: 0;outline: 0 none; ver
 
 
 /*订座菜单页*/
+
+/*订座页面*/
+.fl {float: left;}
+.fr {float: right;}
+.page-center-box{position:absolute;top:3.0rem;left:0;right:0;width:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;bottom:.5rem}
+.mb10{margin-bottom:.6rem}
+.linkIco{content:'';display:inline-block;vertical-align:middle;width:0.6rem;height:0.6rem;border-bottom:0.1rem solid #c9c9c9;border-right:0.1rem solid #c9c9c9;transform:rotate(-45deg);-webkit-transform:rotate(-45deg);-moz-transform:rotate(-45deg);-webkit-transform:rotate(-45d eg);-o-transform:rotate(-45deg)}
+.border_b{border-bottom:.1rem solid #e5e5e5 !important}
+big{font-size:larger}
+small{font-size:smaller}
+.black9{color:#999!important}
+.ico{display:inline-block;font-size:0;vertical-align:middle;background-repeat:no-repeat}
+.clear{clear:both;font-size:0;height:0;line-height:0}
+footer{height:3.0rem;border-top:1px #CCC solid;position:fixed;bottom:0;z-index:999;background:#EEE;width:100%}
+.long_btn.bgcl1{background:#f60}
+button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}
+.font_line24{line-height:.84rem}
+.font_size14{font-size:14px}
+.pub_btn{display:inline-block;opacity:1;cursor:pointer;text-align:center;color:#fff;border-radius:.3rem;outline:0;-webkit-appearance:none;border:none;background-color:#2fbdaa;height:2.3rem;line-height:2.3rem;font-size:14px}
+.pub_btn.bgcl1{background:#f60}
+.radioBox_int input {width: 100%;height: 100%;opacity: 0;filter: alpha(opacity=0);}
+button, input, select, textarea {font-size:16pxem;margin: 0;outline: 0 none; vertical-align: baseline;-webkit-tap-highlight-color: rgba(0,0,0,0);}
+
+
+
 .dianpu_cont{background:#f0f0f0; border-top:0.1rem solid #e6e6e6; position:relative; top:0; height:100%; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box;}
 .dianpu_left{ width:25%; background:#f0f0f0; height:100%;}
 .dianpu_left ul li{ line-height:2.5rem; padding-left:10%; border-bottom:0.1rem solid #e6e6e6;}

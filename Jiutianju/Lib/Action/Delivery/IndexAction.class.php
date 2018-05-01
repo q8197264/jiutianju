@@ -1,67 +1,56 @@
 <?php
-
-
-
 class IndexAction extends CommonAction {
-
+	
+	public function _initialize() {
+        parent::_initialize();
+		$Delivery = D('Delivery') -> where(array('user_id'=>$this->delivery_id)) -> find();
+		$this->assign('delivery', $Delivery);
+    }
+	
+	
     public function index() {
-        
-            if(!cookie('DL')){
-                header("Location: " . U('login/index'));
-            }else{
-                 $cid = $this->reid();
-                 $dv = D('Delivery');
-                 $rdv = $dv -> where('id ='.$cid) -> find();
-                 if(!$rdv){
-                     header("Location: " . U('login/logout'));
-                 }else{
-                     $this->assign('rdv',$rdv);
-                 }
-                 
-                 //未配送订单
-                 $do = D('DeliveryOrder');
+    	$user_id = $this->delivery_id;
+        $Delivery = D('Delivery');
+		$deliver = $Delivery->where(array('user_id'=>$user_id))->find();
+		
+		$this->assign('user_face',$user_face = D('Users') -> where(array('user_id'=>$this->delivery_id)) -> find());//查询用户头像
+        $user_Delivery = $Delivery -> where(array('user_id'=>$this->delivery_id)) -> find();
 
-                 
-                 $today = strtotime(date('Y-m-d'));
-                 
-                 //今日配送
-                 $today_p = $do -> where('update_time >='.$today.' and delivery_id ='.$cid.' and status =2') -> count();
+        if(!$user_Delivery){
+          header("Location: " . U('login/logout'));
+        }else{
+          $this->assign('user_Delivery',$user_Delivery);
+        }
+        //未配送订单
+        $DeliveryOrder = D('DeliveryOrder');
+        $today = strtotime(date('Y-m-d'));
+        $today_p = $DeliveryOrder -> where('update_time >='.$today.' and delivery_id ='.$user_id.' and status =2'.' and closed =0') -> count();//今日配送
 				 
-                 $this->assign('today_p',$today_p);
-                 //p($today_p);
-                 //今日完成
-                 $today_ok = $do -> where('update_time >='.$today.' and delivery_id ='.$cid.' and status =8') -> count();
-                 $this->assign('today_ok',$today_ok);
-                 
-                 //总计完成
-                 $all_ok = $do -> where('delivery_id ='.$cid.' and status =8') -> count();
-                 $this->assign('all_ok',$all_ok);
-                 
-                 //抢新单
-                 $new = $do -> where('status <2 and delivery_id =0') ->count();
-                 $this->assign('new',$new);
-                 
-                 //配送中
-                 $ing = $do -> where('status = 2 and delivery_id ='.$cid) -> count();
-                 $this->assign('ing',$ing);
-                 
-                 //已完成
-                 $ed = $do -> where('status = 8 and delivery_id ='.$cid) -> count();
-                 $this->assign('ed',$ed);
-                 
-                 $this->display();
-            }
-
+        $this->assign('today_p',$today_p);//今日完成
+        $today_ok = $DeliveryOrder -> where('update_time >='.$today.' and delivery_id ='.$user_id.' and status =8'.' and closed =0') -> count();
+        $this->assign('today_ok',$today_ok);//总计完成
+        $all_ok = $DeliveryOrder -> where('delivery_id ='.$user_id.' and status =8'.' and closed =0') -> count();
+        $this->assign('all_ok',$all_ok); //抢新单
+		
+        $new1 = $DeliveryOrder -> where('status <2 and delivery_id =0'.' and closed =0'.' and is_appoint =0') ->count();
+		$new2 = $DeliveryOrder -> where(array('status'=>array('in','1,2'),'appoint_user_id'=>$deliver['id'],'closed'=>0,'is_appoint'=>1)) ->count();
+        $this->assign('new',$new1+$new2);//网站的新单子
+		
+		
+		
+        $ing = $DeliveryOrder -> where('status = 2 and delivery_id ='.$user_id.' and closed =0') -> count();
+        $this->assign('ing',$ing);  //已完成
+        $ed = $DeliveryOrder -> where('status = 8 and delivery_id ='.$user_id.' and closed =0') -> count();
+        $this->assign('ed',$ed);
+		$this->assign('msg', $msg = (int) D('Msg')->where(array('cate_id' => 5, 'views' => 0, 'delivery_id' => $this->delivery_id))->count());
+        $this->display();
     }
 	
 	//快递众包统计
 	
 	 public function express( ){
-        if ( !cookie( "DL" ) ){
-            header( "Location: ".u( "login/index" ) );
-        }
-        else{
-            $cid = $this->reid( );
+ 
+            $cid = $this->delivery_id;
             $dv = d( "Delivery" );
             $rdv = $dv->where( "id =".$cid )->find( );
             if ( !$rdv ){
@@ -72,9 +61,9 @@ class IndexAction extends CommonAction {
             }
             $express = d( "Express" );
             $today = strtotime( date( "Y-m-d" ) );
-            $today_p = $express->where( "update_time >=".$today." and cid =".$cid." and status =1 and city_id =".$this->city_id )->count( );
+            $today_p = $express->where( "update_time >=".$today." and cid =".$cid." and status =1 and city_id =".$this->city_id )->count();
             $this->assign( "today_p", $today_p );
-            $today_ok = $express->where( "update_time >=".$today." and cid =".$cid." and status =2 and city_id =".$this->city_id )->count( );
+            $today_ok = $express->where( "update_time >=".$today." and cid =".$cid." and status =2 and city_id =".$this->city_id )->count();
             $this->assign( "today_ok", $today_ok );
             $all_ok = $express->where( "cid =".$cid." and status =2 and city_id =".$this->city_id )->count( );
             $this->assign( "all_ok", $all_ok );
@@ -84,9 +73,8 @@ class IndexAction extends CommonAction {
             $this->assign( "ing", $ing );
             $ed = $express->where( "status = 2 and cid =".$cid." and city_id =".$this->city_id )->count( );
             $this->assign( "ed", $ed );
-		
             $this->display( );
-        }
+ 
     }
 	
     
@@ -103,10 +91,7 @@ class IndexAction extends CommonAction {
 	//资金
 	
 	 public function money(){
-         if(!cookie('DL')){
-                header("Location: " . U('login/index'));
-            }else{
-                 $cid = $this->reid();
+                 $cid = $this->delivery_id;
                  $dv = D('Delivery');
                  $rdv = $dv -> where('id ='.$cid) -> find();
                  if(!$rdv){
@@ -127,17 +112,14 @@ class IndexAction extends CommonAction {
 				$this->assign('price',$price);
 				$total= $statistics*$price;//总价
 				$this->assign('total',$total);
-
                 $this->display();
-            }
+          
     }
 
 
 	 public function lists( ){
-		 
         $id = i( "id", "", "intval,trim" );
-		
-		$cid = $this->reid();
+		$cid = $this->delivery_id;
         $dv = D('Delivery');
         $rdv = $dv -> where('id ='.$cid) -> find();
         if(!$rdv){
@@ -145,18 +127,13 @@ class IndexAction extends CommonAction {
         }else{
         		$this->assign('rdv',$rdv);
          }
-		 
-		 
         if ( !$id ){
             $this->error( "没有选择！" );
         } 			 
         else{
-			
-			
             $this->assign( "delivery", d( "Delivery" )->where( "id =".$id )->find( ) );
             $dvo = d( "DeliveryOrder" );
             import( "ORG.Util.Page" );
-			
 			$count = $dvo->where( "delivery_id =".$id )->count( );
 			$Page = new Page( $count, 5 );
 			$show = $Page->show( );
@@ -165,7 +142,6 @@ class IndexAction extends CommonAction {
 			if ( $Page->totalPages < $p ){
 				exit( "0" );
 			}
-			
             $list = $dvo->where( "delivery_id =".$id )->order( "order_id desc" )->limit( $Page->firstRow.",".$Page->listRows )->select( );
             $this->assign( "list", $list );
             $this->assign( "page", $show );
@@ -176,26 +152,21 @@ class IndexAction extends CommonAction {
 	
 	 public function expresslists( ){
         $id = i( "id", "", "intval,trim" );
-		
-		$cid = $this->reid();
+		$cid = $this->delivery_id;
         $dv = D('Delivery');
         $rdv = $dv -> where('id ='.$cid) -> find();
         if(!$rdv){
-       		  header("Location: " . U('login/logout'));
+       		 header("Location: " . U('login/logout'));
         }else{
-        		$this->assign('rdv',$rdv);
-         }
-		 
-        if ( !$id ){
+        	$this->assign('rdv',$rdv);
+        }
+        if (!$id ){
             $this->error( "没有选择！" );
         }
-		
-		
         else{
             $this->assign( "delivery", d( "Delivery" )->where( "id =".$id )->find( ) );
             $express = d( "Express" );
             import( "ORG.Util.Page" );
-			
 			$count = $express->where( "cid =".$id )->count( );
 			$Page = new Page( $count, 5 );
 			$show = $Page->show( );
@@ -204,7 +175,6 @@ class IndexAction extends CommonAction {
 			if ( $Page->totalPages < $p ){
 				exit( "0" );
 			}
-			
             $list = $express->where( "cid =".$id )->order( "express_id desc" )->limit( $Page->firstRow.",".$Page->listRows )->select( );
             $this->assign( "list", $list );
             $this->assign( "page", $show );

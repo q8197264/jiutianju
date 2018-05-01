@@ -2,12 +2,10 @@
 class CommonAction extends Action{
     protected $_CONFIG = array();
     protected $_token = 'e10adc3949ba59abbe56e057f20f883e';
-    //默认的TOKEN
     protected $shop_id = 0;
     protected $shopdetails = array();
     protected $weixin = null;
     protected function _initialize() {
-        //SHOP_ID 为空的时候
         $this->_CONFIG = D('Setting')->fetchAll();
         define('__HOST__', 'http://' . $_SERVER['HTTP_HOST']);
         $this->shop_id = empty($_GET['shop_id']) ? 0 : (int) $_GET['shop_id'];
@@ -18,7 +16,6 @@ class CommonAction extends Action{
         define('__HOST__', 'http://' . $_SERVER['HTTP_HOST']);
         $this->assign('CONFIG', $this->_CONFIG);
         $this->assign('ctl', strtolower(MODULE_NAME));
-        //主要方便调用
         $this->assign('act', ACTION_NAME);
         $this->assign('today', TODAY);
         //兼容模版的其他写法
@@ -42,7 +39,7 @@ class CommonAction extends Action{
     protected function weixin_jssdk($appid, $secret){
         static $jssdk = null;
         if ($jssdk === null) {
-            require_once('Jiutianju/Lib/Action/Weixin/jssdk.php');
+            include_once 'Jiutianju/Lib/Action/Weixin/jssdk.php';
             $jssdk = new WeixinJSSDK($appid, $secret);
         }
         return $jssdk;
@@ -119,21 +116,14 @@ class CommonAction extends Action{
     public function display($templateFile = '', $charset = '', $contentType = '', $content = '', $prefix = ''){
         parent::display($this->parseTemplate($templateFile), $charset, $contentType, $content = '', $prefix = '');
     }
-    //----------
-    private function parseTemplate($template = '')
-    {
+    private function parseTemplate($template = ''){
         $depr = C('TMPL_FILE_DEPR');
         $template = str_replace(':', $depr, $template);
-        // 获取当前主题名称
-        // 获取当前主题的模版路径
         $theme = $this->getTemplateTheme();
         define('NOW_PATH', BASE_PATH . '/themes/' . $theme . 'Weixin/');
-        // 获取当前主题的模版路径
         define('THEME_PATH', BASE_PATH . '/themes/default/Weixin/');
         define('APP_TMPL_PATH', __ROOT__ . '/themes/default/Weixin/');
-        // 分析模板文件规则
         if ('' == $template) {
-            // 如果模板文件名为空 按照默认规则定位
             $template = strtolower(MODULE_NAME) . $depr . strtolower(ACTION_NAME);
         } elseif (false === strpos($template, '/')) {
             $template = strtolower(MODULE_NAME) . $depr . strtolower($template);
@@ -144,18 +134,14 @@ class CommonAction extends Action{
         }
         return THEME_PATH . $template . C('TMPL_TEMPLATE_SUFFIX');
     }
-    private function getTemplateTheme()
-    {
+    private function getTemplateTheme(){
         define('THEME_NAME', 'default');
         if ($this->theme) {
-            // 指定模板主题
             $theme = $this->theme;
         } else {
-            /* 获取模板主题名称 */
             $default = D('Template')->getDefaultTheme();
             $themes = D('Template')->fetchAll();
             if (C('TMPL_DETECT_THEME')) {
-                // 自动侦测模板主题
                 $t = C('VAR_TEMPLATE');
                 if (isset($_GET[$t])) {
                     $theme = $_GET[$t];
@@ -172,26 +158,22 @@ class CommonAction extends Action{
         }
         return $theme ? $theme . '/' : '';
     }
-    protected function baoSuccess($message, $jumpUrl = '', $time = 3000)
-    {
+    protected function baoSuccess($message, $jumpUrl = '', $time = 3000){
         $str = '<script>';
         $str .= 'parent.success("' . $message . '",' . $time . ',\'jumpUrl("' . $jumpUrl . '")\');';
         $str .= '</script>';
         die($str);
     }
-    protected function baoErrorJump($message, $jumpUrl = '', $time = 3000)
-    {
+    protected function baoErrorJump($message, $jumpUrl = '', $time = 3000){
         $str = '<script>';
         $str .= 'parent.error("' . $message . '",' . $time . ',\'jumpUrl("' . $jumpUrl . '")\');';
         $str .= '</script>';
         die($str);
     }
-    protected function baoreturn($error, $message)
-    {
+    protected function baoreturn($error, $message){
         echo '{"success":"' . $error . '","message":"' . $message . '"}';
     }
-    protected function baoError($message, $time = 3000, $yzm = false)
-    {
+    protected function baoError($message, $time = 3000, $yzm = false){
         $str = '<script>';
         if ($yzm) {
             $str .= 'parent.error("' . $message . '",' . $time . ',"yzmCode()");';
@@ -201,8 +183,7 @@ class CommonAction extends Action{
         $str .= '</script>';
         die($str);
     }
-    protected function checkFields($data = array(), $fields = array())
-    {
+    protected function checkFields($data = array(), $fields = array()){
         foreach ($data as $k => $val) {
             if (!in_array($k, $fields)) {
                 unset($data[$k]);
@@ -210,8 +191,7 @@ class CommonAction extends Action{
         }
         return $data;
     }
-    protected function ipToArea($_ip)
-    {
+    protected function ipToArea($_ip){
         return IpToArea($_ip);
     }
 }

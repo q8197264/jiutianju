@@ -1,0 +1,114 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tongcheng:personal_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/personal.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery.min-2.1.3.js"></script>
+</head>
+<body>
+<section class="mainer">
+   <section class="wrap">
+        <section class="user-page">
+             <section class="user-wrap">
+                  <section class="user-page-avatar">
+                       <section class="user-avatar-pic">
+                            <a><img src="{$__UserInfo['picurl']}" /></a>
+                       </section>
+                  </section>
+                  <section class="user-avatar-extend">
+                       <h3><a>{$__UserInfo['nickname']}</a></h3>
+                  </section>
+             </section>
+             <section class="user-page-nav">
+                 <div class="tc-pc-cells" style="padding-top: 10px;">
+                    <a class="d-flex d-flex-center tc-pc-cell" href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=mylist">
+                        <div class="flex f-name mypost" style="margin-top: 0px;"><i></i>{lang tom_tongcheng:personal_mylist_title}</div>
+                        <div class="detail-in-shop-arrow"></div>
+                    </a>
+                    <a class="d-flex d-flex-center tc-pc-cell" href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=myorder">
+                        <div class="flex f-name myorder" style="margin-top: 0px;"><i></i>{lang tom_tongcheng:personal_myorder_title}</div>
+                        <div class="detail-in-shop-arrow"></div>
+                    </a>
+                     <a class="d-flex d-flex-center tc-pc-cell" href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=mycollect">
+                        <div class="flex f-name mycollect" style="margin-top: 0px;"><i></i>{lang tom_tongcheng:personal_mycollect_title}</div>
+                        <div class="detail-in-shop-arrow"></div>
+                    </a>
+                     <!--{if $tongchengConfig['open_phone']==1 || $tongchengConfig['fabu_must_phone']==1  }-->
+                    <a class="d-flex d-flex-center tc-pc-cell" href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=phone">
+                        <div class="flex f-name myphone" style="margin-top: 0px;"><i></i>{lang tom_tongcheng:phone_title}<!--{if $__UserInfo['tel'] }--><font color="#238206">({lang tom_tongcheng:phone_ok})</font><!--{/if}--></div>
+                        <div class="detail-in-shop-arrow"></div>
+                    </a>
+                     <!--{/if}-->
+                     <a class="d-flex d-flex-center tc-pc-cell" href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=article&act=help">
+                        <div class="flex f-name myhelp" style="margin-top: 0px;"><i></i>{lang tom_tongcheng:personal_help_title}</div>
+                        <div class="detail-in-shop-arrow"></div>
+                    </a>
+                 </div>
+                  <section class="clear"></section>
+             </section>
+        </section>
+       <section class="page_rgs">
+            <section class="btn-group">
+                <!--{if $__UserInfo['groupid']==1 && $site_id ==1 }-->
+                <input onclick="location.href='plugin.php?id=tom_tongcheng&site=1&mod=managerList';" type="button" class="tcui-btn tcui-btn_primary" value="{lang tom_tongcheng:personal_manage_btn}">
+                <!--{/if}-->
+                <!--{if $__UserInfo['groupid']==2 && $site_id ==$__UserInfo['groupsiteid'] }-->
+                <input onclick="location.href='plugin.php?id=tom_tcadmin&site={$site_id}&mod=index';" type="button" class="tcui-btn tcui-btn_primary" value="{lang tom_tongcheng:personal_manage_btn}">
+                <!--{/if}-->
+            </section>
+        </section>
+   </section>
+</section>
+{template tom_tongcheng:footer}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+   $.get("{$ajaxCommonClicksUrl}");
+   $.get("{$ajaxUpdateTopstatusUrl}");
+});
+</script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

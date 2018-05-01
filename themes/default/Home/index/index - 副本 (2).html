@@ -1,0 +1,874 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<include file="public:nav"/>
+<script type="text/javascript" src="/themes/default/Home/statics/js/jquery.SuperSlide.2.1.1.js"></script>
+<script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script><!--二维码-->
+<script src="__TMPL__statics/js/jquery.lazyload.js"></script>
+ <script src="__TMPL__statics/js/jquery.SuperSlide.js"></script>
+<link href="__TMPL__statics/css/newcoupon.css" rel="stylesheet" type="text/css">
+<link href="__TMPL__statics/css/0501.css" rel="stylesheet" type="text/css">
+<style>
+.weather .cross-simple-icon{padding-top:12px;}
+</style>
+ 
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.sy_flexslider').flexslider({
+            directionNav: true,
+            pauseOnAction: false
+        });
+		
+		
+    });//首页轮播js
+
+</script>
+
+
+<{$CONFIG['site']['2menu']}>
+
+<style>.sy_partOne_r .weather {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    padding: 0 5px;
+    overflow: hidden;
+	border: 1px solid #dedede;
+}
+.sy_partOne_r .weather .date {
+    float: left;
+    max-width: 205px;
+    overflow: hidden;
+    height: 50px;
+	font-size: 12px;
+}
+.sy_partOne_r .weather .w {
+    float: right;
+    max-width: 170px;
+    height: 40px;
+    overflow: hidden;
+	text-align: center;
+}</style>
+<!--首页1200*200大广告-->
+ <calldata mdl="Ad" where=" closed=0 AND site_id=74 AND  city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="21600" order="orderby asc">
+        <div class="divcss5"><a href="<{$item.link_url}>"><img src="<{:config_img($item['photo'])}>" width="1200" height="200"/></a> </div>
+    </calldata>
+	<!--首页1200*100小广告-->
+	 <calldata mdl="Ad" where=" closed=0 AND site_id=75 AND  city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="21600" order="orderby asc">
+        <div class="divcss5"><a href="<{$item.link_url}>"><img src="<{:config_img($item['photo'])}>" width="1200" height="100"/></a></div>
+    </calldata>
+<!--首页第一部分开始-->
+
+<div class="sy_partOne">
+<div class="left sy_partOne_r">
+
+    	<div class="sy_flexslider">
+
+            <ul class="slides">
+
+                <calldata mdl="Ad" where=" closed=0 AND site_id=1 AND  city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,5" cache="21600" order="orderby asc">
+
+                     <li class="list"><a target="_blank" href="<{$item.link_url}>"><img src="<{:config_img($item['photo'])}>" width="368" height="336" /></a></li>
+                     
+                </calldata>
+
+            </ul>
+
+        </div>
+		<div class="weather">
+		<div class="date"><script type="text/javascript" src="/themes/default/Home/statics/js/time.js"></script></div>
+		<div class="w"><iframe allowtransparency="true" frameborder="0" width="130" height="36" scrolling="no" src="//tianqi.2345.com/plugin/widget/index.htm?s=3&z=2&t=0&v=0&d=1&bd=0&k=000000&f=ff0000&q=0&e=0&a=1&c=54511&w=130&h=36&align=right"></iframe></div>
+		</div>
+
+</div>
+      
+
+    
+
+      <div class="left hotnews">
+
+              <!--加入要改的内容-->  
+	 
+	 <div  class="hotnews_bottom">
+<calldata mdl="Article" where="closed=0 AND istop=1 AND audit=1" order="views desc" limit="0,2" cache="21600">
+                   <h2> 
+
+                        <a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>" target="_blank">
+
+                        <{:bao_msubstr($item['title'],0,23,false)}><i class="icons-hot"></i></a>	
+
+                        	</h2>
+						<p  class="a"><{:bao_msubstr($item['details'],0,58,false)}> <a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>" target="_blank">
+
+                        【查看】</a></p></calldata>
+                  <ul>
+                <calldata mdl="Article" where="closed=0 AND istop=0 AND audit=1" order="create_time desc" limit="0,5" cache="6">
+<li>
+                        <a href="<{:U('news/index',array('cat'=>$item['cate_id']))}>" target="_blank">
+
+                       【新闻】<i class="icons-hot"></i> </a>
+						<a href="<{:U('news/detail',array('article_id'=>$item['article_id']))}>?<{$item.create_time|date='Y-m-d-H:i',###}>" target="_blank">
+
+                        <{:bao_msubstr($item['title'],0,29,false)}><i class="icons-hot"></i> </a>	<span> <{$item.create_time|date='m-d',###}></span>
+
+                        </li>	
+						</calldata>
+						</ul>
+                    </div>
+
+        </div>
+ 
+<div class=" left col-2 g-b acts">
+            <div class="box-h">精彩活动
+                <a href="/activity">更多</a>
+            </div>
+            <ul>
+			 <calldata mdl="Activity" where="audit=1 AND closed=0 AND city_id=$city_id and bg_date ELT '{$today}' AND end_date EGT '{$today}'" order="activity_id desc" limit="0,4" cache="600">
+                <li>
+                  <div class="cover">
+                      <a target="_blank" title='<{$item.title}>' href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>"><img src="<{:config_img($item['photo'])}>" width="70" height="70" /></a>
+                      <em class="s3"></em>
+                  </div>
+                  <div class="info">
+                      <h3><a target="_blank" href="<{:U('activity/detail',array('activity_id'=>$item['activity_id']))}>"><{$item.title}></a></h3>
+                       <p>至:<span><{$item.end_date}></span>止 <a href="<{:U('activity/detail',array('activity_id'=>$item['activity_id']))}>" class="go" target="_blank">报名</a></p>
+                  </div>
+                </li>
+                
+                </calldata>
+        </ul>
+      
+  </div>
+    <script type="text/javascript">
+
+        jQuery("#tabRank").slide({ titCell:"dt h3",mainCell:"dd" });
+
+        </script>
+
+    
+
+
+    <div class="clear"></div>
+
+
+
+    
+<div class="pagewd" id="index-gun">
+	<div class="wrap mod_seckill clearfix" id="qianggouMod" data-tpa="YHD_PCSY_QIANG">
+<a href="/tuan" target="_blank" class="count_down">
+<p class="count_down_tips">本场剩余</p>
+<div class="count_time" id="CountMsg">
+<span id="t_h" class="clock_time time_hour">00</span><i>:</i>
+<span id="t_m" class="clock_time time_minit">00</span><i>:</i>
+<span id="t_s" class="clock_time time_second">00</span>
+</div>
+<p class="view_more">查看更多<i> &gt;</i></p>
+</a>
+<div class="seckill_list_wrap">
+<a href="javascript:;" class="hd_iconfont prev">&#xe62e;</a>
+<div class="seckill_list">
+<ul class="clearfix">
+<calldata mdl="Tuan" where="closed=0 " cache="60" order="end_date desc" limit="0,4">
+<li class="prod">
+
+<div class="dotted_line"></div>
+<a href="<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>" target="_blank" title="<{$item.title}> class="clearfix">
+<div class="pro_detail">
+<p class="pro_name"><{$item.title}></p>
+<p class="pro_price" grouponId="4548835">¥<em><{:round($item['tuan_price']/100,2)}></em></p>
+<p class="reference_price">参考价：&yen;<{:round($item['price']/100,2)}></p>
+</div>
+<img src="<{:config_img($item['photo'])}>"  alt="<{$item.intro}>" class="pro_pic">
+<div class="marking_label">已售 <{$item['sold_num']/($item['sold_num']+$item['num'])*100|ceil}>%</div>
+</a>
+</li>
+</calldata>
+
+
+</ul>
+</div>
+</div>
+</div>
+</div>
+<php>$todayEnd= date('Y-m-d 23:59:59', time()); </php>
+<script type="text/javascript"> 
+function charLeftAll(n)
+{
+    if(n < 10)
+        return "0" + n;
+    else
+        return n;
+}
+function getRTime(){ 
+var EndTime= new Date('<{$todayEnd}>'); //截止时间 
+var NowTime = new Date(); 
+var t =EndTime.getTime() - NowTime.getTime(); 
+/* 
+var h=Math.floor(t/1000/60/60); 
+t-=h*60*60*1000; 
+var m=Math.floor(t/1000/60); 
+t-=m*60*1000; 
+var s=Math.floor(t/1000);*/
+ 
+var d=Math.floor(t/1000/60/60/24); 
+var h=Math.floor(t/1000/60/60%24); 
+var m=Math.floor(t/1000/60%60); 
+var s=Math.floor(t/1000%60); 
+ 
+
+document.getElementById("t_h").innerHTML = charLeftAll(h) ; 
+document.getElementById("t_m").innerHTML = charLeftAll(m) ; 
+document.getElementById("t_s").innerHTML = charLeftAll(s) ; 
+} 
+setInterval(getRTime,1000); 
+</script>
+
+<!--首页第一部分结束-->
+<!--首页本地商城部分开始-->
+<div class="wrap mod_brand_sale clearfix">
+<div class="left_banner" data-tpa="YHD_PCSY_PPTM">
+<calldata mdl="Ad" where=" closed=0 AND site_id=78 AND  city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="21600" order="orderby asc">
+
+                     <a target="_blank" href="<{$item.link_url}>"><img src="<{:config_img($item['photo'])}>"  /></a></li>
+
+                </calldata>
+
+<div class="brand_caption">
+<h4>品牌特卖</h4>
+<p class="cut_line"></p>
+<p class="sub_tit">每天10:00上新！</p>
+</div>
+</a>
+</div>
+<div class="group_buy" id="tuangouMod" data-tpa="YHD_PCSY_TUAN" style="background-image:url(/themes/default/Home/statics/images/ChEi3FjCUa2ALuvGAAAG6sky0F026600.png);">
+<h4>
+<a title="商城" target="_blank" href="/mall" data-tpc="CC_TG_LWBT" data-tc="ad.0.0.21988-44604242.1" data-ref="21988_44604242_1">
+<em><u class="left_triangle"></u><u class="right_triangle"></u>在线商城</em>
+</a>
+</h4>
+<div class="area_rank_list" id="floorRanklist">
+
+<div class="rank_content" id="rankContent_957374" data-tpc="YHD_RANK_957374">
+<ul class="clearfix">
+<calldata mdl="Goods" where=" closed=0 AND city_id = $city_id " order="orderby asc,sold_num desc" limit="0,6" cache="600">
+<li>
+<a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" target="_blank" title="<{$item['title']}><{$item['intro']}>" >
+<img src="<{:config_img($item['photo'])}>" alt="<{$item['title']}><{$item['intro']}>">
+<p class="pro_name" title="<{$item['title']}>"><{$item['title']}></p>
+</a>
+</li>
+</calldata>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="area_rank" style="background-image: url(/themes/default/Home/statics/images/ChEi3FjCUa2ALuvGAAAG6sky0F026600.png);" id="floorRank" data-tpa="YHD_PCSY_CC_PXB">
+<h4>
+<a href="/shop/index/order/h.html" target="_blank"><em><u class="left_triangle"></u><u class="right_triangle"></u>热门商家</em></a>
+<a href="/shop" class="more" target="_blank">查看更多<span>&gt;</span></a>
+</h4>
+<div class="area_rank_list" id="floorRanklist">
+
+<div class="rank_content" id="rankContent_957374" data-tpc="YHD_RANK_957374">
+<ul class="clearfix">
+<calldata mdl="Shop" where=" closed=0 " limit="0,6" cache="6" order="shop_id desc">
+<li>
+<a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>" target="_blank" title="<{$item.shop_name}>" >
+<img src="<{:config_img($item['logo'])}>" alt="<{$item.shop_name}>">
+<p class="pro_name" title="<{$item['title']}>"><{$item.shop_name}></p>
+</a>
+</li>
+</calldata>
+</ul>
+</div>
+</div>
+</div></div>
+
+
+
+
+
+
+<!--优惠券开始-->
+<div class="wrap mod_coupon clearfix" data-tpa="YHD_PCSY_COUPON">
+<div class="coupon_tit clearfix" data-tpc="YHD_COUPONGO">
+<a href="/coupon" target="_blank" >
+<h4>领券中心</h4>
+<p class="en_tit">COUPON</p>
+<p class="go_coupon">GO <em>&gt;&gt;</em></p>
+</a>
+<div class="coupon_edge"></div>
+</div>
+<div class="coupon_list" data-tpc="YHD_COUPONLIST">
+<ul>
+<calldata mdl="Coupon" cache="600" where="audit=1 AND closed=0 AND city_id=$city_id AND expire_date EGT '{$today}'" order="downloads desc,views desc" limit="0,5">
+<li >
+<a id="down_load_<{$item.coupon_id}>" href="javascript:void(0);" rel="<{:U('coupon/download',array('coupon_id'=>$item['coupon_id']))}>" title="<{$item.shop_name}>满<{:round($item['full_price']/100,2)}>元抵扣"  >
+<div class="clearfix coupon_detail">
+<div class="price">¥<i><{:round($item['reduce_price']/100,2)}></i></div>
+<div class="direction">
+<p class="coupon_sort"><{$item.shop_name}></p>
+<p>满<{:round($item['full_price']/100,2)}>元抵扣</p>
+</div>
+</div>
+<p class="use_btn">立即领取<em>&gt;</em></p>
+</a>
+<div class="coupon_edge"></div>
+</li>
+<script>
+            $(document).ready(function(){
+                $("#down_load_<{$item.coupon_id}>").click(function(){
+                    var url = $(this).attr('rel');
+                    $.post(url,function(data){
+                        if(data.status == 'login'){
+                            ajaxLogin();
+                        }else if(data.status == 'check_mobile'){
+                            check_user_mobile_for_pc('<{:U("wap/tuan/tuan_sendsms")}>', '<{:U("wap/tuan/tuan_mobile")}>');
+                        }else if(data.status == 'success'){
+                            layer.msg(data.msg,{icon:1});
+							 history.go(0) 
+                        }else{
+                            layer.msg(data.msg,{icon:2});
+							
+                        }
+                    },'json')
+                })
+            });
+        </script>
+</calldata>
+</ul>
+
+			
+       
+    
+<div class="more_coupon"><a href="/coupon" target="_blank" >查看更多</a></div>
+</div>
+ <div class="clear"></div>
+</div>
+<!--优惠券结束-->
+ 
+			
+    <!--首页优惠券部分结束-->
+   
+	<!--首页快店部分-->
+ <div class="kuai" id="f1">
+        <div class="k-h"><a href="/ele"></a></div>
+         
+        <div class="k-b">
+        <ul>
+
+<calldata mdl="Ele" where="city_id=$city_id " format="true" order="orderby asc,sold_num desc" limit="0,4" cache="60">
+                    <li>
+                        <div class="cover"><a title="<{$item.shop_name}>" target="_blank" href="<{:U('ele/shop',array('shop_id'=>$item['shop_id']))}>"><img alt="<{$item.shop_name}>家外卖" src="<{:config_img($item['shop']['logo'])}>" width="238" height="238" /></a></div>
+						<h3><{$item.shop_name}></h3>
+                            <div class="tag_box"><eq name="item.is_pay" value="1"><i class="ico_2"></i></eq>
+                                    <eq name="item.is_new" value="1"><i class="ico_3"></i></eq>
+                                    <eq name="item.is_fan" value="1"><i class="ico_4"></i></eq></div>                     
+                            <p><em><{$item.distribution}></em>分钟送达 <a href="<{:U('ele/shop',array('shop_id'=>$item['shop_id']))}>" target="_blank">进店选购</a></p>
+                                                 
+                    </li>
+                </calldata> 
+
+        </ul>
+            </div>
+    </div>
+<!--首页快店部分线束-->
+
+
+
+
+
+
+
+<div class="clearfix biz" id="f3">
+
+<div class="box-b">
+            <div class="b-l">
+                <ul><calldata mdl="Zhe" where="city_id=$city_id " format="true" order="zhe_id asc" limit="0,6" cache="60">
+                        <li><a href="<{:U('zhe/detail',array('zhe_id'=>$item['zhe_id']))}>" target="_blank" title="<{$item.zhe_name}>">
+                            <img src="<{:config_img($item['photo'])}>"  /></a><span><a href="<{:U('zhe/detail',array('zhe_id'=>$item['zhe_id']))}>" target="_blank" title="<{$item.zhe_name}>" style=""><{$item.zhe_name}></a></span><span class="bg"></span></li>
+                        
+                </calldata></ul>
+            </div>
+
+           <{$CONFIG['site']['zhe']}>
+        </div>
+</div>
+
+
+<script src="__TMPL__statics/js/common2017.js"></script>
+
+<div class="inforWrap heTabs " data="top_5" id="tab_ajax_02">
+	<div class="hd">
+		<h3>生活信息</h3>
+		<div class="tabs">
+			<ul class="tab-hd clearfix">
+				<li class="item selected" data-cat="live_ajax_0"><a href="/life/index/channel/1.html" target="_blank">二手</a></li>
+				<li class="item" data-cat="live_ajax_1"><a href="/life/index/channel/2.html" target="_blank">车辆</a></li>
+                <li class="item" data-cat="live_ajax_2"><a href="/life/index/channel/3.html" target="_blank">求职</a></li>
+                <li class="item" data-cat="live_ajax_3"><a href="/life/index/channel/4.html" target="_blank">交友</a></li>
+                <li class="item" data-cat="live_ajax_4"><a href="/life/index/channel/5.html" target="_blank">房屋</a></li>
+                <li class="item" data-cat="live_ajax_5"><a href="/life/index/channel/6.html" target="_blank">培训</a></li>
+                <li class="item" data-cat="live_ajax_6"><a href="/life/index/channel/7.html" target="_blank">招聘</a></li>
+				<li><a href="/life/index.html" target="_blank">更多</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="liveCon clearfix">
+		<div class="picList">
+			<ul class="clearfix">
+<calldata mdl="Life" where="closed=0 " cache="60" order="top_date desc" limit="0,4">
+             <li>
+                
+					<div class="pic"><a title="<{$var.title}>" href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank">
+                                <img src="<{:config_img($item['photo'])}>" />
+                            </a></div>
+					<div class="title"><a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{$item.title}></a></div>
+				</li>            
+			</calldata></ul>
+		</div>
+		<!--文字描述--> 
+		<div class="conn">
+			<div class="touban">
+			
+				<ul class="news clearfix tab-cont" data-success="1" style="display: block;">
+               <calldata mdl="Life" where="closed=0 AND audit=1 AND cate_id=11 OR cate_id=1 OR cate_id=2 OR cate_id=3 OR cate_id=4 OR cate_id=5 OR cate_id=6 OR cate_id=7 OR cate_id=8 OR cate_id=9 OR cate_id=10 OR cate_id=11 OR cate_id=13 OR cate_id=14 OR cate_id=15 OR cate_id=16 OR cate_id=17 OR cate_id=18 OR cate_id=19 OR cate_id=20 OR cate_id=12" cache="60" order="top_date desc" limit="0,22">   
+			   <li><a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>" target="_blank" class="gray">【<{$cates[$item['cate_id']]['cate_name']}>】</a> 
+			    <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{$item.title}></a><em> <{$item.create_time|date='m-d',###}></em></li> 
+				</calldata></ul>
+				<ul class="news clearfix tab-cont" data-success="1" style="display: none;">
+                 <calldata mdl="Life" where="closed=0 AND audit=1 AND cate_id=21 OR cate_id=22 OR cate_id=23 OR cate_id=24 OR cate_id=25 OR cate_id=26 OR cate_id=27 OR cate_id=28 OR cate_id=29 OR cate_id=30 OR cate_id=31 OR cate_id=32 OR cate_id=33 OR cate_id=34 OR cate_id=35 OR cate_id=36 OR cate_id=37" cache="60" order="top_date desc" limit="0,22">   
+			   <li><a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>" target="_blank" class="gray">【<{$cates[$item['cate_id']]['cate_name']}>】</a> 
+			    <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{$item.title}></a><em><{$item.top_date}></em></li> 
+				</calldata></ul>
+                </ul>
+				 
+               <ul class="news clearfix tab-cont" data-success="1" style="display: none;"> 
+                <calldata mdl="Life" where="closed=0 AND audit=1 AND cate_id=38 OR cate_id=39" cache="60" order="top_date desc" limit="0,22">   
+			   <li><a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>" target="_blank" class="gray">【<{$cates[$item['cate_id']]['cate_name']}>】</a> 
+			    <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{$item.title}></a><em><{$item.top_date}></em></li> 
+				</calldata></ul>
+                </ul> 
+                
+				<ul class="news clearfix loadding tab-cont" data-success="1" style="display:none;">
+                   <calldata mdl="Life" where="closed=0 AND audit=1 AND cate_id=40 OR cate_id=41 OR cate_id=42 OR cate_id=43 OR cate_id=44 OR cate_id=45 OR cate_id=46" cache="60" order="top_date desc" limit="0,22">   
+			   <li><a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>" target="_blank" class="gray">【<{$cates[$item['cate_id']]['cate_name']}>】</a> 
+			    <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{$item.title}></a><em><{$item.top_date}></em></li> 
+				</calldata></ul>
+                </ul>
+				<ul class="news clearfix loadding tab-cont" data-success="1" style="display:none;">
+                   <calldata mdl="Life" where="closed=0 AND audit=1 AND audit=1 AND cate_id=47 OR cate_id=48 OR cate_id=49 OR cate_id=50 OR cate_id=51 OR cate_id=52 OR cate_id=53 OR cate_id=54 OR cate_id=55 OR cate_id=56 OR cate_id=57" cache="60" order="top_date desc" limit="0,4">   
+			   <li><a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>" target="_blank" class="gray">【<{$cates[$item['cate_id']]['cate_name']}>】</a> 
+			    <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{$item.title}></a><em><{$item.top_date}></em></li> 
+				</calldata></ul>
+                </ul>
+				<ul class="news clearfix loadding tab-cont" data-success="1" style="display:none;">
+                  <calldata mdl="Life" where="closed=0 AND audit=1 AND cate_id=58 OR cate_id=59 OR cate_id=60 OR cate_id=67 OR cate_id=62 OR cate_id=63 OR cate_id=64 OR cate_id=65 OR cate_id=66" cache="60" order="top_date desc" limit="0,22">   
+			   <li><a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>" target="_blank" class="gray">【<{$cates[$item['cate_id']]['cate_name']}>】</a> 
+			    <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{$item.title}></a><em><{$item.top_date}></em></li> 
+				</calldata></ul> 
+                </ul>
+				<ul class="news clearfix loadding tab-cont" data-success="1" style="display:none;">
+                  <calldata mdl="Life" where="closed=0 AND audit=1 AND cate_id=67 OR cate_id=68 OR cate_id=69 OR cate_id=70 OR cate_id=71 OR cate_id=72 OR cate_id=73 OR cate_id=74 OR cate_id=75 OR cate_id=76 OR cate_id=77 OR cate_id=78 OR cate_id=79 OR cate_id=80 OR cate_id=81 OR cate_id=82 OR cate_id=83 OR cate_id=84 OR cate_id=85 OR cate_id=86 OR cate_id=87 OR cate_id=88 OR cate_id=89" cache="60" order="top_date desc" limit="0,22">   
+			   <li><a href="<{:LinkTo('life/index',$linkArr,array('cat'=>$item['cate_id']))}>" target="_blank" class="gray">【<{$cates[$item['cate_id']]['cate_name']}>】</a> 
+			    <a href="<{:U('life/detail',array('life_id'=>$item['life_id']))}>" target="_blank"><{$item.title}></a><em><{$item.top_date}></em></li> 
+				</calldata></ul>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+$("#tab_ajax_02").TabADS4(window['siteUrl'],22,'live',false);
+        </script> 	
+
+
+</div>
+  <!--首页招聘开始-->
+   
+
+            <div class="sy_FloorBt" data="top_5" id="floor5">
+        <div class="left sy_FloorBtz"><i class="ico_5"></i><span class="bt cl_5">招聘人才</span></div>
+        <div class="right"><a target="_blank" href="<{:U('Mobile/nearwork/index')}>">更多&gt;&gt;</a></div>
+    </div>
+            <div class="wrap2">
+                <div class="le jobs">
+                    <ul>
+        <calldata mdl="Work" where="audit=1 " cache="60" order="expir_date desc" limit="0,12">                
+    <li>
+        <h3><i>荐</i><a href="<{:U('Wap/nearwork/detail',array('work_id'=>$item['work_id']))}>" target="_blank"><{$item.title}><font color=red>(聘<{$item.num|default='若干'}>人)</font></a></h3>
+        <p>薪水：<span><{$item.money1}>-<{$item.money2}></span><em>|</em>学历：<span><{$item.xl}></span></p>
+        <p class="company">
+                <a href="/job/company/3" target="_blank">商家:<font color=red><{$item.shop_name}></font></a>  <i class="mqi"></i>
+        </p>
+    </li>
+    </calldata>
+
+                    </ul>
+					 </div>
+            
+                
+               
+			   </div> 
+        
+
+  <!--首页招聘结束-->
+
+
+
+
+  <!--首页订座部分开始-->
+
+    <div class="sy_FloorBt" data="top_5" id="floor5">
+        <div class="left sy_FloorBtz"><i class="ico_5"></i><span class="bt cl_5">订座</span></div>
+        <div class="right"><a target="_blank" href="<{:U('booking/index')}>">更多&gt;&gt;</a></div>
+    </div>
+    <div class="sy_seat_nr">
+        <div class="left sy_seat_list">
+            <ul>
+                <calldata mdl="Booking" cache="600" where="audit=1 AND closed=0 AND  city_id=$city_id"  limit="0,4" order="shop_id asc">
+                    <li>
+                        <div class="syPub_list">
+                            <div class="img">
+                                <a target="_blank" href="<{:U('booking/detail',array('shop_id'=>$item['shop_id']))}>">
+                                    <img src="<{:config_img($item['photo'])}>"  width="205" height="160" />
+                                    <p class="overflow_clear"><{$item.addr}></p>
+                                </a>
+                            </div>
+                            <h3><a target="_blank" href="<{:U('booking/detail',array('shop_id'=>$item['shop_id']))}>" class="overflow_clear"><{$item.shop_name}></a></h3>
+                            <p class="graycl">地址：<{$item['addr']}></p>
+                            <hr style="border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
+                            <div class="btn_box">
+                                <div class="left"><p class="graycl">电话：<{$item.tel}></p></div>
+                                <div class="right"><a target="_blank" href="<{:U('booking/detail',array('shop_id'=>$item['shop_id']))}>" class="btn">立即预订</a></div>
+                            </div>
+                        </div>
+                    </li>
+                </calldata>
+            </ul>
+        </div>
+
+        <div class="right sy_seatSwitch">
+            <ul class="sy_seatSwitch_tab">
+                <li class="on">帮您找座位</li>
+                <li>人气排行榜</li>
+            </ul>
+
+            <div class="sy_seatSwitch_box">
+                <div class="sy_seatSwitch1" style="display:block;">
+                    
+                    <form action="<{:U('booking/lists')}>" method="post">
+                        <div class="num_box">
+                            <input class="name" type="text"   name="date" value="<php>echo TODAY;</php>" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd'});"  placeholder="日期" />
+                            <select name="time" class="num">
+                                <php>$cfg = D('Bookingsetting')->getCfg();</php>
+                                <volist name='cfg' id='item'>
+                                    <option value="<{$key}>"><{$item}></option>
+                                </volist>
+                            </select>
+                            <div class="clear"></div>
+                        </div>
+                        <select name="area_id" class="addr">
+                            <volist name='Area' id='item'>
+                                <eq name="item.city_id" value="$city_id">
+                                <option value="<{$item.area_id}>"><{$item.area_name}></option>
+                                </eq>
+                            </volist>
+                        </select>
+                        <div class="num_box">
+                            <php>$room=D('Bookingroom')->getType();</php>
+                            <select name="number" class="num">
+                                <volist name='room' id='item'>
+                                    <option value="<{$key}>"><{$item}></option>
+                                </volist>
+                            </select>
+                            <input class="name" name="name" type="text" placeholder="商户名" />
+                            <div class="clear"></div>
+                        </div>
+                        <input class="btn" type="submit" value="免费帮您订座" />
+                    </form>
+
+                </div>
+
+                <div class="sy_seatSwitch1">
+                    <ul class="hotBill">
+                        <calldata mdl="Booking" cache="600" where="audit=1 AND closed=0 AND  city_id=$city_id"  limit="0,3" order="shop_id desc">
+                            <li>
+                                <a href="<{:U('booking/detail',array('shop_id'=>$item['shop_id']))}>"><img src="<{:config_img($item['photo'])}>"  width="60" height="40" /></a>
+                                <h3 class="overflow_clear"><a href="<{:U('booking/detail',array('shop_id'=>$item['shop_id']))}>"><{$item.shop_name}></a></h3>
+                                <p><span class="spxq_qgpstarBg"><span class="spxq_qgpstar spxq_qgpstar<{$item.score}>"></span></span></p>
+                            </li>
+                        </calldata>   
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <!--首页订座部分结束-->
+    
+    
+   <!--首页酒店开始--> 
+   <div class="sy_FloorBt" data="top_7" id="floor7">
+        <div class="left sy_FloorBtz"><i class="ico_5"></i><span class="bt cl_5">酒店</span></div>
+        <div class="right"><a target="_blank" href="<{:U('hotels/index')}>">更多&gt;&gt;</a></div>
+    </div>
+    <div class="hotel_list_box">
+        <ul>
+            <calldata mdl="Hotel" cache="600" where="audit=1 AND closed=0 AND  city_id=$city_id"  limit="0,3" order="create_time desc">
+            <li class="hotel_list">
+                <div class="pub_img"><a href="<{:U('hotels/detail',array('hotel_id'=>$item['hotel_id']))}>"><img src="<{:config_img($item['photo'])}>" width="380" height="300" /><if condition="$item['have_tuan'] eq 1"><span class="tag">团</span></if></a></div>
+                <div class="pub_wz">
+                	<h3><a href="<{:U('hotels/detail',array('hotel_id'=>$item['hotel_id']))}>"><{$item.hotel_name}></a></h3>
+                    <div class="box">
+                    	<div class="left">
+                            <php>$s = round($item['score']/$item['comments'],1);$sc = $s*20;</php>
+                        	<div><span class="spxq_qgpstarBg"><span class="spxq_qgpstar" style="width:<{$sc}>%;"></span></span> <span class="ml10"><{$s}>分</span> <span class="ml10 pl"><{$item.comments}>条评论</span></div> 
+                            <p class="overflow_clear graycl"><{$item.addr}></p>
+                        </div>
+                        <div class="right">
+                        	<p class="price fontcl1">￥<{$item.price}><small class="blackcl3">/晚起</small></p>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </li>
+             </calldata>  
+        </ul>
+        <div class="clear"></div>
+    </div>
+   <!--首页酒店结束-->  
+   
+   
+   <!--首页农家乐开始--> 
+   <div class="sy_FloorBt" data="top_8" id="floor8">
+        <div class="left sy_FloorBtz"><i class="ico_5"></i><span class="bt cl_5">农家乐</span></div>
+        <div class="right"><a target="_blank" href="<{:U('farm/index')}>">更多&gt;&gt;</a></div>
+    </div>
+    <div class="farm_recmd">
+        <ul>
+            <calldata mdl="Farm" cache="600" where="audit=1 AND closed=0 AND  city_id=$city_id"  limit="0,4" order="create_time desc">
+            <li class="list">
+                <div class="pub_img"><a href="<{:U('farm/detail',array('farm_id'=>$item['farm_id']))}>">
+                <img src="<{:config_img($item['photo'])}>" width="285" height="200" /><span class="tag">热门农家乐</span></a></div>
+                <div class="pub_wz">
+                	<p class="bt overflow_clear"><a href="#" class="blackcl3"><b>[<{$citys[$item['city_id']]['name']}>]</b> <{$item.farm_name}></a></p>
+                    <P class="graycl line2">地址：<{$item.addr}></P>
+                    <div class="box">
+                        <p class="left fontcl1">好评：<php>echo intval(($item['good_comments']/$item['comments'])*100);</php>%</p>
+                        <p class="right fontcl1">￥<big><{$item.price}></big>起</p>
+                    </div>
+                </div>
+            </li>
+           </calldata> 
+        </ul>
+        <div class="clear"></div>
+    </div>
+   <!--首页农家乐结束--> 
+
+
+
+
+<!--首页1200*100优惠券广告-->
+    <calldata mdl="Ad" where="closed=0 AND site_id=74 AND city_id IN ({$city_ids}) and bg_date ELT '{$today}' AND end_date EGT '{$today}' " limit="0,1" cache="21600" order="orderby asc">
+        <div class="sy_adPosit"><a href="<{$item.link_url}>"><img src="<{:config_img($item['photo'])}>" width="1200" height="100"/></a></div>
+    </calldata>
+      
+      <div class="clearfix tel">
+        <div class="box-h3">
+            <h2>便民电话</h2>
+           
+        </div>
+        <div class="box-b">
+             <ul class="two"><calldata mdl="Shop" where=" closed=0 " limit="0,16" cache="6" order="shop_id desc">
+            <li ><a href="<{:U('shop/detail',array('shop_id'=>$item['shop_id']))}>"  target="_blank"><{$item.shop_name}></a><b><{$item.tel}></b></li>
+            
+   </calldata> </ul>
+            </div>
+       </div>
+</div>
+<script>
+    $(function () {
+        $("#fox-food li").each(function (e) {
+            $(this).click(function (event) {
+                $(".radius3").each(function (i) {
+                    if (e == i)
+                    {
+                        $("html,body").animate({scrollTop: $(this).offset().top}, 500);
+                        event.preventDefault();
+                    }
+                });
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            var top = $(document).scrollTop();          //定义变量，获取滚动条的高度
+            var menu = $("#fox-food");                      //定义变量，抓取#menu
+            var items = $("#index-gun").find(".sy_FloorBt");    //定义变量，查找.item
+
+            var curId = "";                             //定义变量，当前所在的楼层item #id 
+
+            items.each(function () {
+                var m = $(this);                        //定义变量，获取当前类
+                var itemsTop = m.offset().top;        //定义变量，获取当前类的top偏移量
+                if (top > itemsTop - 300) {
+                    curId = "#" + m.attr("id");
+                } else {
+                    return false;
+                }
+            });
+
+            //给相应的楼层设置cur,取消其他楼层的cur
+            var curLink = menu.find(".cur");
+            if (curId && curLink.attr("href") != curId) {
+                curLink.removeClass("cur");
+                menu.find("[href=" + curId + "]").addClass("cur");
+            }
+            // console.log(top);
+        });
+        /*控制*/
+        $(window).scroll(function () {
+            if ($(window).scrollTop() < 220) {
+                $(".indexpop").css("top", "220px");
+                $(".indexpop").css("bottom", "auto");
+            }
+            else {
+                $(".indexpop").css("top", "40px");
+                $(".indexpop").css("bottom", "auto");
+            }
+        });
+
+
+    });
+</script>
+<script>
+ $(function () {
+ $("#fox-food li").each(function (e) {
+ $(this).click(function (event) {
+$(".radius3").each(function (i) {
+ if (e == i)
+{
+ $("html,body").animate({scrollTop: $(this).offset().top}, 500);
+event.preventDefault();}});});});});
+ $(document).ready(function () {
+
+        $(window).scroll(function () {
+   var top = $(document).scrollTop();          //定义变量，获取滚动条的高度
+ var menu = $("#fox-food");                      //定义变量，抓取#menu
+  var items = $("#index-gun").find(".sy_FloorBt");    //定义变量，查找.item
+
+var curId = "";                             //定义变量，当前所在的楼层item #id 
+   items.each(function () {
+
+
+
+                var m = $(this);                        //定义变量，获取当前类
+
+
+
+                var itemsTop = m.offset().top;        //定义变量，获取当前类的top偏移量
+
+
+
+                if (top > itemsTop - 300) {
+
+
+
+                    curId = "#" + m.attr("id");
+
+
+
+                } else {
+
+
+
+                    return false;
+
+
+
+                }
+
+
+
+            });
+  //给相应的楼层设置cur,取消其他楼层的cur
+
+
+
+            var curLink = menu.find(".cur");
+
+
+
+            if (curId && curLink.attr("href") != curId) {
+
+
+
+                curLink.removeClass("cur");
+
+
+
+                menu.find("[href=" + curId + "]").addClass("cur");
+
+
+
+            }
+
+
+
+            // console.log(top);
+
+
+
+        });
+
+
+
+        /*控制*/
+
+
+
+        $(window).scroll(function () {
+
+
+
+            if ($(window).scrollTop() < 220) {
+
+
+
+                $(".indexpop").css("top", "220px");
+
+
+
+                $(".indexpop").css("bottom", "auto");
+
+
+
+            }
+         else {
+
+
+
+                $(".indexpop").css("top", "40px");
+
+
+
+                $(".indexpop").css("bottom", "auto");
+
+
+            }
+
+
+        });
+
+  });
+
+
+
+</script>
+
+
+
+<include file="public:footer"/>

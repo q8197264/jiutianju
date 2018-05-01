@@ -1,374 +1,367 @@
 <?php
 
-
-
 class ListsAction extends CommonAction {
-
-    public function index() {
-        if(!cookie('DL')){
-		header("Location: " . U('login/index'));
+	
+	public function _initialize() {
+        parent::_initialize();
+		$this->assign('areas', $areas = D('Area')->fetchAll());
+		$this->assign('bizs', $biz = D('Business')->fetchAll());
+		$Delivery = D('Delivery') -> where(array('user_id'=>$this->delivery_id)) -> find();
+		$this->assign('delivery', $Delivery);
+    }
+	
+	
+	//抢单
+	public function scraped() {
 		$keyword = $this->_param('keyword', 'htmlspecialchars');
         $this->assign('keyword', $keyword);
+        $type = (int) $this->_param('type');
+        $this->assign('type', $type);
+        $order = (int) $this->_param('order');
+		$this->assign('order', $order);
+        $area_id = (int) $this->_param('area_id');
+        $this->assign('area_id', $area_id);
+        $business_id = (int) $this->_param('business_id');
+        $this->assign('business_id', $business_id);
+        $this->assign('nextpage', LinkTo('lists/scraped_load', array('type' => $type,'area_id' => $area_id, 'business_id' => $business_id,'order' => $order, 'keyword' => $keyword,  't' => NOW_TIME, 'p' => '0000')));
 		
-		}else{
-			$cid = $this->reid();
-			$dv = D('DeliveryOrder');
-			//条件开始先删除多城市
-			/*$map = array(
-                "city_id" => $this->city_id
-            );*/
-			
-	
-			
-            $ss = i( "ss", 0, "intval,trim" );
-            $this->assign( "ss", $ss );
-			//增加已经确认的
-            $map['is_confirm'] = 1; //jack add 2017/8/25
-			//增加搜索开始
-			if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
+		
+        $this->display(); // 输出模板	
+	}
+	public function scraped_load() {
+		$user_id = $this->delivery_id;
+		$Delivery = D('Delivery')->where(array('user_id'=>$user_id))->find();
+		$DeliveryOrder = D('DeliveryOrder');
+		import('ORG.Util.Page'); // 导入分页类
+		$map['closed'] = 0;
+		$map['status'] = array('IN', array(0,1));
+		if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
 			$map['shop_name|addr'] = array('LIKE', '%' . $keyword . '%');
-			}
-			$area = (int) $this->_param('area');//搜索地区
-			if ($area) {
-				$map['area_id'] = $area;
-			}
-			$business = (int) $this->_param('business');//搜索商圈
-			if ($business) {
-				$map['business_id'] = $business;
-			}
-		    //增加搜索结束
-		
-            if ( $ss == 2 ) {
-                $map['status'] = 2;
-                $map['delivery_id'] = $cid;
-            }
-            else if ( $ss == 8 ){
-                $map['status'] = 8;
-                $map['delivery_id'] = $cid;
-            }
-            else{
-                $map['status'] = array( "lt", 2 );
-                $map['delivery_id'] = 0;
-            }
-			$map['closed'] = 0;
-			//条件结束
-			//计算那个距离开始
-			$lat = addslashes( cookie( "lat" ) );
-            $lng = addslashes( cookie( "lng" ) );
-            if ( empty( $lat ) || empty( $lng ) )
-            {
-                $lat = $this->city['lat'];
-                $lng = $this->city['lng'];
-            }
-            $orderby = " (ABS(lng - '".$lng."') +  ABS(lat - '{$lat}') ) asc ";
-            $rdv = $dv->where( $map )->order( $orderby )->select( );//赋值过程
-            $shop_ids = array( );
-            $ele_order = D("EleOrder");
-            $ele_order1 = D("Order");
-            foreach ( $rdv as $k => $val )
-            {
-                $shop_ids[$val['shop_id']] = $val['shop_id'];
-                $rdv[$k]['d'] = getdistance( $lat, $lng, $val['lat'], $val['lng'] );
-                if($val['type']==1){
-                    $einfo = $ele_order->field("suo_code")->where("order_id='".$val['type_order_id']."'")->find();
-                }
-                else if($val['type']==0){
-                    $einfo = $ele_order1->field("suo_code")->where("order_id='".$val['type_order_id']."'")->find();
-                }
-                $rdv[$k]['suo_code'] = $einfo['suo_code'];
-                $pourl = 'http://api.map.baidu.com/geocoder?address='.$val['user_addr'].'&output=json&key=C9613fa45f450daa331d85184c920119&city=朝阳';
-                $json = file_get_contents($pourl);
-                $xx = json_decode($json,true);
-                $rdv[$k]['u_lat'] = $xx['result']['location']['lat'];
-                $rdv[$k]['u_lng'] = $xx['result']['location']['lng'];
-            }
-			
-			
-			$this->assign( "ex", d( "Shopdetails" )->itemsByIds( $shop_ids ) );
-			//计算那个距离结
-
-            $this->assign('rdv',$rdv);
 		}
+		//类型筛选
+		$type = (int) $this->_param('type');
+        if ($type == 1) {
+            $map['type'] = 1;
+        }elseif ($type == 2) {
+            $map['type'] = 0;
+        }elseif($type == 3) {
+            $map['type'] = array('IN',array(0,1));
+        }
 		
+		$area_id = (int) $this->_param('area_id');
+        if ($area) {
+            $map['area_id'] = $area_id;
+        }
+		
+        $business_id = (int) $this->_param('business_id');
+        if ($business_id) {
+            $map['business_id'] = $business_id;
+        }
+		//计算那个距离开始
+		$lat = addslashes( cookie( "lat" ) );
+        $lng = addslashes( cookie( "lng" ) );
+        if ( empty( $lat ) || empty( $lng ) ){
+            $lat = $this->city['lat'];
+             $lng = $this->city['lng'];
+        }
+		$order = (int) $this->_param('order');
+		switch ($order) {
+            case 2:
+                $orderby = array('create_time' => 'desc');
+                break;
+            case 3:
+                $orderby = array('order_id' => 'desc');
+                break;
+            default:
+                $orderby = array("(ABS(lng - '{$lng}') +  ABS(lat - '{$lat}') )" => 'asc', 'create_time' => 'desc');
+                break;
+        }
+		$this->assign('order', $order);
+        $lists = $DeliveryOrder ->where($map)->order($orderby)->select();
+        foreach ($lists as $k => $val ){
+		  if (!empty($val['appoint_user_id'])) {
+                $lists[$k]['appoint_user_id'] =  $val['appoint_user_id'];
+                if ($lists[$k]['appoint_user_id'] != $Delivery['id']) {
+                    unset($lists[$k]);
+                }
+            }
+         }
+		//重新排序
+		$count = $DeliveryOrder->where($map)->count(); 
+        $Page=new Page(count($lists),6);
+        $show = $Page->show(); 
+        $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
+        $p = $_GET[$var];
+        if ($Page->totalPages < $p) {
+            die('0');
+        }
+		$list = array_slice($lists, $Page->firstRow, $Page->listRows);
+		$shop_ids = $user_ids = $addr_ids = $address_ids = array( );
+        foreach ($lists as $k => $val ){
+          $shop_ids[$val['shop_id']] = $val['shop_id'];
+		  $user_ids[$val['user_id']] = $val['user_id'];
+		  $list[$k]['d'] = getdistance( $lat, $lng, $val['lat'], $val['lng'] );
+         }
+		$this->assign('shops', D('Shop')->itemsByIds($shop_ids));	
+		$this->assign('users', D('Users')->itemsByIds($user_ids));
+		//计算那个距离结
+		$this->assign('page', $show); // 赋值分页输出
+        $this->assign('list',$list);
 		$this->display();      
     }
-    
-  
 	
-    public function handle(){
-        if(IS_AJAX){
-            $id = I('order_id',0,'trim,intval');
-            $dvo = D('DeliveryOrder');
-            if(!cookie('DL')){
-                $this->ajaxReturn(array('status'=>'error','message'=>'您还没有登录或登录超时!'));
-            }else{
-                $f = $dvo -> where('order_id ='.$id) -> find();
-                if($f['closed'] == 1){
-                    $this->ajaxReturn(array('status'=>'error','message'=>'对不起，该订单已关闭!'));
-                }
-                if(!$f){
-                    $this->ajaxReturn(array('status'=>'error','message'=>'错误!'));
-                }else{
-                    $cid = $this->reid(); //获取配送员ID
-                    $data = array('delivery_id' => $cid,'status' => 2,'update_time' => time());
-                    $up = $dvo -> where('order_id ='.$id) -> setField($data);
-                    if($up){
-                        
-                        if($f['type'] == 0){//商城
-                            $old = D('Order');
-                        }elseif($f['type'] == 1){//外卖
-                            $old = D('EleOrder');
-                        }
-						
-                        /*$eleorder_id =  $dvo -> where(array('order_id' =>$f['order_id'],'type' =>1)) -> find();
-						$eleorder = D('Eleorder') -> where(array('order_id' => $eleorder_id)) -> find();
-						if ($eleorder['status'] == 3 || $eleorder['status'] == 4) {
-						  $this->ajaxReturn(array('status'=>'error','message'=>'此订单已申请退款！'));	
-						}*/
-										
-                        $old_up = $old -> where('order_id ='.$f['type_order_id']) -> setField('status',2);
-						$old_up = D('Ordergoods') -> where('order_id ='.$f['type_order_id']) -> setField('status',1);
-				
-                        $this->ajaxReturn(array('status'=>'success','message'=>'恭喜您！接单成功！请尽快进行配送！'));
-                    }else{
-						
-				
-                        $this->ajaxReturn(array('status'=>'error','message'=>'接单失败！错误！'));
-						
-						
-                    }
-                }
-            }
-            
+	//配送中
+	public function distribution() {
+        $type = (int) $this->_param('type');
+        $this->assign('type', $type);
+        $order = (int) $this->_param('order');
+		$this->assign('order', $order);
+        $area_id = (int) $this->_param('area_id');
+        $this->assign('area_id', $area_id);
+        $business_id = (int) $this->_param('business_id');
+        $this->assign('business_id', $business_id);
+        $this->assign('nextpage', LinkTo('lists/distribution_load', array('type' => $type,'area_id' => $area_id, 'business_id' => $business_id,'order' => $order,'t' => NOW_TIME, 'p' => '0000')));
+        $this->display(); 	
+	}
+	//配送中数据加载
+	public function distribution_load() {
+		$user_id = $this->delivery_id;
+		$DeliveryOrder = D('DeliveryOrder');
+		import('ORG.Util.Page'); 
+		$map = array('closed' =>0, 'status' =>2,'delivery_id'=>$this->delivery_id);
+		$type = (int) $this->_param('type');
+        if ($type == 1) {
+            $map['type'] = 1;
+        }elseif ($type == 2) {
+            $map['type'] = 0;
+        }elseif($type == 3) {
+            $map['type'] = array('IN',array(0,1));
         }
-        
-        
-    }
-    
-    public function saveaqcode(){
-        $post = I("post.");
-        if(!empty($post['suo_code']) && $post['id']>0){
-            $delivery_order = D("DeliveryOrder");
-            $cid = $this->reid();
-            $info = $delivery_order->field("type_order_id,type")->where("order_id='".$post['id']."' and delivery_id='".$cid."'")->find();
-            if(!empty($info)){
-                if($info['type']==1){
-                    $ele_order = D("EleOrder");
-                    $einfo = $ele_order->field("order_id,suo_code")->where("order_id='".$info['type_order_id']."'")->find();
-                    if(!empty($einfo['suo_code'])){
-                        echo '1';
-                        exit;
-                    }
-                    else{
-                        $vo = $ele_order->where("order_id='".$einfo['order_id']."'")->save(array('suo_code'=>$post['suo_code']));
-                        if(false!==$vo){
-                            echo '1';
-                            exit;
-                        }
-                        else{
-                            echo '0';
-                            exit;
-                        }
-                    }
-                }
-                else if($info['type']==0){
-                    $ele_order = D("Order");
-                    $einfo = $ele_order->field("order_id,suo_code")->where("order_id='".$info['type_order_id']."'")->find();
-                    if(!empty($einfo['suo_code'])){
-                        echo '1';
-                        exit;
-                    }
-                    else{
-                        $vo = $ele_order->where("order_id='".$einfo['order_id']."'")->save(array('suo_code'=>$post['suo_code']));
-                        if(false!==$vo){
-                            echo '1';
-                            exit;
-                        }
-                        else{
-                            echo '0';
-                            exit;
-                        }
-                    }
-                }
-            }
-            else{
-                echo '0';
-                exit;
-            }
+		$area_id = (int) $this->_param('area_id');
+        if ($area) {
+            $map['area_id'] = $area_id;
         }
-        else{
-            echo '0';
-            exit;
+        $business_id = (int) $this->_param('business_id');
+        if ($business_id) {
+            $map['business_id'] = $business_id;
         }
-    }
-    
-    public function set_ok(){
-        if(IS_AJAX){
-            $id = I('order_id',0,'trim,intval');
-            $dvo = D('DeliveryOrder');
-            if(!cookie('DL')){
-                $this->ajaxReturn(array('status'=>'error','message'=>'您还没有登录或登录超时!'));
-            }else{
-                $f = $dvo -> where('order_id ='.$id) -> find();
-				
-				if($f['closed'] == 1){
-                    $this->ajaxReturn(array('status'=>'success','message'=>'对不起，该订单已关闭!'));
-                }
-				
-                if(!$f){
-                    $this->ajaxReturn(array('status'=>'error','message'=>'错误!'));
-                }else{
-                    $cid = $this->reid(); //获取配送员ID
-                    if($cid == 5){
-                       $this->ajaxReturn(array('status'=>'error','message'=>'演示站不提供数据操作!'));
-                    }
-                    if($f['delivery_id'] != $cid){
-                        $this->ajaxReturn(array('status'=>'error','message'=>'错误!'));
-                    }else{
-                        $up = $dvo -> where('order_id ='.$id)-> setField('status',8);
-                        if(!$up){
-                            $this->ajaxReturn(array('status'=>'error','message'=>'操作失败!'));
-                        }else{
-                            
-                            if($f['type'] == 0){
-                                $old = D('Order');
-                            }elseif($f['type'] == 1){
-                                $old = D('EleOrder');
-                            }
-                            $old_up = D('EleOrder') -> where('order_id ='.$f['type_order_id']) -> setField('status',2);//更新外卖,暂时给一步骤确认
-							$old_up = D('Order') -> where('order_id ='.$f['type_order_id']) -> setField('status',2);//商城暂时不更新，进入用户确认
-							
-                            $this->ajaxReturn(array('status'=>'success','message'=>'操作成功!'));
-                            
-                        }
-                       
-                    }
-                }
-            }
+		$lat = addslashes( cookie( "lat" ) );
+        $lng = addslashes( cookie( "lng" ) );
+        if ( empty( $lat ) || empty( $lng ) ){
+            $lat = $this->city['lat'];
+             $lng = $this->city['lng'];
         }
+		$order = (int) $this->_param('order');
+		switch ($order) {
+            case 2:
+                $orderby = array('create_time' => 'desc');
+                break;
+            case 3:
+                $orderby = array('order_id' => 'desc');
+                break;
+            default:
+                $orderby = array("(ABS(lng - '{$lng}') +  ABS(lat - '{$lat}') )" => 'asc', 'create_time' => 'desc');
+                break;
+        }
+		$this->assign('order', $order);
+		$count = $DeliveryOrder->where($map)->count(); 
+        $Page = new Page($count, 10); 
+        $show = $Page->show(); 
+        $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
+        $p = $_GET[$var];
+        if ($Page->totalPages < $p) {
+            die('0');
+        }
+        $list = $DeliveryOrder ->where($map)->order($orderby)->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $shop_ids = $user_ids = $addr_ids = $address_ids = array( );
+        foreach ($list as $k => $val ){
+          $shop_ids[$val['shop_id']] = $val['shop_id'];
+		  $user_ids[$val['user_id']] = $val['user_id'];
+          $list[$k]['d'] = getdistance( $lat, $lng, $val['lat'], $val['lng'] );
+         }
+		$this->assign('Shopdetails', D('Shopdetails')->itemsByIds($shop_ids));
+		$this->assign('shops', D('Shop')->itemsByIds($shop_ids));	
+		$this->assign('users', D('Users')->itemsByIds($user_ids));
+		$this->assign('page', $show); 
+        $this->assign('list',$list);
+		$this->display();      
     }
 	
-	  //快递众包开始
-	public function express( ){
-        if ( !cookie( "DL" ) ){
-            header( "Location: ".u( "login/index" ) );
+	//已完成
+	public function finished() {
+        $this->assign('nextpage', LinkTo('lists/finished_load', array('t' => NOW_TIME, 'p' => '0000')));
+        $this->display(); 
+	}
+	//已完成数据加载
+	public function finished_load() {
+		$user_id = $this->delivery_id;
+		$DeliveryOrder = D('DeliveryOrder');
+		import('ORG.Util.Page'); 
+		$map = array('closed' =>0, 'status' =>8,'delivery_id'=>$this->delivery_id);
+		$count = $DeliveryOrder->where($map)->count(); 
+        $Page = new Page($count, 10); 
+        $show = $Page->show(); 
+        $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
+        $p = $_GET[$var];
+        if ($Page->totalPages < $p) {
+            die('0');
         }
-        else{
-            $cid = $this->reid( );
-            $express = d( "Express" );
-            $map = array(
-                "city_id" => $this->city_id
-            );
-            $ss = i( "ss", 0, "intval,trim" );
-            $this->assign( "ss", $ss );
-            if ( $ss == 1 ){
-                $map['status'] = 1;
-                $map['cid'] = $cid;
+        $list = $DeliveryOrder ->where($map)->order('update_time desc')->limit($Page->firstRow . ',' . $Page->listRows)->select();
+        $shop_ids = $user_ids = $addr_ids = $address_ids = array( );
+        foreach ($list as $k => $val ){
+          $shop_ids[$val['shop_id']] = $val['shop_id'];
+		  $user_ids[$val['user_id']] = $val['user_id'];
+          $list[$k]['d'] = getdistance( $lat, $lng, $val['lat'], $val['lng'] );
+         }
+		$this->assign('Shopdetails', D('Shopdetails')->itemsByIds($shop_ids));
+		$this->assign('shops', D('Shop')->itemsByIds($shop_ids));	
+		$this->assign('users', D('Users')->itemsByIds($user_ids));
+		$this->assign('page', $show); 
+        $this->assign('list',$list);
+		$this->display();      
+    }
+
+	//详情
+	public function detail($order_id = 0) {
+		if ($order_id  = (int) $order_id ) {
+            $obj = D('DeliveryOrder');
+            if (!$detail = $obj->find($order_id )) {
+                $this->error('未知错误');
             }
-            else if ( $ss == 2 ){
-                $map['status'] = 2;
-                $map['cid'] = $cid;
-            }
-            else{
-                $map['status'] = 0;
-                $map['cid'] = 0;
-            }
-            $lat = addslashes( cookie( "lat" ) );
-            $lng = addslashes( cookie( "lng" ) );
-            if ( empty( $lat ) || empty( $lng ) ){
-                $lat = $this->city['lat'];
-                $lng = $this->city['lng'];
-            }
-            $orderby = " (ABS(lng - '".$lng."') +  ABS(lat - '{$lat}') ) asc ";
-            $rdv = $express->where( $map )->order( $orderby )->select( );
-            foreach ( $rdv as $k => $val ){
-                $rdv[$k]['d'] = getdistance( $lat, $lng, $val['lat'], $val['lng'] );
+			if ($detail['closed']) {
+                $this->error('订单已关闭');
             }
 			
-            $this->assign( "rdv", $rdv );
-		
+			if($detail['type'] == 0){ 
+			
+               $Order = D('Order');
+               $lists = $Order -> where('order_id ='.$detail['type_order_id']) -> find();//商品
+               $t = 0;
+               $OrderGoods = D('OrderGoods');
+               $new_list = $OrderGoods -> where('order_id ='.$lists['order_id']) ->  select();
+               $Goods = D('Goods');
+               foreach($new_list as $key => $val){
+                   $title = $Goods->where('goods_id ='.$val['goods_id'])->getField('title');
+				   $photo = $Goods->where('goods_id ='.$val['goods_id'])->getField('photo');
+                   $new_list[$key]['title'] = $title ;
+				   $new_list[$key]['photo'] = $photo ;
+               }
+            }elseif($detail['type'] == 1){ //外卖
+               $EleOrder = D('EleOrder');
+               $lists = $EleOrder -> where('order_id ='.$detail['type_order_id']) -> find();
+			   
+               $t = 1;
+               $EleOrderProduct = D('EleOrderProduct');
+               $new_list = $EleOrderProduct -> where('order_id ='.$lists['order_id']) ->select();
+               $EleProduct = D('EleProduct');
+               foreach($new_list as $key => $val){
+                  $title = $EleProduct->where('product_id ='.$val['product_id'])->getField('product_name');
+				  $photo = $EleProduct->where('product_id ='.$val['product_id'])->getField('photo');
+                  $new_list[$key]['title'] = $title;  
+				  $new_list[$key]['photo'] = $photo ;
+               }
+            }
+			$this->assign('shops', D('Shop')->find($detail['shop_id']));
+			$this->assign('addrs', D('Useraddr')->find($detail['addr_id']));
+			$this->assign('Paddress', D('Paddress')->find($detail['address_id']));
+			$this->assign('lists',$lists);
+			$this->assign('new_list',$new_list);
+			$this->assign('order_id',$order_id);
+			$this->assign('detail',$detail);					
+            $this->display();
+        } else {
+            $this->error('错误');
         }
-        $this->display( );
-    }
+	}
 	
-	//快递众包结束
-	
-	
-	
-   //强快递开始
-	public function qiang( ){
-        if ( IS_AJAX ){
-            $express_id = i( "express_id", 0, "trim,intval" );
-            $express = d( "Express" );
-            if ( !cookie( "DL" ) ){
-                $this->ajaxReturn( array( "status" => "error", "message" => "您还没有登录或登录超时!" ) );
+	//状态
+	public function state($order_id = 0) {
+		if ($order_id  = (int) $order_id ) {
+            $obj = D('DeliveryOrder');
+            if (!$detail = $obj->find($order_id )) {
+                $this->error('未知错误');
             }
-            else{
-                $detail = $express->find( $express_id );
-                if ( !$detail ){
-                    $this->ajaxReturn( array( "status" => "error", "message" => "快递不存在!" ) );
+			if ($detail['closed']) {
+                $this->error('订单已关闭');
+            }
+			$this->assign('deliverys', D('Delivery')->find($detail['delivery_id']));
+			$this->assign('shops', D('Shop')->find($detail['shop_id']));
+			$this->assign('order_id',$order_id);
+			$this->assign('detail',$detail);					
+            $this->display();
+        } else {
+            $this->error('错误');
+        }
+	}
+	//抢单
+    public function handle(){
+        if(IS_AJAX){
+            $order_id = I('order_id',0,'trim,intval');
+            $DeliveryOrder = D('DeliveryOrder');
+                $delivery_order = $DeliveryOrder -> where('order_id ='. $order_id ) -> find();//详情
+                if($delivery_order['closed'] == 1){
+                    $this->ajaxReturn(array('status'=>'error','message'=>'对不起，该订单已关闭!'));
                 }
-                if ( $detail['status'] != 0 || $detail['closed'] != 0 ){
-                    $this->ajaxReturn( array( "status" => "error", "message" => "该快递状态不支持抢单!" ) );
+				if($delivery_order['status'] == 2){
+                    $this->ajaxReturn(array('status'=>'error','message'=>'该订单已被抢了'));
                 }
-                $cid = $this->reid( );
-                $data = array(
-                    "express_id" => $express_id,
-                    "cid" => $cid,
-                    "status" => 1,
-                    "update_time" => NOW_TIME
-                );
-                if ( FALSE !== $express->save( $data ) ){
-                    $this->ajaxReturn( array( "status" => "success", "message" => "恭喜您！接单成功！请尽快进行配送！" ) );
+                if(!$delivery_order){
+                    $this->ajaxReturn(array('status'=>'error','message'=>'错误!'));
+                }else{
+					$delivery_id = $this->delivery_id; //获取配送员ID
+					//逻辑重写，这个前面更新
+					if (false == D('DeliveryOrder')->upload_deliveryOrder($delivery_id,$order_id)) {
+						$this->ajaxReturn(array('status'=>'error','message'=>'接单失败！错误！'));
+					}
+                    $data = array(
+						'delivery_id' => $delivery_id,
+						'status' => 2,
+						'update_time' => time()
+					);
+					$upload = $DeliveryOrder->where("order_id={$order_id}")->save($data);//更新数据
+                    if($upload){
+						$this->ajaxReturn(array('status'=>'success','message'=>'恭喜您！接单成功！请尽快进行配送！'));
+                    }else{
+                        $this->ajaxReturn(array('status'=>'error','message'=>'接单失败！错误！'));
+                    }
+            }
+        }
+    }
+    //确认完成
+    public function set_ok(){
+        if(IS_AJAX){
+            $order_id = I('order_id',0,'trim,intval');
+            $DeliveryOrder = D('DeliveryOrder');
+            if(empty($this->delivery_id)){
+                $this->ajaxReturn(array('status'=>'error','message'=>'您还没有登录或登录超时!'));
+            }else{
+                $delivery_order = $DeliveryOrder -> where('order_id ='.$order_id) -> find();
+				if($delivery_order['closed'] == 1){
+                    $this->ajaxReturn(array('status'=>'success','message'=>'对不起，该订单已关闭!'));
                 }
-                else{
-                    $this->ajaxReturn( array( "status" => "error", "message" => "接单失败！错误！" ) );
+                if(!$delivery_order){
+                    $this->ajaxReturn(array('status'=>'error','message'=>'错误!'));
+                }else{
+                    $delivery_id = $this->delivery_id; //获取配送员ID
+					if (false == D('DeliveryOrder')->ok_deliveryOrder($delivery_id,$order_id)) {//先去处理逻辑
+						$this->ajaxReturn(array('status'=>'error','message'=>'错误！'));
+					}
+                    if($delivery_order['delivery_id'] != $delivery_id){
+                        $this->ajaxReturn(array('status'=>'error','message'=>'错误!'));
+                    }else{
+                        $upload  = $DeliveryOrder -> where('order_id ='.$order_id)-> save(array('status' => 8,'end_time' => time()));
+                        if(!$upload ){
+                            $this->ajaxReturn(array('status'=>'error','message'=>'操作失败!'));
+                        }else{
+                            $this->ajaxReturn(array('status'=>'success','message'=>'操作成功!'));
+                        }
+                    }
                 }
             }
         }
     }
-
-	//快递确认
-	public function express_ok( ){
-        if ( IS_AJAX ){
-            $express_id = i( "express_id", 0, "trim,intval" );
-            $express = d( "Express" );
-            if ( !cookie( "DL" ) ){
-                $this->ajaxReturn( array( "status" => "error", "message" => "您还没有登录或登录超时!" ) );
-            }
-            else
-            {
-                $detail = $express->find( $express_id );
-                if ( !$detail ){
-                    $this->ajaxReturn( array( "status" => "error", "message" => "快递不存在!" ) );
-                }
-                if ( $detail['status'] != 1 || $detail['closed'] != 0 ){
-                    $this->ajaxReturn( array( "status" => "error", "message" => "该快递状态不能完成!" ) );
-                }
-                $cid = $this->reid( );
-                if ( $detail['cid'] != $cid ){
-                    $this->ajaxReturn( array( "status" => "error", "message" => "不能操作别人的快递!" ) );
-                }
-                if ( FALSE !== $express->save( array(
-                    "express_id" => $express_id,
-                    "status" => 2
-                ) ) ){
-                    $this->ajaxReturn( array( "status" => "success", "message" => "恭喜您完成订单" ) );
-                }
-                else{
-                    $this->ajaxReturn( array( "status" => "error", "message" => "操作失败！" ) );
-                }
-            }
-        }
-    }
-
-	//快递确认结束
-
-
 //语音通知
-
- public function get_message(){
-        
+	 public function get_message(){
         if(IS_AJAX){
             $last_time = cookie('last_time');
             cookie('last_time',time(),86400*30); //存一个月 
@@ -376,24 +369,23 @@ class ListsAction extends CommonAction {
                 $this->ajaxReturn(array('status'=>'0','message'=>'开始抢单了!'));
             }
             else{
-                $cid = $this->reid();
-            $delivery_type = D('Delivery')->where('id='.$cid)->getField('delivery_type');
-			//$dv = D('DeliveryOrder');
-            $t_e = C('DB_PREFIX').'ele_order';
-            $t_d = C('DB_PREFIX').'delivery_order';
-            $t_o = C('DB_PREFIX').'order';
-            $dv = D('DeliveryOrder')->join($t_e.' on '.$t_d.'.type_order_id = '.$t_e.'.order_id');
-            $dv = $dv->join($t_o.' on '.$t_d.'.type_order_id = '.$t_o.'.order_id');
-			$map = array();
-            if($delivery_type == 0){
-                $map['_string'] = '('.$t_e.'.is_pay = 1 or '.$t_o.'.is_daofu = 0) ';
-            }
-            elseif($delivery_type == 1){
-			    $map['_string'] = '('.$t_e.'.is_pay = 0 or '.$t_o.'.is_daofu = 1 ) ';
-            }
-            $map['_string'] = $map['_string'].'and '.$t_d.'.create_time>='.$last_time.' and '.$t_d.'.status <2 and '.$t_d.'.delivery_id =0';
-            $count = $dv -> where($map) -> count();
-           
+                $cid = $this->delivery_id;
+				$delivery_type = D('Delivery')->where('id='.$cid)->getField('delivery_type');
+				$t_e = C('DB_PREFIX').'ele_order';
+				$t_d = C('DB_PREFIX').'delivery_order';
+				$t_o = C('DB_PREFIX').'order';
+				$dv = D('DeliveryOrder')->join($t_e.' on '.$t_d.'.type_order_id = '.$t_e.'.order_id');
+				$dv = $dv->join($t_o.' on '.$t_d.'.type_order_id = '.$t_o.'.order_id');
+				$map = array();
+				if($delivery_type == 0){
+					$map['_string'] = '('.$t_e.'.is_pay = 1 or '.$t_o.'.is_daofu = 0) ';
+				}
+				elseif($delivery_type == 1){
+					$map['_string'] = '('.$t_e.'.is_pay = 0 or '.$t_o.'.is_daofu = 1) ';
+				}
+				$map['_string'] = $map['_string'].'and '.$t_d.'.create_time>='.$last_time.' and '.$t_d.'.status <2 and '.$t_d.'.delivery_id =0';
+				$count = $dv -> where($map) -> count();
+            //file_put_contents('1.log',$dv->getLastSql());
             if($count>0)
                 $this->ajaxReturn(array('status'=>'2','message'=>'有新的订单了!'));
             else

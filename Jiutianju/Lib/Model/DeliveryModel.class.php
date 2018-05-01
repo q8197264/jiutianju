@@ -1,23 +1,5 @@
 <?php
-
-
-
 class DeliveryModel extends CommonModel {
-
-    
-
-        protected $pk   = 'order_id';
-
-        protected $tableName =  'delivery';
-
-    
-
-	
-
-
-
+      protected $pk   = 'id';
+      protected $tableName =  'delivery';
 }
-
-
-
-?>

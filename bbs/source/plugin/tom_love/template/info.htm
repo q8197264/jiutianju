@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{$jyConfig['plugin_name']}</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="source/plugin/tom_love/images/style.css?v={$cssJsVersion}" rel="stylesheet" type="text/css">
+<link href="source/plugin/tom_love/images/index.css?v={$cssJsVersion}" rel="stylesheet" type="text/css">
+<script src="source/plugin/tom_love/images/jquery.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_love/images';
+</script>
+<script src="source/plugin/tom_love/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<base target="_self">
+</head>
+<body id="personal">
+<section id="head_portrait">
+	<div class="portrait" style="background-image:url({$themeSrc});">
+		<div class="interaction clearfix">
+            <!--{if $info['bbs_uid']}-->
+			<a class="say" href="javascript:void(0);" onclick="hello();"></a>
+			<!--{else}-->
+            <a class="say" href="javascript:void(0);" onclick="noBbsId();"></a>
+            <!--{/if}-->
+            <a class="flowers" href="plugin.php?id=tom_love&mod=flowers&tid={$info['id']}"></a>
+			<a class="anlina" onclick="anlian();" href="javascript:void(0);"></a>
+		</div>
+		<div class="head-t"><img src="{$info['avatar']}"/></div>
+		<div class="user-xq">
+			<p class="clearfix">
+                <!--{if $info['sex'] == 1}-->
+				<span class="boy"></span>
+                <!--{else}-->
+                <span class="girl"></span>
+                <!--{/if}-->
+				<span class="user-name">{$info['nickname']}</span>
+                <!--{if $info['renzheng'] == 1}-->
+				<span class="renzheng"></span>
+                <!--{/if}-->
+                <!--{if $info['vip_id'] == 1}-->
+				<span class="vp"></span>
+                <!--{/if}-->
+			</p>
+			<p class="clearfix">
+                <!--{if $info['bbs_uid']}-->
+                <a href="plugin.php?id=tom_love&mod=sms&act=view&tobbsuid={$info['bbs_uid']}" class="send"></a>
+                <!--{else}-->
+                <a href="javascript:void(0);" class="send" onclick="noBbsId();"></a>                
+                <!--{/if}-->
+            </p>
+		</div>
+	</div>
+	<div class="hua-lian clearfix">
+        <div class="hl-box xian">
+            <div class="trem">
+                <span class="hua-count">{$info['flowers']}</span>
+                <span>{lang tom_love:info_xianhua}</span>
+            </div>
+        </div>
+        <div class="hl-box">
+            <div class="trem">
+                <span class="lian-count">{$info['anlians']}</span>
+                <span>{lang tom_love:info_anlianTa}</span>
+            </div>
+        </div>
+	</div>
+    <!--{if $info['pic_num'] > 0}-->
+	<div class="album">
+		<ul class="album-list clearfix">
+            <!--{loop $picList $key $value}-->
+			<li><a href="javascript:void(0);" onclick="loadPic({$info['id']},{$info['pic_num']});"><img src="{$value['pic_url']}"></a></li>
+			<!--{/loop}-->
+		</ul>
+	</div>
+    <div class="more-pic"><a href="javascript:void(0);" onclick="loadPic({$info['id']},{$info['pic_num']});">{lang tom_love:info_show_pic_more} ({$info['pic_num']})</a></div>
+    <!--{else}-->
+        <div class="tishi">{lang tom_love:info_no_shangchuan}</div>
+    <!--{/if}-->
+</section>
+<section id="information">
+	<div class="porpmt basic clearfix">
+		<a class="shrink" href="javascript:void(0);"></a>
+		<div class="porpmt-title">{lang tom_love:info_show_base}</div>
+		<div class="porpmt-box">
+			<dl class="clearfix">
+				<dt>{lang tom_love:info_show_marital}</dt><dd><!--{if $info['marital_id'] > 0}-->{$maritalArray[$info['marital_id']]}<!--{else}-->{lang tom_love:info_show_baomi}<!--{/if}--></dd>
+			</dl>
+			<dl class="clearfix">
+				<dt>{lang tom_love:info_show_height1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{lang tom_love:info_show_height2}</dt><dd><!--{if $info['height'] > 0}-->{$info['height']}{lang tom_love:info_show_limi}<!--{else}-->{lang tom_love:info_show_baomi}<!--{/if}--></dd>
+			</dl>
+			<dl class="clearfix">
+				<dt>{lang tom_love:info_show_weight1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{lang tom_love:info_show_weight2}</dt><dd><!--{if $info['weight'] > 0}-->{$info['weight']}{lang tom_love:info_show_kg}<!--{else}-->{lang tom_love:info_show_baomi}<!--{/if}--></dd>
+			</dl>
+			<dl class="clearfix">
+				<dt>{lang tom_love:info_show_edu1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{lang tom_love:info_show_edu2}</dt><dd><!--{if $info['edu_id'] > 0}-->{$eduArray[$info['edu_id']]}<!--{else}-->{lang tom_love:info_show_baomi}<!--{/if}--></dd>
+			</dl>
+			<dl class="clearfix">
+				<dt>{lang tom_love:info_show_pay1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{lang tom_love:info_show_pay2}</dt><dd><!--{if $info['pay_id'] > 0}-->{$payArray[$info['pay_id']]}/{lang tom_love:info_show_yue}<!--{else}-->{lang tom_love:info_show_baomi}<!--{/if}--></dd>
+			</dl>
+			<dl class="clearfix">
+				<dt>{lang tom_love:info_show_work1}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{lang tom_love:info_show_work2}</dt><dd><!--{if $info['work_id'] > 0}-->{$worksArray[$info['work_id']]}<!--{else}-->{lang tom_love:info_show_baomi}<!--{/if}--></dd>
+			</dl>
+			<dl class="clearfix">
+				<dt>{lang tom_love:info_show_area}</dt><dd><!--{if $info['area'] != ''}-->{$info['area']}<!--{else}-->{lang tom_love:info_show_baomi}<!--{/if}--></dd>
+			</dl>
+			<dl class="clearfix">
+				<dt>{lang tom_love:info_show_hjarea}</dt><dd><!--{if $info['hjarea'] != ''}-->{$info['hjarea']}<!--{else}-->{lang tom_love:info_show_baomi}<!--{/if}--></dd>
+			</dl>
+		</div>
+	</div>
+    <!--{if $jyConfig['closed_tel_qq'] == 0}-->
+    <!--{if $info['closed'] == 0}-->
+    <!--{if $info['qq'] != '' || $info['wx'] != '' || $info['tel'] != ''}-->
+	<div class="porpmt contact">
+		<a class="shrink" href="javascript:void(0);"></a>
+		<div class="porpmt-title">{lang tom_love:info_contact}</div>
+		<div class="porpmt-box">
+            <!--{if $contactTag == 1}-->
+            <section>
+                <p><span>{lang tom_love:info_show_contact_qq}</span>{$info['qq']}</p>
+                <p><span>{lang tom_love:info_show_contact_wx}</span>{$info['wx']}</p>
+                <p><span>{lang tom_love:info_show_contact_tel}</span>{$info['tel']}</p>
+            </section>
+            <!--{else}-->
+			<a class="lyfx" onclick="contact();" href="javascript:void;">{lang tom_love:info_show_contact_btn}</a>
+            <!--{/if}-->
+        </div>
+	</div>
+    <!--{/if}-->
+    <!--{/if}-->
+	<!--{/if}-->
+    <div class="porpmt heart">
+		<a class="shrink" href="javascript:void(0);"></a>
+		<div class="porpmt-title">{lang tom_love:info_show_dubai}</div>
+		<div class="porpmt-box">{$describe}</div>
+	</div>
+	<div class="porpmt demand">
+		<a class="shrink" href="javascript:void(0);"></a>
+		<div class="porpmt-title">{lang tom_love:info_show_mate_demands}</div>
+		<div class="porpmt-box">{$mate_demands}</div>
+	</div>
+</section>
+<section class="pic_info id-pic-tip box_hide clearfix" style="z-index: 999;height: 2000px;">
+	<div class="pic_info_in id-pic-tip-in" style="top: 0px; height: 775px; background-image: url();">
+        <div class="pic_info_nav">
+            <a class="id-pic-prev">{lang tom_love:pre_pic}</a>
+            <a class="id-pic-tip-close">{lang tom_love:close_pic}</a>
+            <a class="id-pic-next">{lang tom_love:next_pic}</a>
+        </div>
+        <div class="pic_info_count">
+            <span class="id-pic_now">1</span>/<span class="id-pic_count">1</span>
+        </div>
+	</div>
+</section>
+<section id="report">
+	<a class="jubao" href="plugin.php?id=tom_love&mod=report&report_user_id={$info['id']}">{lang tom_love:report_btn}</a>
+</section>
+<!--{if $jyConfig['info_adbox_1']}-->
+<section class="guangao_list clearfix">
+	<div class="guangao_list_box clearfix">
+        {$jyConfig['info_adbox_1']}
+    </div>
+</section>
+<!--{/if}-->  
+<!-- footer start-->
+<section class="footer_block clearfix"></section>
+<footer class="footer_main clearfix">
+	<ul class="clearfix">
+        <li class="footer_nav_index1"><a href="plugin.php?id=tom_love&mod=index&prand={$prand}"><span class="nav1">{lang tom_love:nav_index}</span></a></li>
+        <li class="footer_nav_search1"><a href="plugin.php?id=tom_love&mod=search&act=list&prand={$prand}"><span class="nav1">{lang tom_love:nav_search}</span></a></li>
+        <li class="footer_nav_ss1"><a href="plugin.php?id=tom_love&mod=shuoshuo&prand={$prand}"><span class="nav1">{lang tom_love:nav_ss}</span></a></li>
+        <li class="{$footerNavSmsClass}"><a href="plugin.php?id=tom_love&mod=sms&prand={$prand}"><span class="nav1">{lang tom_love:nav_sms}</span></a></li>
+        <li class="footer_nav_my1"><a href="plugin.php?id=tom_love&mod=my&prand={$prand}"><span class="nav1">{lang tom_love:nav_my}</span></a></li>
+    </ul>
+</footer>
+<!-- footer end-->
+<script>
+var userId = 0;
+var nowPic = 0;
+var allPic = 0;
+var picData = new Array();
+
+function loadPic(uid,count){
+    userId = uid;
+    allPic = count;
+    nowPic = 1;
+    picData = [];
+    
+    if(allPic > 0){
+    }else{
+        return false;
+    }
+    
+    $.ajax({
+        type: "GET",
+        url: "plugin.php?id=tom_love:ajax",
+        data: "act=pic&uid="+userId,
+        dataType : "jsonp",
+        jsonpCallback:"jsonpCallback",
+        cache : false,
+        success: function(json){
+            var i = 1;
+            $.each(json,function(k,v){
+                picData[i] = v;
+                i++;
+            })
+            $(window).scrollTop(0);
+            $(".id-pic-tip-in").css('top', 0).css('height', $(window).height());
+            //$(".id-pic-tip-in").css('top', $(document.body).scrollTop()).css('height', $(window).height());
+            $(".id-pic-tip").removeClass('box_hide');
+            $('.id-pic-tip-in').css('background-image', 'url(' + picData[1] + ')');
+            $('.id-pic-tip-in .id-pic_now').html(1);
+            $('.id-pic-tip-in .id-pic_count').html(allPic);
+        }
+    });
+}
+$(".id-pic-prev").on("click", function(){
+        if(nowPic > 1){
+            nowPic = nowPic - 1;
+            $('.id-pic-tip-in').css('background-image', 'url(' + picData[nowPic] + ')');
+            $('.id-pic-tip-in .id-pic_now').html(nowPic);
+        }
+	});
+
+$(".id-pic-next").on("click", function(){
+		if(nowPic < allPic){
+            nowPic = nowPic + 1;
+            $('.id-pic-tip-in').css('background-image', 'url(' + picData[nowPic] + ')');
+            $('.id-pic-tip-in .id-pic_now').html(nowPic);
+        }
+	});
+
+$(".id-pic-tip-close").on("click", function(){
+		$(".id-pic-tip").addClass('box_hide');
+		$('.id-pic-tip-in').css('background-image', '');
+		userId = 0;
+		picData = [];
+		nowPic = 0;
+        allPic = 0;
+	}); 
+
+var submintStatus = 0;
+function contact(){
+    if(submintStatus == 1){
+        return false;
+    }
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$contactUrl}",
+        data: "",
+        success: function(msg){
+            submintStatus = 0;
+            var data = eval('('+msg+')');
+            if(data.status==101){
+                tusi("{$jyConfig['score_name']}{lang tom_love:no_gb_score}");
+                return false;
+            }else{
+                tusi("{lang tom_love:info_show_contact_succ}");
+                setTimeout(function(){document.location.reload();},1888);
+            }
+        }
+    });
+}
+
+var anlianTag = "{$anlianTag}";
+anlianTag = anlianTag * 1;
+
+function anlian(){
+    if(submintStatus == 1){
+        return false;
+    }
+    if(anlianTag == 1){
+        tusi("{lang tom_love:info_show_is_collect}");
+        return false;
+    }
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$anlianUrl}",
+        data: "",
+        success: function(msg){
+            anlianTag = 1;
+            submintStatus = 0;
+            var data = eval('('+msg+')');
+            if(data.status==101){
+                tusi("{$jyConfig['score_name']}{lang tom_love:no_gb_score}");
+                return false;
+            }else{
+                tusi("{lang tom_love:info_show_collect_succ}");
+            }
+            
+        }
+    });
+}
+
+function hello(){
+    if(submintStatus == 1){
+        return false;
+    }
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$helloUrl}",
+        data: "",
+        success: function(msg){
+            submintStatus = 0;
+            var data = eval('('+msg+')');
+            if(data.status==101){
+                tusi("{$jyConfig['score_name']}{lang tom_love:no_gb_score}");
+                return false;
+            }else{
+                tusi("{lang tom_love:info_show_hello_succ}");
+            }
+        }
+    });
+}
+
+function noBbsId(){
+    tusi("{lang tom_love:info_show_no_bbs_id}");
+    return false;
+}
+
+$(document).ready(function(){
+    <!--{if $info['status'] == 2}-->
+    tusi("{lang tom_love:fenghao_user_msg}");
+    setTimeout(function(){window.location.href='plugin.php?id=tom_love';},1888);
+    <!--{/if}-->
+    $.get("{$ajaxClicksUrl}");
+});
+
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideToolbar');
+});
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

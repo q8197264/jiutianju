@@ -11,13 +11,14 @@ function loading() {
 
 function LoginSuccess() {
     $(".baodialog").remove();
-    success('登录成功', 3000, "loginCallback()");
+    success('登录成功，正在为您跳转', 3000, "loginCallback()");
 }
 
 function loginCallback() {
     $.get(BAO_ROOT + "/index.php?m=passport&a=check&mt=" + Math.random(), function (data) {
         $(".topOne").find('.left').html(data);
     }, 'html');
+	location.reload();
     return true;
 }
 
@@ -29,7 +30,7 @@ function ajaxLogin() {
         $("body").append(boxHtml);
         $(".baodialog").css('height', document.body.scrollHeight + 'px');
     }
-    var url = BAO_ROOT + '/index.php?g=pchome&m=passport&a=ajaxloging&t=' + Math.random();
+    var url = BAO_ROOT + '/index.php?g=home&m=passport&a=ajaxloging&t=' + Math.random();
     var width = document.body.clientWidth
     $.get(url, function (data) {
 

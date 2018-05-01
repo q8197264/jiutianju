@@ -1,11 +1,8 @@
 <?php
-
-
 class BookingsettingModel extends CommonModel{
     protected $pk   = 'shop_id';
     protected $tableName =  'booking_setting';
-	public function getprice()
-	{
+	public function getprice(){
 		return  array(
             1 => '50元以下',
             2 => '50-100元',
@@ -14,8 +11,14 @@ class BookingsettingModel extends CommonModel{
             5 => '300元以上',
 		);
 	}
-	public function pricesql($key)
-	{
+	//获取包厢整体关闭状态
+	public function get_booking_setting($shop_id){
+		$detail = D('Bookingsetting')->where(array('shop_id'=>$shop_id))->find();
+		return $detail;
+	}
+	
+	
+	public function pricesql($key){
 		$p = $this->getprice();
 		if($d = $p[$key]){
 			if(strpos($d,'-') !== false){
@@ -97,13 +100,13 @@ class BookingsettingModel extends CommonModel{
         return $data;
     }
 
-	public function get_time($shop_id)
-	{
+	public function get_time($shop_id){
 		$cfg = $this->getCfg();
-		$detail = D('Booking')->where(array('shop_id'=>$shop_id))->find();
+		$detail = D('Bookingsetting')->where(array('shop_id'=>$shop_id))->find();
+		
 		$tem = array();
 		foreach($cfg as $k => $v){
-			if($k>=$detail['stime'] && $k<= $detail['ltime']){
+			if($k>=$detail['start_time'] && $k<= $detail['end_time']){
 				$tem[$k] = $v;
 			}
 		}

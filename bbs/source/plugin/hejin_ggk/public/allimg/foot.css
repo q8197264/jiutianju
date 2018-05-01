@@ -1,0 +1,53 @@
+@charset "utf-8";
+
+/*-------地方生活底部--------*/
+.footertb {background: url(fool.png); display: block; margin:auto;}
+.footer { width:100%;position: fixed;z-index: 200;bottom: 0;left: 0; right:0px;
+background: -webkit-gradient(linear, left top, left bottom, from(#f1f1f1), to(#dddddd));background: -webkit-linear-gradient(#f1f1f1), to(#dddddd);background: -moz-linear-gradient(#f1f1f1,#dddddd);background: -ms-linear-gradient(#f1f1f1), to(#dddddd);background: -o-linear-gradient( #f1f1f1), to(#dddddd);background: linear-gradient( #870000), to(#dddddd);height:55px; background-color:#f1f1f1; text-align:center; border-top:#adaeb1 solid 1px;}
+.footer li{height:50px;font-family:"Microsoft YaHei";width:25%; float:left;padding-bottom:5px;}
+.footer li p:nth-child(1){ height:30px; line-height:30px; overflow:hidden;}
+.footer li p:nth-child(1) i{ font-size:30px; display:block;}
+.footer li a{display:block; overflow:hidden;color:#3d4245; font-size:12px; padding-top:4px; }
+.ads { width:27px; height: 22px; background-position: -88px 0;}/*发布信息*/
+.ccity { width: 20px; height: 22px; background-position: -115px 0;}/*切换城市*/
+.guide { width: 25px; height: 22px; background-position: -135px 0;}/*地方资讯*/
+.home { width: 26px; height: 22px; background-position: -160px 0;}/*首页*/
+.mine { width: 24px; height: 22px; background-position: -208px 0;}/*我的*/
+.more { width: 24px; height: 22px; background-position: -232px 0;}/*更多*/
+.my_show_sort { width: 25px; height: 22px; background-position: -278px 0;}
+.search { width: 23px; height: 22px; background-position: -325px 0;}/*高级搜索*/
+.service { width: 23px; height: 22px; background-position: -348px 0;}/*客户服务*/
+.settled { width: 25px; height: 22px; background-position: -371px 0;}/*爆料投稿*/
+.eslist { width: 22px; height: 22px; background-position: -527px 0;}/*爆料投稿*/
+/*----订餐---*/
+.my { width: 22px; height: 22px; background-position: -256px 0;}/*我的订餐*/
+.takeaway { width: 22px; height: 22px; background-position: -505px 0;}/*外卖*/
+.ordering { width: 22px; height: 22px; background-position: -303px 0;}/*订单*/
+.meal { width: 22px; height: 22px; background-position: -186px 0;}/*点餐*/
+/*订餐切换样式*/
+.newmeal { width: 22px; height: 22px; background-position: 0px 0;}/*点餐*/
+.newmy { width: 22px; height: 22px; background-position: -22px 0;}/*我的订餐*/
+.newordering { width: 22px; height: 22px; background-position: -44px 0;}/*订单*/
+.newtakeaway { width: 22px; height: 22px; background-position: -66px 0;}/*外卖*/
+.shop_footer{background:#404042;}
+.shop_footer li{height:50px;font-family:"Microsoft YaHei"; color:#3d4245; font-size:12px; width:20%; float:left;}
+.shop_footer li a{display:block; overflow:hidden;color:#bfbfbf; font-size:12px; padding-top:8px;padding-bottom:5px;}
+.shop_footer .active{width:20%;background:url(shop_bg.gif) left top repeat-x;background-size: contain;} /*当前状态*/
+.shop_footer .active a{border-left:#000 1px solid;border-right:#000 1px solid;}
+.shop_footer li p:nth-child(1){ height:30px; line-height:30px; overflow:hidden;}
+.shop_footer li p:nth-child(1) i{ font-size:30px; display:block; color:#BFBFBF}
+.fixshowed{ height:60px;}
+.homeflexbox{box-flex: 1;-webkit-box-flex: 1;-moz-box-flex: 1;-ms-box-flex: 1;-o-box-flex: 1;}
+.popwindow{width:100%;position:fixed;bottom:0px;left:0px; right:0px;}
+.popwindow > div{width:90%;margin-left:auto;margin-right:auto;}
+.popwindow > div > div.vpop {visibility:hidden;}
+.popwindow > div > div[class^=homeflexbox]{position:absolute;float:left;width:25%;}
+.popwindow > div > div[class^=homeflexbox] > ul {width:90%; margin-left:auto;margin-right:auto;background-color:#f1f1f1;border-radius:6px;border:1px solid #adaeb1;}
+.popwindow > div > div[class^=homeflexbox] > p {width:100%; position: relative; text-align:center;bottom:1px; height:10px;background:url(xiala.png) no-repeat center bottom;}
+.popwindow > div > div[class^=homeflexbox] li {line-height:40px;text-align:center;background:url(xian1.jpg) no-repeat center bottom; padding-bottom:2px; background-size:95% 2px;}
+.popwindow > div > div[class^=homeflexbox] li:last-child {background:none;}
+.popwindow > div > div[class^=homeflexbox] a {color:#000;text-decoration:none;font-size:14px;}
+.popwindow > div > div:nth-child(1){left:0;}
+.popwindow > div > div:nth-child(2){left:25%;}
+.popwindow > div > div:nth-child(3){left:50%;}
+.popwindow > div > div:nth-child(4){left:75%;}

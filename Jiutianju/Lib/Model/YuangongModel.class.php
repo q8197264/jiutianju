@@ -1,13 +1,10 @@
 <?php
-
-
-
-class TuanModel extends CommonModel {
-
+class TuanModel extends CommonModel
+{
     protected $pk = 'tuan_id';
     protected $tableName = 'tuan';
-
-    public function _format($data) {
+    public function _format($data)
+    {
         $data['save'] = round(($data['price'] - $data['tuan_price']) / 100, 2);
         $data['price'] = round($data['price'] / 100, 2);
         $data['tuan_price'] = round($data['tuan_price'] / 100, 2);
@@ -16,10 +13,12 @@ class TuanModel extends CommonModel {
         $data['discount'] = round($data['tuan_price'] * 10 / $data['price'], 1);
         return $data;
     }
-
-    public function CallDataForMat($items) { //专门针对CALLDATA 标签处理的
-        if (empty($items))
+    public function CallDataForMat($items)
+    {
+        //专门针对CALLDATA 标签处理的
+        if (empty($items)) {
             return array();
+        }
         $obj = D('Shop');
         $shop_ids = array();
         foreach ($items as $k => $val) {
@@ -32,5 +31,4 @@ class TuanModel extends CommonModel {
         }
         return $items;
     }
-
 }

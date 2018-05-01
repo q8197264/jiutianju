@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=$charset" />
+
+<title><!--{eval echo stripslashes($wxqinfo['title']);}--></title>
+
+<script type="text/javascript" src="{HEJIN_PATH}public/index/jquery.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/index/semantic.min.js"></script>
+<link rel="stylesheet" href="{HEJIN_PATH}public/index/semantic.min.css" type="text/css">
+<script type="text/javascript"> 
+if(document.all){
+	alert("ie");
+	window.history.back(-1); 
+	//window.navigate("top.jsp"); 
+	}
+document.onkeydown = function(evt){
+var evt = window.event?window.event:evt;
+if (evt.keyCode==13) {
+	$('#login-submit').click();
+}
+}
+$(function(){
+	$('#login-submit').click(function(){
+		var paws = $('#login-pass').val();
+		$.get("{HEJIN_URL}&model=checkpass&gid=$gid", { paw:paws},
+			  function(data){
+				if(data == 1){
+					$('#login-form').addClass("has-success");
+					window.location='{HEJIN_URL}&model=zhongj&gid=$gid';
+					}else{
+						$('#login-form').addClass("has-error");
+						$('#login-form').transition('shake');
+						}
+			  });
+		});
+});
+</script>
+<link rel="stylesheet" href="{HEJIN_PATH}public/index/bootstrap.min.css" type="text/css">
+<link href="{HEJIN_PATH}public/index/flat-ui.css" rel="stylesheet">
+<link href="{HEJIN_PATH}public/index/login.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="width:60%">
+        <div class="login-screen">
+          <div class="login-icon col-xs-3 hidden-sm hidden-xs">
+            <img src="{HEJIN_PATH}public/index/Gift-Box.png" alt="" />
+            <h4 class="hidden-blg"><small></small></h4>
+          </div>
+
+          <div class="login-form">
+            <div class="form-group">
+				<h4>{lang hejin_ggk:mimab}</h4>
+            </div>
+
+            <div class="form-group" id="login-form">
+              <input type="password" class="form-control login-field" value="" placeholder="Password" id="login-pass" />
+              <label class="login-field-icon fui-lock" for="login-pass"></label>
+            </div>
+
+            <a class="btn btn-primary btn-lg btn-block" href="javascript:void(0);" id="login-submit">Log in</a>
+          </div>
+        </div>
+</div>
+</body>
+</html>

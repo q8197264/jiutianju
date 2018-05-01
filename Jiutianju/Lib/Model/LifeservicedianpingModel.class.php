@@ -1,20 +1,19 @@
 <?php
-
-
-
-class LifeservicedianpingModel extends CommonModel {
-
+class LifeservicedianpingModel extends CommonModel
+{
     protected $pk = 'activity_id';
     protected $tableName = 'lifeservice_dianping';
-
-    public function check($id, $user_id) {
+    public function check($id, $user_id)
+    {
         $data = $this->find(array('where' => array('id' => (int) $id, 'user_id' => (int) $user_id)));
         return $this->_format($data);
     }
-
-    public function CallDataForMat($items) { //专门针对CALLDATA 标签处理的
-        if (empty($items))
+    public function CallDataForMat($items)
+    {
+        //专门针对CALLDATA 标签处理的
+        if (empty($items)) {
             return array();
+        }
         $obj = D('Users');
         $user_ids = array();
         foreach ($items as $k => $val) {
@@ -27,5 +26,4 @@ class LifeservicedianpingModel extends CommonModel {
         }
         return $items;
     }
-    
 }

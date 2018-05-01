@@ -1,0 +1,110 @@
+<include file="public:header"/>
+<style>
+body {padding:0px;}
+.header_back{ position: absolute; left: 0; height: 40px; top: 10px; z-index: 5; width: 100%; padding: 0 10px;}
+.header_back>a{height: 36px; width: 36px; font-size: 22px; color: #fff; text-align: left;}
+.header_back>a.y{ text-align: right;}
+.money_wallet{ width: 100%; height: 200px;overflow:hidden;background: url("/static/default/wap/image/user/bg_img.jpg") no-repeat center; background-size: cover;position: relative;}
+.money_wallet div{ color: #fff; text-align: center;}
+.wallet-div{ font-size: 14px; height: 20px; line-height: 20px; margin-top: 20px;}
+.wallet-money{ font-size: 44px; line-height: 70px; margin-top: 5px;}
+.wallet-two{ width: 100%; margin-top: 10px;}
+.wallet-two>div{ width: 50%; float: left; font-size: 14px; line-height: 18px;}
+.wallet-two em{ width: 100%; display: block; font-size: 20px; line-height: 1.4;}
+.wallet-nav{ width: 100%; border-bottom: 1px solid #F1F1F1; font-size: 0;}
+.wallet-nav>a.am-btn{display:inline-block;width: 50%; height: 60px; line-height:30px; font-size: 16px;text-align: center;border:0; padding:0 !important; background:none;border-left: 1px solid #F1F1F1;}
+.wallet-nav>a:first-child{ border-left: 0;}
+.wallet-nav>a img{ width: 30px; margin-right: 8px; margin-top: 15px;}
+</style>
+
+<div class="money_wallet">
+    <div class="header_back am-cf">
+        <a href="javascript:history.go(-1)" class="float-left iconfont icon-angle-left"></a>
+        <a href="/wap/passport/logout.html" class="float-right iconfont icon-tuichu2"></a>
+    </div>
+    <div class="wallet-div">账户余额</div>
+    <div class="wallet-money"><a class="text-big text-white">&yen;</a><{:round($MEMBER['money']/100,2)}></div>
+    <div class="wallet-two am-cf">
+        <div>账户积分<em><{$MEMBER.integral}></em></div>
+        <div><{$CONFIG.prestige.name|default='威望'}><em><{$MEMBER.prestige}></em></div>
+    </div>
+</div></div>
+
+<div class="wallet-nav bg_white am-cf">
+    <a href="/user/money/index.html" class="am-btn"><img src="/static/default/wap/image/user/005.png">充值</a>
+    <a href="/user/cash/index.html" class="am-btn"><img src="/static/default/wap/image/user/002.png">提现</a>
+</div>
+<div class="line tab-bar">
+	<div class="button-toolbar">
+		<div class="button-group">
+			<a class="block button bg-dot active" href="<{:U('money/index')}>">余额充值</a>
+			<a class="block button" href="<{:U('money/recharge')}>">代金券充值</a>
+		</div>
+	</div>
+</div>
+<if condition="!empty($CONFIG[cash][is_recharge])">
+<div class="container">
+<div class="blank-10"></div>
+	<p>
+        <if condition="!empty($CONFIG[cash][recharge_full_1]) && !empty($CONFIG[cash][recharge_give_1]) && ($CONFIG[cash][recharge_full_1] GT $CONFIG[cash][recharge_give_1])">
+         单笔充值满：<a style="color:#F00">&yen;<{$CONFIG[cash][recharge_full_1]}> </a> 元,送：<{$CONFIG[cash][recharge_give_1]}> 元
+        </if>
+        <hr/>
+        <if condition="!empty($CONFIG[cash][recharge_full_2]) && !empty($CONFIG[cash][recharge_give_2]) && ($CONFIG[cash][recharge_full_2] GT $CONFIG[cash][recharge_give_2])">
+        单笔充值满：<a style="color:#F00">&yen;<{$CONFIG[cash][recharge_full_2]}> </a> 元,送：<{$CONFIG[cash][recharge_give_2]}> 元
+        </if>
+        <hr/>
+        <if condition="!empty($CONFIG[cash][recharge_full_3]) && !empty($CONFIG[cash][recharge_give_3]) && ($CONFIG[cash][recharge_full_3] GT $CONFIG[cash][recharge_give_3])">
+         单笔充值满：<a style="color:#F00">&yen;<{$CONFIG[cash][recharge_full_3]}> </a> 元,送：<{$CONFIG[cash][recharge_give_3]}> 元
+        </if>
+    </p>
+</div>
+</if>
+<div class="blank-10 bg"></div>
+
+<form method="post" action="<{:U('money/moneypay')}>">
+<div class="line padding">
+    <span class="x3">充值金额：</span>
+	<span class="x9">
+		<input class="text-input" type="text" name="money" placeholder="请输入充值金额" />
+	</span>
+</div>
+<ul id="pay-method" class="pay-method">
+	<foreach name="payment" item="var">
+	<if condition="$var['code'] neq 'money'">
+	<li data-rel="<{$var.code}>" class="media media-x payment">
+		<a class="float-left"  href="javascript:;">
+			<img src="/static/default/wap/image/pay/<{$var.mobile_logo}>">
+		</a>
+		<div class="media-body">
+			<div class="line">
+				<div class="x10">
+				<{$var.name}><p>推荐已安装<{$var.name}><{$var.id}>客户端的用户使用</p>
+				</div>
+				<div class="x2">
+					<span class="radio txt txt-small radius-circle bg-green"><i class="iconfont icon-qiandao1"></i></span>
+				</div>
+			</div>
+		</div>
+	</li>
+	</if>
+	</foreach>
+</ul>
+<input id="code" type="hidden" name="code" value="" />
+<script>
+	$("#pay-method li").click(function(){
+		var code = $(this).attr("data-rel");
+		$("#code").val(code);
+		$("#pay-method li").each(function(){
+			$(this).removeClass("active");
+		});
+		$(this).addClass("active");
+	});
+</script>
+
+<div class="blank-30"></div>
+<div class="container"><button type="submit" class="button button-block button-big bg-dot">提交充值</button></div>
+<div class="blank-30"></div>
+
+</form>
+<include file="public:footer"/>

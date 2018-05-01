@@ -1,0 +1,655 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script><!--二维码-->
+<style>
+/*CSS重写*/
+.zy_content {padding-top: 5px;}
+.qg-sp-listBox {padding: 0px;}
+.goods_sjcpDwBox {height: 230px;}
+.nearbuy_cpLi {width: 237px;padding-right: 10px;padding-bottom: 10px;}
+.qg-sp-liBox .img {width: 234px;height:234px;}
+.qg-sp-liBox1 .img {width:187px;height:187px;}
+.sy_sjcpwx canvas{width: 102px;height: 102px;margin: 0px auto;padding: 10px;background: #fff;}
+.sy_sjcpBq span { margin-right: 2px;}
+.sy_sjcpBq span{ width:100px}
+.zy_content_l {
+    width: auto;
+}
+.cpart_course{ float:left; border-bottom:1px solid #dcdddd;}
+.teaphotobox{ float:left; width:120px; padding:25px 22px 0px 0px; position:relative;}
+.teaphotobox p{ position:absolute; right:23px; top:26px; z-index:99; height:13px;}
+.teaphotobox span{ float:right; margin-left:4px; color:#fff; display:inline-block; width:13px; height:13px; line-height:13px; text-align:center;}
+span.span_hot{ background:#e60012;}
+span.span_new{ background:#8fc41f;}
+.jpphotobox{ float:left; width:204px; padding:25px 22px 0 0;}
+.course_detail{ float:left; width:1056px; padding:25px 0 25px; position:relative;}
+.course_dname{ float:left; line-height:24px; font-size:16px; padding-bottom:12px;}
+.course_dname a:link,.course_dname a:visited,.course_dname a:active,.course_dname a:hover{ color:#2d80e7; float:left;}
+.course_dname a:visited,.course_dname a:hover{ text-decoration:underline;}
+.course_dname span{ float:left; display:inline-block; font-size:12px;}
+.course_dname span.cd_free{ margin-left:6px; padding-left:20px; background:url(http://www.jinghua.com/resource/images/2017lecture/free_listen.png) no-repeat 0 center; color:#8fc31f;}
+.course_dname span.cd_fw,.course_dname span.cd_cp{ margin:3px 5px 0px; padding:0 5px; height:18px; line-height:18px; color:#fff;}
+.course_dname span.cd_fw{ background:#f8b551;}
+.course_dname span.cd_cp{ background:#8c97cb;}
+.course_detail p{ float:left; width:100%; font-size:14px;}
+.course_detail p.course_object{ height:24px; font-size:12px; color:#f39800;}
+.course_detail p.course_object span{ display:inline-block; width:16px; line-height:16px; float:left; text-align:center; border:1px solid #facd89; margin:0 2px;}
+.course_detail p.course_xiangguan{ line-height:24px; padding-bottom:5px; color:#595757;}
+.course_detail p.course_mokuai{ width:420px; line-height:20px; color:#9fa0a0; padding-bottom:7px;}
+.course_detail p.course_mokuai_stop{ line-height:20px; color:#298fee; cursor:pointer;}
+.course_detail p.course_feiyong{ display:none; position:absolute; right:6px; top:28%; text-align:right; font-size:16px; color:#000; width:400px;}
+.course_detail p.course_feiyong span{ color:#fb4801; cursor:pointer;}
+.course_detail a.clk_blue:link,.course_detail a.clk_blue:visited,.course_detail a.clk_blue:active,.course_detail a.clk_blue:hover,.course_detail a.clk_orange:link,.course_detail a.clk_orange:visited,.course_detail a.clk_orange:active,.course_detail a.clk_orange:hover{ display:inline-block; position:absolute; top:50%; width:134px; margin-top:-28px; line-height:55px; text-align:center; font-size:16px; color:#fff;}
+.course_detail a.clk_blue:visited,.course_detail a.clk_blue:hover,.course_detail a.clk_orange:visited,.course_detail a.clk_orange:hover{ text-decoration:none;}
+.course_detail a.clk_blue:link,.course_detail a.clk_blue:visited,.course_detail a.clk_blue:active,.course_detail a.clk_blue:hover{ right:146px; background:#54c3f1;}
+.course_detail a.clk_orange:link,.course_detail a.clk_orange:visited,.course_detail a.clk_orange:active,.course_detail a.clk_orange:hover{ right:2px; background:#eb6100;}
+.course_jpdetail{ width:972px; height:106px;}
+.course_jpdetail p.course_xiangguan{ font-size:12px; color:#727171;}
+.course_jpdetail p.course_mokuai{ olor:#595757;}
+.course_detail .price-tag{ position:absolute; width:250px; height:48px; right:290px; top:50%; margin-top:-24px; background:#fff; font-size:16px; line-height:24px; text-align:center;color: #F44336;}
+.course_detail .price-tag span{ font-size:18px; color:#fb4801;}
+.course_detail .price-tag small{ font-size:14px; color:#888}
+
+.course_pagebox{ padding-top:30px; width:680px; height:68px; margin:0 auto;}
+.idx17-hotcourse{ height:132px; width:1198px; border:1px solid #7ecef4}
+.idx17-hotcourse .gradeblue{ float:left; width:16px; height:122px; background:#7ecef4; padding:10px 8px 0; font-size:16px; line-height:22px; color:#fff; text-align:center}
+.idx17-hotcourse ul{ float:left; width:1140px; padding:20px 8px 10px 18px;}
+.idx17-hotcourse ul li{ float:left; width:285px; height:100px;}
+.idx17-hotcourse ul li img{ float:left;}
+.idx17-hotcourse ul li .kdetail{ float:right; width:155px;}
+.idx17-hotcourse ul li .kdetail p{ padding:3px 10px 0 0; font-size:14px; line-height:20px; color:#888}
+.idx17-hotcourse ul li .kdetail p a{ color:#1989e7}
+.idx17-hotcourse ul li .kdetail span{ display:inline-block; width:110px; height:24px; margin-bottom:5px; font-size:14px; color:#fff; line-height:24px; text-align:center;}
+span.sub101{ background:#eb6100}
+span.sub102{ background:#8fc31f}
+span.sub103{ background:#8c97cb}
+span.sub104{ background:#f19ec2}
+span.sub105{ background:#a6937c}
+span.sub106{ background:#448aca}
+span.sub107{ background:#eb6877}
+span.sub108{ background:#ae5da1}
+span.sub109{ background:#f39800}
+
+/*.tab-condition .nav>li:first-child {
+	margin-left: 0;
+}*/
+
+.tab-condition .nav>li:before {
+	content: "";
+	border-right: solid 6px transparent;
+	border-left: solid 6px transparent;
+	position: absolute;
+	bottom: -6px;
+	left: 104px;
+	display: inline-block;
+	text-align: center;
+}
+
+.tab-condition .nav>li:hover {
+	cursor: pointer;
+}
+
+.tab-condition .nav>li.active:after {
+	content: "";
+	border-top: solid 6px white;
+	border-right: solid 6px transparent;
+	border-left: solid 6px transparent;
+	position: absolute;
+	bottom: 0;
+	z-index: 5;
+	bottom: -5px;
+	left: 104px;
+	display: inline-block;
+}
+
+.tab-condition .nav>li .right-content {
+	display: inline-block;
+	text-align: left;
+	width: 132px;
+	margin-left: 12px;
+	vertical-align: middle;
+}
+
+.tab-condition .nav .nav-title {
+	display: table-cell;
+	vertical-align: middle;
+	font-size: 18px;
+}
+
+.tab-condition .nav .nav-title>.right-content>h3 {
+	font-size: 18px;
+	color: white;
+}
+
+.tab-condition .nav .nav-title>.right-content>h4 {
+	font-size: 12px;
+	color: white;
+	margin-top: 6px;
+	line-height: 20px;
+}
+
+.tab-condition .nav>li.tab1 {
+	background-color: #ff3b21;
+	border-color: #ff3b21;
+	color: #ff3b21;
+}
+
+.tab-condition .nav>li.tab1:before {
+	border-top: solid 6px #ff3b21;
+}
+
+.tab-condition .nav>li.tab2 {
+	background-color: #ff6884;
+	border-color: #ff6884;
+	color: #ff6884;
+}
+
+.tab-condition .nav>li.tab2:before {
+	border-top: solid 6px #ff6884;
+}
+
+.tab-condition .nav>li.tab3 {
+	border-color: #28baff;
+	background-color: #28baff;
+	color: #28baff;
+}
+
+.tab-condition .nav>li.tab3:before {
+	border-top: solid 6px #28baff;
+}
+
+.tab-condition .nav>li.tab4 {
+	border-color: #4cd66c;
+	background-color: #4cd66c;
+	color: #4cd66c;
+}
+
+.tab-condition .nav>li.tab4:before {
+	border-top: solid 6px #4cd66c;
+}
+
+.tab-condition .nav>li.tab5 {
+	border-color: #ffa133;
+	background-color: #ffa133;
+	color: #ffa133;
+}
+
+.tab-condition .nav>li.tab5:before {
+	border-top: solid 6px #ffa133;
+}
+
+.tab-condition .nav>li.active {
+	background-color: white;
+}
+
+.tab-condition .nav>li .left-logo {
+	display: inline-block;
+	vertical-align: middle;
+	/*padding: 24px 16px 24px 20px;*/
+}
+
+.tab-condition .nav>li.tab1 .left-logo>.pic {
+	width: 40px;
+	height: 39px;
+	background: url(http://101.chinaedu.com/static/images/student-tab1-hover.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab1.active .left-logo>.pic {
+	background: url(http://101.chinaedu.com/static/images/student-tab1-hover.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab1.active .nav-title>.right-content>h3 {
+	color: #ff3b21;
+}
+
+.tab-condition .nav>li.tab2 .left-logo>.pic {
+	width: 44px;
+	height: 44px;
+	background: url(http://101.chinaedu.com/static/images/student-tab2.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab2.active .left-logo>.pic {
+	background: url(http://101.chinaedu.com/static/images/student-tab2-hover.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab2.active .nav-title>.right-content>h3 {
+	color: #ff6884;
+}
+
+.tab-condition .nav>li.tab3 .left-logo>.pic {
+	width: 41px;
+	height: 43px;
+	background: url(http://101.chinaedu.com/static/images/student-tab3.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab3.active .left-logo>.pic {
+	background: url(http://101.chinaedu.com/static/images/student-tab3-hover.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab3.active .nav-title>.right-content>h3 {
+	color: #28baff;
+}
+
+.tab-condition .nav>li.tab4 .left-logo>.pic {
+	width: 42px;
+	height: 42px;
+	background: url(http://101.chinaedu.com/static/images/student-tab4.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab4.active .left-logo>.pic {
+	background: url(http://101.chinaedu.com/static/images/student-tab4-hover.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab4.active .nav-title>.right-content>h3 {
+	color: #4cd66c;
+}
+
+.tab-condition .nav>li.tab5 .left-logo>.pic {
+	width: 40px;
+	height: 42px;
+	background: url(http://101.chinaedu.com/static/images/student-tab5.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab5.active .left-logo>.pic {
+	background: url(http://101.chinaedu.com/static/images/student-tab5-hover.png) no-repeat;
+}
+
+.tab-condition .nav>li.tab5.active .nav-title>.right-content>h3 {
+	color: #ffa133;
+}
+
+.tab-condition .nav>li.active .nav-title .right-content>h4 {
+	color: #999999;
+}
+
+.tab-condition {
+    margin-top: 26px;
+}
+
+.w1180 {
+    width: 1180px;
+}
+
+.ma {
+    margin: 0 auto;
+}
+
+
+.tab-condition .nav {
+    height: 96px;
+}
+
+
+.w1200 {
+    width: 1200px;
+}
+.tab-condition .nav>li {
+    display: table;
+    width: 220px;
+    height: 90px;
+    float: left;
+    text-align: center;
+    /* margin-left: -4px; */
+    margin-right: 20px;
+    position: relative;
+    border-width: 1px;
+    border-style: solid;
+    box-sizing: border-box;
+}
+ul, dl {
+    list-style-type: none;
+}
+.banner-img img {
+    position: absolute;
+    left: 50%;
+    margin-left: -960px;
+}
+.banner_slid {
+    width: 100%;
+    /* height: 418px; */
+}
+
+.banner_slid {
+    position: relative;
+    overflow: hidden;
+}
+</style>
+
+
+<div class="nav">
+
+    <div class="navList">
+	
+        <ul>
+
+            <li class="navListAll"><span class="navListAllt">全部课程分类</span>
+                <div class="shadowy navAll">
+                    <include file="public:cate_edu"/>
+                </div>
+            </li>
+    <li class="navLi"><a class="navA <if condition='$ctl eq zhe and $act eq index'>on</if> " href="<{:U('edu/course')}>">首页</a></li>   
+    <php>$i=0;</php>     
+    <foreach name="cates" item="item">
+        <eq name="item.parent_id" value="0"> 
+            <php>$i++;if($i <= 6){</php>
+            <li class="navLi"><a class="navA <if condition="$cat eq $item['cate_id']">on</if> " href="<{:U('edu/course',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
+            <php>}</php>
+        </eq>
+    </foreach>
+        </ul>
+    </div>
+</div>
+
+<div class="content zy_content">
+    <div class="left zy_content_l">
+        <div class="goods_flBox">
+            <ul>
+                <if condition="!empty($selArr)">
+                    <li class="goods_flListLf">
+                        <ul>
+                            <li class="goods_flLi"><a class="goods_flLiA" href="<{:U('edu/course')}>">全部</a></li>
+                            <li class="goods_flLi goods_flLix">&gt;</li>
+                            <script>
+                                $(function () {
+                                    $('.goods_flLiLf .goods_flLiA').hover(function () {
+                                        $(this).parent().find('.goods_flLiLfk').show();
+                                        $(this).addClass("on");
+                                    });
+                                    $('.goods_flLiLf').hover(function () {
+                                    }, function () {
+                                        $(this).find('.goods_flLiLfk').hide();
+                                        $(this).children(".goods_flLiA").removeClass("on");
+                                    });
+                                    $('.goods_flLiFl').hover(function () {
+                                        $(this).parent().find('.goods_flLiLfk').hide();
+                                        $(this).parent().find(".goods_flLiA").removeClass("on");
+                                    });
+                                });
+                            </script>
+                            <if condition="!empty($cat)">
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$cat))}>"><{$cates[$cat]['cate_name']}><em></em></a><a href="<{:LinkTo('edu/course',$linkArr,array('cat'=>0))}>" class="goods_flLiFl">ｘ</a>
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('edu/course',$linkArr,array('cat'=>0))}>">全部</a>
+                                        <foreach name="cates" item="item">
+                                            <eq name="item.parent_id" value="0">
+                                            |<a <eq name="item.cate_id" value="$cat">class="on"</eq>  href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$item['cate_id'],'cate_id'=>0))}>"><{$cates[$item['cate_id']]['cate_name']}></a>
+                                            </eq>
+                                        </foreach>
+                                    </div>
+                                </li>
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+                            </if>
+                            <if condition="!empty($cate_id)">
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$cat,'cate_id'=>$cate_id))}>"><{$cates[$cate_id]['cate_name']}><em></em></a><a href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$cat,'cate_id'=>0))}>" class="goods_flLiFl">ｘ</a>
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$cat,'cate_id'=>0))}>">全部</a>
+                                        <foreach name="cates" item="item">
+                                            <eq name="item.parent_id" value="$cat">
+                                            |<a <eq name="item.cate_id" value="$cate_id">class="on"</eq> href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$cat,'cate_id'=>$item['cate_id']))}>"><{$cates[$item['cate_id']]['cate_name']}></a>
+                                            </eq>
+                                        </foreach>
+                                    </div>
+                                </li>
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+                            </if>
+                            
+                        </ul>
+                    </li>
+                </if>
+
+                <if condition="empty($cat)">
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">分类：</div>
+                        <div class="left goods_flList_r">
+                            <a class="goods_flListA on" href="<{:LinkTo('edu/course',$linkArr)}>">全部</a>
+                            <foreach name="cates" item="item">
+                                <eq name="item.parent_id" value="0">
+                                <a class="goods_flListA" href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$item['cate_id']))}>"><{$cates[$item['cate_id']]['cate_name']}></a>
+                                </eq>
+                            </foreach>
+                        </div>
+                    </li>
+                </if>
+
+                <if condition="!empty($cat) and empty($cate_id)">
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">分类：</div>
+                        <div class="left goods_flList_r">
+                            <a class="goods_flListA on" href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$cat))}>">全部</a>
+                            <foreach name="cates" item="item">
+                                <eq name="item.parent_id" value="$cat">
+                                <a class="goods_flListA" href="<{:LinkTo('edu/course',$linkArr,array('cat'=>$cat,'cate_id'=>$item['cate_id']))}>"><{$cates[$item['cate_id']]['cate_name']}></a>
+                                </eq>
+                            </foreach>
+                        </div>
+                    </li>
+                </if>
+
+              
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">地区：</div>
+                        <div class="left goods_flList_r">
+                         <a <if condition="empty($area_id)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('edu/course',$linkArr,array('area'=>0))}>">全部</a>
+                            <foreach name="areas" item="item">
+                              <eq name="item.city_id" value="$city_id">
+                                <a href="<{:LinkTo('edu/course',$linkArr,array('area'=>$item['area_id']))}>"  <if condition="$area_id eq $item['area_id']">class="goods_flListA on"<else/>class="goods_flListA"</if> ><{$item.area_name}></a>
+                                </eq>
+                            </foreach>
+                        </div>
+                    </li>
+           
+
+                
+                <li class="goods_flList">
+                    <div class="left goods_flList_l">年龄：</div>
+                    <div class="left goods_flList_r"> 
+                        <a <if condition="empty($age_id)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('edu/course',$linkArr,array('age_id'=>0))}>">全部</a>
+                        <volist name='age' id='item'> 
+                            <a href="<{:LinkTo('edu/course',$linkArr,array('age_id'=>$i))}>" <if condition="$age_id eq $i">class="goods_flListA on"<else/>class="goods_flListA"</if> ><{$item}></a> 
+                        </volist>
+                    </div>
+                </li>
+                
+                 <li class="goods_flList">
+                    <div class="left goods_flList_l">时间：</div>
+                    <div class="left goods_flList_r"> 
+                        <a <if condition="empty($time_id)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('edu/course',$linkArr,array('time_id'=>0))}>">全部</a>
+                        <volist name='get_time' id='item'> 
+                            <a href="<{:LinkTo('edu/course',$linkArr,array('time_id'=>$i))}>" <if condition="$time_id eq $i">class="goods_flListA on"<else/>class="goods_flListA"</if> ><{$item}></a> 
+                        </volist>
+                    </div>
+                </li>
+            
+            
+             <li class="goods_flList">
+                    <div class="left goods_flList_l">类型：</div>
+                    <div class="left goods_flList_r"> 
+                        <a <if condition="empty($class_id)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('edu/course',$linkArr,array('class_id'=>0))}>">全部</a>
+                        <volist name='class' id='item'> 
+                            <a href="<{:LinkTo('edu/course',$linkArr,array('class_id'=>$i))}>" <if condition="$class_id eq $i">class="goods_flListA on"<else/>class="goods_flListA"</if> ><{$item}></a> 
+                        </volist>
+                    </div>
+                </li>
+            
+            
+             
+            </ul>
+        </div>
+		<div class="tab-condition w1180  ma">
+			<ul class="nav w1200">
+																			<li class="tab1 active">
+											<a href=""  class="nav-title">
+
+								<div class="left-logo">
+									<div class="pic">
+									</div>
+								</div>
+								<div class="right-content">
+									<h3>同步课程</h3>
+									<h4>
+																				打好基础提高能力<br/>全面提分 !
+																																																											</h4>
+								</div>
+
+						</a>
+						</li>
+
+															<li class="tab2">
+											<a href=""  class="nav-title">
+
+								<div class="left-logo">
+									<div class="pic">
+									</div>
+								</div>
+								<div class="right-content">
+									<h3>状元课程</h3>
+									<h4>
+																														学核心考点会经典方法<br>有效提分！
+																																																	</h4>
+								</div>
+
+						</a>
+						</li>
+
+															<li class="tab3">
+											<a href=""  class="nav-title">
+
+								<div class="left-logo">
+									<div class="pic">
+									</div>
+								</div>
+								<div class="right-content">
+									<h3>高清培优课程</h3>
+									<h4>
+																																								用最少的时间学最有用的知识，精准提分！
+																																							</h4>
+								</div>
+
+						</a>
+						</li>
+
+															<li class="tab4">
+											<a href=""  class="nav-title">
+
+								<div class="left-logo">
+									<div class="pic">
+									</div>
+								</div>
+								<div class="right-content">
+									<h3>中高考冲刺课程</h3>
+									<h4>
+																																																		考前黄金时刻抓必考考点<br>快速提分！
+																													</h4>
+								</div>
+
+						</a>
+						</li>
+
+															<li class="tab5">
+											<a href=""  class="nav-title">
+
+								<div class="left-logo">
+									<div class="pic">
+									</div>
+								</div>
+								<div class="right-content">
+									<h3>升学衔接课程</h3>
+									<h4>
+																																																												帮助新生扎实基础<br/>适度拔高，赢在起点！
+																			</h4>
+								</div>
+
+						</a>
+						</li>
+
+								
+			</ul>
+
+		</div>
+
+
+        <div class="nearbuy_sxk">
+            <ul>
+                <li class="nearbuy_sxkLi <if condition='empty($order) or $order eq d'>on</if> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('edu/course',$linkArr,array('order'=>'d'))}>">默认</a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='s'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('edu/course',$linkArr,array('order'=>'s'))}>">销量<em class="em_up"></em></a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='p'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('edu/course',$linkArr,array('order'=>'p'))}>">价格<em></em></a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='v'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('edu/course',$linkArr,array('order'=>'v'))}>">热度<em class="em_up"></em></a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='t'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('edu/course',$linkArr,array('order'=>'t'))}>">发布时间<em class="em_up"></em></a></li>
+               
+            </ul>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $(".nearbuy_sxkLi input").click(function () {
+                    if ($(this).prop('checked') == true) {
+                        location.href = $(this).attr('rel');
+                    } else {
+                        location.href = $(this).attr('data');
+                    }
+                });
+            });
+        </script>
+		<!-- 新增热门课程区域 -->
+ <div class="idx17-hotcourse">
+  <div class="gradeblue">热门课程</div>
+  <ul>
+  <calldata mdl="Edu_course" where="closed=0  " cache="60"  limit="0,4">
+<li>
+      <a href="<{:U('edu/course_detail',array('course_id'=>$item['course_id']))}>" target="_blank"><img width="120" height="72" src="<{:config_img($item['photo'])}>"></a>
+      <div class="kdetail">
+        <span class="sub102">学费：&yen;<{:round($item['course_price']/100,2)}>元</span>
+        <p><a href="<{:U('edu/course_detail',array('course_id'=>$item['course_id']))}>" target="_blank"> <{$item.title}></a></p>
+        <p>机构：<a href="<{:U('edu/course_detail',array('course_id'=>$item['course_id']))}>" target="_blank"><{:bao_msubstr($edus[$item['edu_id']]['edu_name'],0,16,false)}></a></p>
+      </div>
+    </li>
+  </calldata>   
+</ul>
+
+</div>
+       
+		<div class="cpart_course">
+		<foreach name="list" item="item">
+              <div class="teaphotobox">
+              <a href="<{:U('edu/course_detail',array('course_id'=>$item['course_id']))}>" target="_blank"><img width="120" height="72" src="<{:config_img($item['photo'])}>" alt="<{$item.title}>"></a>
+              <p>
+              	<span class="span_new" title="精华在线最新课程">N</span>
+              
+              
+              	<span class="span_hot" title="精华在线热门课程">H</span>
+              </p>
+              </div>
+              <div class="course_detail">
+	             	<div class="course_dname">
+	             	       <a href="<{:U('edu/course_detail',array('course_id'=>$item['course_id']))}>" target="_blank"> <{$item.title}></a>
+	             	    <if condition="$item['type'] eq 1">
+                            	<span  class="cd_free">支持试课</span>
+                            </if>
+	             	      
+	             	  
+	             	</div>
+	                <p class="course_xiangguan"><{$age[$item['age_id']]}>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;课时：<{$item['class_time']}>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;教育机构：
+		                
+		                    <a ><{:bao_msubstr($edus[$item['edu_id']]['edu_name'],0,16,false)}></a>
+		                
+	                 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;时间段：<{$get_time[$item['time_id']]}></p>
+	                 <p class="course_mokuai course_mokuai_3215" style="height:20px;overflow:hidden;padding-bottom:0;">课程类型：<{$class[$item['class_id']]}></p>
+	                 	                    
+	                 
+	                 
+	    		        	<div class="price-tag" style="line-height:48px;">学费：&yen;<{:round($item['course_price']/100,2)}>元<eq name="item.type" value="1">
+                                &nbsp;&nbsp;|&nbsp;&nbsp;试课价:&yen; <{:round($item['test_price']/100,2)}>元
+                            </eq></div> 
+	    		     
+	                 
+	      		        <a class="clk_blue" target="_blank" title="<{$item['apply_time']}>" href="#">开班时间<{$item['apply_time']}></a>    
+	      		     
+	      		     <a class="clk_orange" href="<{:U('edu/course_detail',array('course_id'=>$item['course_id']))}>" title="立即报名" ">查看课程</a>
+            </div>
+			</foreach>
+      </div>
+        <div class="x">
+            <{$page}>
+        </div>
+    
+   
+
+<include file="public:footer"/>

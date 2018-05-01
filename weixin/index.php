@@ -1,11 +1,4 @@
 <?php
-
-/*
- * 
- * 作者：尤哥
- * 官网：www.jiutianju.com
- * 邮件: 376621340@qq.com
- */
 if (ini_get('magic_quotes_gpc')) {
 	function stripslashesRecursive(array $array){
 		foreach ($array as $k => $v) {
@@ -22,14 +15,9 @@ if (ini_get('magic_quotes_gpc')) {
 }
 
 define('BASE_PATH' ,getcwd().'/..');
-
 define('GROUP_NAME','Weixin');
-//调试模式
-define('APP_DEBUG',true);
-//定义项目名称
-define('APP_NAME', 'Jiutianju');
-define('NOW_TIME',time());
-//定义项目路径
+define('APP_DEBUG',true);//调试模式
+define('APP_NAME', 'Jiutianju');//定义项目名称
+define('NOW_TIME',time());//定义项目路径
 define('APP_PATH', BASE_PATH.'/'.APP_NAME.'/');
-//加载框架入文件
-require BASE_PATH.'/Core/ThinkPHP.php';
+require BASE_PATH.'/Core/ThinkPHP.php';//加载框架入文件

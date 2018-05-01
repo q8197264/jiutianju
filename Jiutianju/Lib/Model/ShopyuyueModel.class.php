@@ -1,9 +1,5 @@
 <?php
 
-/*
- * 破解：某年小时光
- */
-
 class ShopyuyueModel extends CommonModel{
     protected $pk   = 'yuyue_id';
     protected $tableName =  'shop_yuyue';

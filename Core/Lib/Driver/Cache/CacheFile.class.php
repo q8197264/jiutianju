@@ -120,7 +120,8 @@ class CacheFile extends Cache {
      * @param int $expire  有效时间 0为永久
      * @return boolen
      */
-    public function set($name,$value,$expire=null) {
+    public function set($name,$value,$expire=null)
+    {
         N('cache_write',1);
         if(is_null($expire)) {
             $expire =  $this->options['expire'];

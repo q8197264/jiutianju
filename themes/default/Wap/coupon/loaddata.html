@@ -1,0 +1,52 @@
+<foreach name='list' item='item'>
+
+
+
+<a href="<{:U('coupon/detail',array('coupon_id'=>$item['coupon_id']))}>" class="item">	
+			<div class="novice_zs_f_in" style="margin-bottom:6px;">
+    			<!--left-->
+        		<div class="novice_zs_f_in_l">
+        		<!--top-->
+                    <div class="novice_zs_f_in_l_top">
+                        <img src="/themes/default/Home/statics/images/biao.png"/>
+                        <span><{$item['intro']}></span>
+                    </div>
+            	<!--bottom-->
+            		<div class="novice_zs_f_in_l_bottom">
+            	<ul>
+                	<li class="mark1_f">
+                    	<em>满<{:round($item['full_price']/100,2)}><font>元</font></em>
+                        <p>满</p>
+                    </li>
+					<li class="mark4_f">
+                    	<em>减<{:round($item['reduce_price']/100,2)}><font>元</font></em>
+                        <p>立减</p>
+                    </li>
+                    <li class="mark2_f">
+                    	<em><{$item['shop_name']}></em>
+                        <p>适用店铺</p>
+                    </li>
+                    
+					
+                    
+                </ul>
+            </div>
+        		</div>
+    			
+<div class="progress_bar">
+					<div class="pro-bar">
+						
+						<span class="progress-bar-inner" style="background-color: #F44336; width:<{$item['downloads']/($item['num']+$item['downloads'])*100|ceil}>%;" data-value="<{$item['downloads']/($item['num']+$item['downloads'])*100|ceil}>" data-percentage-value="<{$item['downloads']/($item['num']+$item['downloads'])*100|ceil}>"></span>
+					</div>
+				</div>
+
+
+
+    		</div></a>
+			</foreach>
+			<script src="/themes/default/Home/mall/js/jquery.circliful.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.indicatorContainer').circliful();
+	});
+</script>

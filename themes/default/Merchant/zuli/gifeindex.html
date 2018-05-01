@@ -1,0 +1,44 @@
+<include  file='public:header'/>
+
+<style>
+ .money_tixian{ margin:20px 50px;}
+.money_tixian canvas{width:100px; height100px}
+</style>
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">商家管理</a> > <a href="">人气活动</a> > <a>活动管理</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+<div class="tuan_top_t">
+ <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('zuli/creategife')}>">发布礼品+</a></div></div>
+  <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr style="background-color:#eee;">
+      <td width="5%">礼品ID</td>
+      <td width="5%">助力活动ID</td>
+      <td width="25%">奖项名</td>
+      <td width="25%">奖品名</td>
+      <td width="10%">奖品数量</td>
+      <td width="15%">操作</td>
+      
+      
+    </tr>
+    <foreach name="list" item="var">
+      <tr>
+	  <td><{$var.id}></td>
+        <td><{$var.activity_id}></td>
+        
+        <td><{$var.prize_title}></td>
+        
+        <td><{$var.prize_desc}></td>
+        <td><{$var.prize_num}></td>
+        <td> <{:BA('zuli/editgife',array("id"=>$var["id"]),'<font color=red>编辑</font>','','remberBtn')}></td>
+
+        
+            
+      </tr>
+    </foreach>
+  </table>
+  <div class="paging"> <{$page}> </div>
+</div>
+<include  file='public:footer'/>

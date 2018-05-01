@@ -1,0 +1,42 @@
+<include  file='public:header'/>
+
+
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">商家管理</a> > <a href="">人气活动</a> > <a>活动管理</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+<div class="tuan_top_t">
+ <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('kanjia/creategife')}>">增加规则+</a></div></div>
+  <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr style="background-color:#eee;">
+<td width="5%">ID</td>
+      <td width="5%">砍价ID</td>
+      
+      <td width="25%">规则价格区间</td>
+      <td width="25%">砍价随机价格</td>
+      
+      <td width="25%">操作</td>
+      
+      
+    </tr>
+    <foreach name="list" item="var">
+      <tr>
+<td><{$var.id}></td>
+        <td><{$var.kj_id}></td>
+        
+        <td><{$var.start_price}>-<{$var.end_price}></td>
+        
+        <td><{$var.min_price}>-<{$var.max_price}></td>
+        
+        <td> <{:BA('kanjia/editgife',array("id"=>$var["id"]),'<font color=red>编辑</font>','','remberBtn')}></td>
+
+        
+            
+      </tr>
+    </foreach>
+  </table>
+  <div class="paging"> <{$page}> </div>
+</div>
+<include  file='public:footer'/>

@@ -15,12 +15,7 @@
 		<div class="line detail-base">
 			<div class="x4">
 				<div class="pic">
-                <?php if(strstr($COMMUNITY['pic'],"http")){ ?>
-                <img  src="<{$users[$var['user_id']]['face']}>" />
-                <?php }else{ ?>
-                <img  src="__ROOT__/attachs/<{$COMMUNITY['pic']|default='default.jpg'}>" />
-                <?php }?>
-                <!--<span class="album" style="width:60px;"></span> -->
+                <img  src="<{:config_img($users[$var['user_id']]['face'])}>" />
                 </div>
 			</div>
 			<div class="x8">
@@ -37,6 +32,19 @@
 <div class="blank-10 bg"></div>
 <div class="panel-list">
 	<ul>
+    
+       <li>
+			<a href="<{:U('message/index')}>">
+				<span class="icon-envelope"></span>网站通知
+                <font>
+                <if condition="$msg_day gt 0">
+                最新<{$msg_day}>条消息
+                </if>
+                </font>
+				<i class="iconfont icon-angle-right"></i>
+			</a>
+		</li>
+        
 		
         <li>
 			<a href="<{:U('ad/index')}>">
@@ -46,7 +54,7 @@
                 总<{$counts['ad']}>条广告
                 </if>
                 </font>
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a>
 		</li>
         
@@ -65,7 +73,7 @@
                 ，今日<{$counts['news_day']}>。
                 </if>
                 </font>
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a>
 		</li>
 		<li>
@@ -84,7 +92,7 @@
                 </if>
                 </font>
                 
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a>
 		</li>
 		<li>
@@ -96,7 +104,7 @@
                 共<{$counts['phone']}>条电话
                 </if>
                 </font>
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a>
 		</li>
         
@@ -109,7 +117,7 @@
                 共有邻居<{$counts['neighbor']}>人
                 </if>
                 </font>
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a>
 		</li>
         
@@ -128,14 +136,14 @@
                 ，今日<{$counts['owner_day']}>。
                 </if>
                 </font>
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a>
 		</li>
         
         <li>
 			<a href="<{:U('order/index')}>">
 				<span class="icon-calendar"></span>业主账单</font> 
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a> 
 		</li>
         
@@ -154,7 +162,7 @@
                 ，还有<b><{:round($counts['order_0']/100,2)}></b>元未缴。
                 </if>
                 </font>
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a>
 		</li>
         
@@ -173,7 +181,7 @@
                 ，今日<{$counts['bbs_day']}>。
                 </if>
                 </font>
-				<i class="icon-angle-right"></i>
+				<i class="iconfont icon-angle-right"></i>
 			</a>
 		</li>
         

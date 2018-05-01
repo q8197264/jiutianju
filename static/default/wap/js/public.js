@@ -17,7 +17,7 @@ function dingwei(page, lat, lng) {
 function Local(position) {
 	var lng = position.coords.longitude;
 	var lat = position.coords.latitude;
-	var page =  "/mobile/near/dingwei/lat/"+lat+"/lng/"+lng+".html";
+	var page =  "/wap/near/dingwei/lat/"+lat+"/lng/"+lng+".html";
 	$.get(page, function (data) {
 		if(data == '1'){
 			$("#local").html("附近");
@@ -37,7 +37,7 @@ function hideLoader(){
 
 
 function ajaxLogin(){
-	window.location.href = "/mobile/passport/login.html"; 
+	window.location.href = "/wap/passport/login.html"; 
 }
 
 function loaddata(page, obj, sc) {
@@ -115,7 +115,7 @@ $(document).ready(function (){
 function check_user_mobile(url1,url2){
 	layer.open({
 		type: 1,
-		title:'<h4>请绑定手机后支付</h4>',
+		title:'<h4>请绑定手机后操作</h4>',
 		skin: 'layui-layer-molv', //加上边框
 		area: ['90%', '300px'], //宽高
 		shift:6,
@@ -185,10 +185,10 @@ function check_user_mobile(url1,url2){
 function change_user_mobile(url1,url2){
 	layer.open({
 		type: 1,
-		title:'请绑定手机后支付',
+		title:'请绑定手机后操作',
 		skin: 'layer-ext-demo', //加上边框
-		area: ['90%', '280px'], //宽高
-		content: '<div class="padding-big">手机号<br /><input name="mobile" id="mobile" type="text" size="13" class="input input-auto" /> <button class="button" type="button" id="jq_send">获取验证码</button><br /><div class="blank-10"></div>验证码<br /><input  class="input input-auto" size="10"  name="yzm" id="yzm" type="text" /> 输入验证码<br><div class="blank-20"></div><input type="submit" value="立刻认证" class="button"  id="go_mobile" /></div>'
+		area: ['90%', '300px'], //宽高
+		content: '<div class="padding-big">手机号<br /><input name="mobile" id="mobile" type="text" size="13" class="input input-auto" /> <button class="button margin-top bg-yellow" type="button" id="jq_send">获取验证码</button><br /><div class="blank-10"></div>验证码<br /><input  class="input input-auto" size="10"  name="yzm" id="yzm" type="text" /> 输入验证码<br><div class="blank-20"></div><input type="submit" value="立刻认证" class="button bg-yellow"  id="go_mobile" /></div>'
 	});
 	//获取验证码
 	var mobile_timeout;
@@ -461,20 +461,33 @@ function boxmsg(msg, url, timeout, callback) { //信息,跳转地址,时间
 function boxopen(msg, close, style) {
     layer.open({
         type: 1,
-        skin: style,
-        closeBtn: close, 
+        skin: style, //样式类名
+        closeBtn: close, //不显示关闭按钮
         shift: 2,
-        shadeClose: true, 
+        shadeClose: true, //开启遮罩关闭
         content: msg
     });
 }
-
+//新增
 function get_night(stime,ltime){
+
+            var  aDate,  oDate1,  oDate2,  iDays  
+            aDate  =  stime.split("-")  
+
+
+			s1 = new Date(stime.replace(/-/g, "/"));
+
+			s2 = new Date(ltime.replace(/-/g, "/"));
+
+var days = s2.getTime() - s1.getTime();
+var iDays = parseInt(days / (1000 * 60 * 60 * 24));
+
+/*
     var  aDate,  oDate1,  oDate2,  iDays  
     aDate  =  stime.split("-")  
     oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    
     aDate  =  ltime.split("-")  
     oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])  
-    iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24)    
+    iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24)    */
     return  iDays  
 }

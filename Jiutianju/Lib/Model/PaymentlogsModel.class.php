@@ -18,7 +18,7 @@
 			cloud => '云购',
 			zhe => '五折卡',
 			edu => '课程订单',
-			pao => '跑腿订单',
+			stock => '股权订单',
         );
         protected $is_paid = array(
             0 => '未支付',

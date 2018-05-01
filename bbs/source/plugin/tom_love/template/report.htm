@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{$jyConfig['plugin_name']}</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="source/plugin/tom_love/images/style.css?v={$cssJsVersion}" rel="stylesheet" type="text/css">
+<script src="source/plugin/tom_love/images/jquery.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_love/images';
+</script>
+<script src="source/plugin/tom_love/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<base target="_self">
+</head>
+<body>
+
+<section class="gaobai_list clearfix">
+	<div class="gaobai_add_from from_class clearfix">
+    	<form id="report_form">
+        <table>
+          <colgroup><col width="30%"><col><col width="70%"><col></colgroup>
+          <tbody>
+          <tr>
+              <td>{lang tom_love:report_user_id}</td>
+              <td>
+                 {$reportUserInfo['nickname']}
+              </td>
+          </tr>
+          <tr>
+              <td>{lang tom_love:report_content}</td>
+              <td>
+                  <textarea name="report_content" id="report_content" rows="4" placeholder="{lang tom_love:report_placeholder}"></textarea>
+                  <input type="hidden" name="report_user_id" value="{$report_user_id}">
+                  <input type="hidden" name="act" value="save">
+                  <input type="hidden" name="formhash" value="{$formhash}">
+              </td>
+          </tr>
+          </tbody>
+      </table>
+      </form>
+    </div>
+    <div class="gaobai_from_btn clearfix">
+    	<a href="javascript:void(0);">{lang tom_love:report_btn}</a>
+    </div>
+    
+</section>
+
+<section class="footer_block clearfix"></section>
+<footer class="footer_main clearfix">
+	<ul class="clearfix">
+        <li class="footer_nav_index1"><a href="plugin.php?id=tom_love&mod=index"><span class="nav1">{lang tom_love:nav_index}</span></a></li>
+        <li class="footer_nav_search1"><a href="plugin.php?id=tom_love&mod=search&act=list"><span class="nav1">{lang tom_love:nav_search}</span></a></li>
+        <li class="footer_nav_ss1"><a href="plugin.php?id=tom_love&mod=shuoshuo"><span class="nav1">{lang tom_love:nav_ss}</span></a></li>
+        <li class="{$footerNavSmsClass}"><a href="plugin.php?id=tom_love&mod=sms"><span class="nav1">{lang tom_love:nav_sms}</span></a></li>
+        <li class="footer_nav_my1"><a href="plugin.php?id=tom_love&mod=my"><span class="nav1">{lang tom_love:nav_my}</span></a></li>
+    </ul>
+</footer>
+<!-- footer end-->
+<script>
+var submintStatus = 0;
+$(".gaobai_from_btn").click( function () { 
+    var report_content = $("#report_content").val();
+    if(submintStatus == 1){
+        return false;
+    }
+    if(report_content == ""){
+        tusi("{lang tom_love:must_report_content}");
+        return false;
+    }
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$reportUrl}",
+        data: $('#report_form').serialize(),
+        success: function(msg){
+            submintStatus = 0;
+            var data = eval('('+msg+')');
+            tusi("{lang tom_love:report_success}");
+            setTimeout(function(){document.location.reload();},1888);
+        }
+    });
+});
+$(document).ready(function(){
+  $.get("{$ajaxClicksUrl}");
+});
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideToolbar');
+});
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

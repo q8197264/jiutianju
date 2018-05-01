@@ -6,12 +6,14 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 	
 		<link rel="stylesheet" href="/static/default/wap/css/base.css">
-		<link rel="stylesheet" href="/static/default/wap/css/<{$ctl}>.css"/>
+		<link rel="stylesheet" href="/static/default/wap/css/delivery.css"/>
 		<script src="/static/default/wap/js/jquery.js"></script>
 		<script src="/static/default/wap/js/base.js"></script>
 		<script src="/static/default/wap/other/layer.js"></script>
 		<script src="/static/default/wap/other/roll.js"></script>
 		<script src="/static/default/wap/js/public.js"></script>
+        <script src="/static/default/wap/js/mobile_common.js"></script>
+        <script src="/static/default/wap/js/iscroll-probe.js"></script>
 
         <script>
             function bd_encrypt(gg_lat, gg_lon)   // 百度地图测距偏差 问题修复
@@ -23,13 +25,17 @@
                 var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
                 var bd_lon = z * Math.cos(theta) + 0.0065;
                 var bd_lat = z * Math.sin(theta) + 0.006;
-                dingwei('<{:U("mobile/index/dingwei",array("t"=>$nowtime,"lat"=>"llaatt","lng"=>"llnngg"))}>', bd_lat, bd_lon);
+                dingwei('<{:U("wap/index/dingwei",array("t"=>$nowtime,"lat"=>"llaatt","lng"=>"llnngg"))}>', bd_lat, bd_lon);
             }
             navigator.geolocation.getCurrentPosition(function (position) {
                 bd_encrypt(position.coords.latitude, position.coords.longitude);
             });
         
         </script>
+           <style>
+	.foot-fixed .active{color:<{$color}>!important}
+	.top-fixed {background: <{$color}>!important;}
+	</style>
 
 	</head>
 	<body>

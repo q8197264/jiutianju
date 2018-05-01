@@ -1,0 +1,315 @@
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.validation.min.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/admincp.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.tooltip.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.cookie.js"></script>
+<link href="{HEJIN_PATH}public/admin/css/skin_0.css" rel="stylesheet" type="text/css" id="cssfile2" />
+<link href="{HEJIN_PATH}public/admin/css/style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{HEJIN_PATH}public/jscolor/jscolor.js"></script>
+<link href="{HEJIN_PATH}public/datetimepicker/jquery.datetimepicker.css" rel="stylesheet" type="text/css"></link>
+<script src="{HEJIN_PATH}public/datetimepicker/jquery.datetimepicker.js" type="text/javascript"></script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+<div class="h3" style="width:auto;"><!--{eval echo stripslashes($ggk['title']);}--></div>
+      <ul class="tab-base">
+        <li><a href="$SELF?action=plugins&operation=config&do={$_GET['do']}&identifier=hejin_ggk&pmod=ggk"><span>{lang hejin_ggk:hdliebiao}</span></a></li>
+        <li><a href="$SELF?action=plugins&operation=config&do={$_GET['do']}&identifier=hejin_ggk&pmod=ggk&model=addggk"><span>{lang hejin_ggk:addggk}</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <form id="add_form" method="post" enctype="multipart/form-data" action="">
+    <input type="hidden" name="formhash" value="{FORMHASH}" />
+    <input type="hidden" name="gid" value="$ggk['id']" />
+    <table class="table tb-type2">
+      <tbody>
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="test_title">{lang hejin_ggk:hdtitle}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{eval echo stripslashes($ggk['title']);}-->" name="title" id="class_name" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+
+
+
+        <tr>
+          <td colspan="2" class="required"><label for="class_icon">{lang hejin_ggk:hdpic}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform">
+          {if $ggk['icon']}
+          <span class="type-file-show"> <img class="show_image" src="{HEJIN_PATH}public/admin/images/preview.png">
+            <div class="type-file-preview">
+                            <img src="{HEJIN_PATH}<!--{eval echo stripslashes($ggk['icon']);}-->" width="150">
+                          </div>
+            </span>
+            {/if}
+           <span class="type-file-box">
+            <input name="old_icon" type="hidden" value="" />
+            <input name="icon" type="file" class="type-file-file" id="class_icon" size="30" hidefocus="true" nc_type="microshop_goods_class_image">
+            </span></td>
+          <td class="vatop tips"><span class="vatop rowform">{lang hejin_ggk:hdpicts}&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://mp.weixin.qq.com/s?__biz=MzA5NjY0NzMwNA==&mid=201703727&idx=1&sn=9cb1b35445c15142a39b8e98a776fec8#rd" target="_blank">{lang hejin_ggk:picyuanma}</a></span></td>
+        </tr>
+
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="test_wxurl">{lang hejin_ggk:wxurl}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{eval echo stripslashes($ggk['wxurl']);}-->" name="wxurl" id="class_wxurl" class="txt"></td>
+          <td class="vatop tips">{lang hejin_ggk:wxurltsa}&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://mp.weixin.qq.com/s?__biz=MzA5NjY0NzMwNA==&mid=201703727&idx=1&sn=9cb1b35445c15142a39b8e98a776fec8#rd" target="_blank">{lang hejin_ggk:wxurltsb}</a></td>
+        </tr>
+
+
+<tr>
+          <td colspan="2" class="required"><label>{lang hejin_ggk:guize}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td colspan="2" class="vatop rowform"><textarea id="guize" name="guize" style="width:700px;height:300px;visibility:hidden;"><!--{eval echo stripslashes($ggk['guize']);}--></textarea>
+<script src="{HEJIN_PATH}public/kindeditor/kindeditor-min.js" charset="utf-8"></script>
+<script src="{HEJIN_PATH}public/kindeditor/lang/zh_CN.js" charset="utf-8"></script>
+<script>
+	var KE;
+  KindEditor.ready(function(K) {
+        KE = K.create("textarea[name='guize']", {
+						items : ['source', '|', 'fullscreen', 'undo', 'redo', 'print', 'cut', 'copy', 'paste',
+            'plainpaste', 'wordpaste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+            'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript',
+            'superscript', '|', 'selectall', 'clearhtml','quickformat','|',
+            'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+            'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'table', 'hr', 'emoticons', 'link', 'unlink', '|', 'about'],
+						cssPath : "{HEJIN_PATH}public/kindeditor/themes/default/default.css",
+						allowImageUpload : false,
+						allowFlashUpload : false,
+						allowMediaUpload : false,
+						allowFileManager : false,
+						syncType:"form",
+						afterCreate : function() {
+							var self = this;
+							self.sync();
+						},
+						afterChange : function() {
+							var self = this;
+							self.sync();
+						},
+						afterBlur : function() {
+							var self = this;
+							self.sync();
+						}
+        });
+			KE.appendHtml = function(id,val) {
+				this.html(this.html() + val);
+				if (this.isCreated) {
+					var cmd = this.cmd;
+					cmd.range.selectNodeContents(cmd.doc.body).collapse(false);
+					cmd.select();
+				}
+				return this;
+			}
+	});
+</script>
+	</td>
+        </tr>
+
+
+
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="test_daynub">{lang hejin_ggk:daynub}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="$ggk['daynub']" name="daynub" id="class_daynub" class="txt"></td>
+          <td class="vatop tips">{lang hejin_ggk:daynubts}</td>
+        </tr>
+
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="test_jilv">{lang hejin_ggk:jilv}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="$ggk['jilv']" name="jilv" id="class_jilv" class="txt"></td>
+          <td class="vatop tips">{lang hejin_ggk:jilvts}</td>
+        </tr>
+
+
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="test_jifen">{lang hejin_ggk:jifen}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="$ggk['jifen']" name="jifen" id="class_jifen" class="txt"></td>
+          <td class="vatop tips">{lang hejin_ggk:jifents}</td>
+        </tr>
+
+
+
+
+
+
+
+
+
+        
+        
+        
+
+        
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="start_time">{lang hejin_ggk:starttime}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{eval echo date('Y-m-d H:i:s',$ggk['start_time']);}-->" name="start_time" id="start_time" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+         <script>
+  $('#start_time').datetimepicker({
+	  });
+
+  </script>
+
+
+
+
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="end_time">{lang hejin_ggk:endtime}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="<!--{eval echo date('Y-m-d H:i:s',$ggk['end_time']);}-->" name="end_time" id="end_time" class="txt"></td>
+          <td class="vatop tips"></td>
+        </tr>
+         <script>
+  $('#end_time').datetimepicker({
+	  });
+  </script>
+
+
+        <tr class="noborder">
+          <td colspan="2" class="required"><label class="validation" for="test_password">{lang hejin_ggk:password}</label></td>
+        </tr>
+        <tr class="noborder">
+          <td class="vatop rowform"><input type="text" value="$ggk['password']" name="password" id="class_password" class="txt"></td>
+          <td class="vatop tips">{lang hejin_ggk:passwordts}</td>
+        </tr>
+
+
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"><input name="edit_ggk" class="btn" type="submit" value="{lang hejin_ggk:baocun}" /></td>
+        </tr>
+      </tfoot>
+    </table>
+  </form>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+
+/*    var textButton="<input type='text' name='pic' id='textfield1' class='type-file-text' /><input type='button' name='button' id='button1' value='' class='type-file-button' />";
+    $(textButton).insertBefore("#class_pic");
+    $("#class_pic").change(function(){
+        $("#textfield1").val($("#class_pic").val());
+    });*/
+
+
+    var textButtona="<input type='text' name='icon' id='textfield2' class='type-file-text' /><input type='button' name='button' id='button1' value='' class='type-file-button' />";
+    $(textButtona).insertBefore("#class_icon");
+    $("#class_icon").change(function(){
+        $("#textfield2").val($("#class_icon").val());
+    });
+
+
+ /*   var textButtona="<input type='text' name='upnumpic' id='textfield3' class='type-file-text' /><input type='button' name='button' id='button1' value='' class='type-file-button' />";
+    $(textButtona).insertBefore("#class_upnumpic");
+    $("#class_upnumpic").change(function(){
+        $("#textfield3").val($("#class_upnumpic").val());
+    });  */
+
+
+
+    $("#submit").click(function(){
+        $("#add_form").submit();
+    });
+
+    $("input[nc_type='microshop_goods_class_image']").live("change", function(){
+		var src = getFullPath($(this)[0]);
+		$(this).parent().prev().find('.low_source').attr('src',src);
+		$(this).parent().find('input[class="type-file-text"]').val($(this).val());
+	});
+
+
+    $('#add_form').validate({
+        errorPlacement: function(error, element){
+            error.appendTo(element.parent().parent().prev().find('td:first'));
+        },
+        success: function(label){
+            label.addClass('valid');
+        },
+        rules : {
+            title: {
+                required : true,
+                maxlength : 255
+            },
+            wxurl: {
+                required : true,
+                maxlength : 1000
+            },
+            daynub: {
+                required : true,
+                digits: true,
+            },
+            password: {
+                required : true,
+                digits: true,
+            },
+            jilv: {
+                required : true,
+                digits: true,
+                min: 1
+            },
+            jifen: {
+                required : true,
+                digits: true,
+                min: 1
+            },
+            start_time: {
+                required : true,
+            },
+            end_time: {
+                required : true,
+            }
+        },
+        messages : {
+            title: {
+                required : "{lang hejin_ggk:addstmsga}",
+                maxlength : jQuery.validator.format("{lang hejin_ggk:addstmsgb}")
+            },
+            wxurl: {
+                required : "{lang hejin_ggk:addstmsga}",
+                maxlength : jQuery.validator.format("{lang hejin_ggk:addstmsgb}")
+            },
+            daynub: {
+                required : "{lang hejin_ggk:addstmsga}",
+                digits: "{lang hejin_ggk:addstmsgf}",
+            },
+            password: {
+                required : "{lang hejin_ggk:addstmsga}",
+                digits: "{lang hejin_ggk:addstmsgf}",
+            },
+            jilv: {
+                required : "{lang hejin_ggk:addstmsga}",
+                digits: "{lang hejin_ggk:addstmsgf}",
+                min : jQuery.validator.format("{lang hejin_ggk:addstmsgg}1")
+            },
+            jifen: {
+                required : "{lang hejin_ggk:addstmsga}",
+                digits: "{lang hejin_ggk:addstmsgf}",
+                min : jQuery.validator.format("{lang hejin_ggk:addstmsgg}1")
+            },
+            start_time: {
+                required : "{lang hejin_ggk:addstmsga}",
+            },
+            end_time: {
+                required : "{lang hejin_ggk:addstmsga}",
+            }
+        }
+    });
+});
+</script> 

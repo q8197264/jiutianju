@@ -47,4 +47,17 @@ class TuancateModel extends CommonModel
         }
         return true;
     }
+	//返回3个变量
+	public function return_column_value($cate_id){
+		$tuancates = D('Tuancate')->fetchAll();
+        if ($tuancates[$cate_id]['parent_id'] == 0) {
+            $catstr =  $tuancates[$cate_id]['cate_name'];
+			return array('catstr' => $catstr);
+        } else {
+            $catstr =  $tuancates[$tuancates[$cate_id]['parent_id']]['cate_name'];
+            $cat = $tuancates[$cate_id]['parent_id'];
+            $catestr = $tuancates[$cate_id]['cate_name'];
+			return array('catstr' => $catstr, 'cat' => $cat,'catestr' => $catestr);
+        }
+    }
 }

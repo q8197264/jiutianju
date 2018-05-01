@@ -1,0 +1,54 @@
+﻿.page-main { padding-top: 5px; }
+.row1 { height: 333px; margin-bottom: 10px;padding-left:195px;position:relative;padding-top:5px }
+.ch {position:absolute;left:0px;top:5px; float: left; width: 195px;background:#fffaef ;height:309px;overflow:hidden;padding:10px 0;border:1px solid #e2e2e2;margin-right:10px;border-right:0px}
+.ch.hover { height: auto; z-index: 99; -webkit-box-shadow: 0px 0px 8px #e2e2e2;box-shadow: 0px 0px 8px #e2e2e2; -moz-box-shadow: 0px 0px 8px #e2e2e2;}
+.ch a {display:block; width: 50%;text-align:center;float:left;color:#999;margin-bottom:15px;font-size:14px;height:30px;border-bottom: 1px #edebeb dashed; }
+.ch a:hover i{ opacity:0.5!important;-webkit-opacity: 0.5;  filter:alpha(opacity=50);   }
+.ch a i { font-size: 34px;color:#f7b62e;height:45px; }
+.ch .ch1 i { color: #4dc0fc; }
+.ch .ch2 i { color: #fd8626; }
+.ch .ch3 i{ color: #99ba25; }
+.ch .ch4 i { color: #fd8727; }
+.ch .ch5 i { color: #f95f83; }
+.ch .ch6 i { color: #ae7ac4; }
+.ch .ch7 i { color: #9bdb13; }
+.ch .ch8 i { color: #5656f5; }
+
+.sr { height:329px;width:240px;float:left }
+.sr a{ height: 165px;display:block; }
+.sr a img { width: 100%; height: 100%; }
+
+#slide { float: left;width:760px }
+#slide .pic { height: 330px; }
+#slide .pic img { height: 330px; }
+
+.box-h2 { font-size: 18px; color: #666;height:50px;line-height:50px;font-weight:500;font-size:14px; }
+.box-h2 i { float: left; font-size: 26px; color: #f61d4b;margin-right:8px }
+.box-h2 a { color: #666; }
+.box-h2 h2 { float: left;font-weight:normal;font-size:18px;color:#3c3c3c }
+.box-h2 .h-m { float: right;padding-top:17px }
+.box-h2 .h-m a { padding: 0 8px; border-right: 1px solid #e8e8e8; display:inline-block;float:left;line-height:18px;margin-right:5px;color:#999}
+.box-h2 .h-m .more { border:0px;background:url(../../images/tuan_icon_list.png) 43px -198px  no-repeat;padding-right:15px}
+.box-b { width: auto; height: auto; overflow: hidden; }
+
+
+.box { margin-bottom: 15px; }
+.box .box-b { border-bottom: 0px;border:1px solid #dedede }
+.box .box-h2 { background-position:5px 11px }
+.box ul { width:1210px;}
+.box li {background:#fff; width: 270px;border-right:1px solid #e5e5e5;height:300px;float:left;padding:15px;position:relative}
+.box .t .img { width:270px; height: 180px; overflow: hidden; position:relative}
+.box .t .img img { width: 100%; }
+.box  h3 { font-size:16px;font-weight:400;color: #333;padding:8px 0px }
+.box .depict{ color: #999;line-height:1.6em;padding:3px 0px;height: 44px;}
+.box .t .price { padding: 5px 0px; }
+.box .t .big-p { color: #f72862;font-size:16px }
+.box .t .big-p strong { font-size: 22px; }
+.box .t .big-p em { color: #C5C5C5;text-decoration:line-through;margin-left:5px;font-size:14px }
+.box .t .num { color: #C5C5C5;float:right;padding-top:11px }
+.box .t .num strong { color:#f72862;padding:0 2px }
+/*.box .t .img span { background: #f72862; position: absolute; top: 0px; right: 0px; color: #fff; padding:0px 15px;font-size:14px;height:26px;line-height:24px}*/
+.box .t .seck { background:#f61d4b; position: absolute; top: 0px; right: 0px; color: #fff;font-size:14px;height:31px;line-height:30px;opacity:0.9;width:100%;z-index:10}
+.box .t .seck em { background: url(../images/m_tag.png) -65px -10px no-repeat; display: inline-block; float: left;width:52px;padding-left:10px;color:#f61d4b ;height:100% }
+.box .t .seck b { padding: 0 2px; display: inline-block;font-weight:normal;color:#ffe290 }
+.box li:hover { -webkit-box-shadow: 0px 0px 8px #999;box-shadow: 0px 0px 8px #999;-moz-box-shadow: 0px 0px 8px #999;width:268px;height:298px;margin:0 2px 2px 0}

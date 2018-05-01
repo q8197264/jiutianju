@@ -19,7 +19,7 @@ class MessageAction extends CommonAction{
             $map['title'] = array('LIKE', '%' . $keyword . '%');
             $this->assign('keyword', $keyword);
         }
-		$lists = $Msg->where($map)->order(array('create_time' => 'desc'))->select();//时间降序排
+		$lists = $Msg->where($map)->order(array('create_time' => 'desc'))->select();
         foreach ($lists as $k => $val) {
 			 if (!empty($val['worker_id'])) {
                 $lists[$k]['worker_id'] =  $val['worker_id'];
@@ -32,7 +32,7 @@ class MessageAction extends CommonAction{
 		
 
 		$Page=new Page(count($lists),6);
-	    $show = $Page->show(); // 分页显示输出
+	    $show = $Page->show(); 
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Page->totalPages < $p) {
@@ -44,7 +44,7 @@ class MessageAction extends CommonAction{
 
         $this->assign('list',$list);
         $this->assign('page', $show);
-        $this->assign('types', $Msg->getType());//会员中心采用
+        $this->assign('types', $Msg->getType());
         $this->display();
     }
   
@@ -57,7 +57,7 @@ class MessageAction extends CommonAction{
 		if ($detail['cate_id'] != 6) {
             $this->error('类型错误');
         }	
-		if (!empty($detail['worker_id'])) {//如果表里面会员不为空那么判断ID正常不
+		if (!empty($detail['worker_id'])) {
             if ($detail['worker_id'] != $this->uid) {
             $this->error('您没有权限查看该消息');
         	}
@@ -71,7 +71,6 @@ class MessageAction extends CommonAction{
 				'create_ip' => get_client_ip()
 			));
         }
-		//连接不等于空自动跳转
         if ($detail['link_url']) {
             header("Location:" . $detail['link_url']);
             die;
@@ -92,7 +91,7 @@ class MessageAction extends CommonAction{
 			if ($detail['cate_id'] != 6) {
                 $this->fengmiMsg('操作错误');
             }
-			if (!empty($detail['shop_id'])) {//如果表里面会员不为空那么判断ID正常不
+			if (!empty($detail['shop_id'])) {
 				if ($detail['shop_id'] != $this->shop_id) {
 					$this->fengmiMsg('您没有权限查看该消息');
 				}

@@ -1,0 +1,52 @@
+<include  file='public:header'/>
+
+<style>
+ .money_tixian{ margin:20px 50px;}
+.money_tixian canvas{width:100px; height100px}
+</style>
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">商家管理</a> > <a href="">助力活动</a> > <a>参与用户</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+<div class="tuan_top_t">
+<div class="left tuan_topser_l"><font color=red>请注意：封号操作权限太大，如果有需要，可以联系管理员！</font></div>
+ <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('zuli/index')}>">返回</a></div></div>
+  <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr style="background-color:#eee;">
+       <td width="10%">ID</td>
+      <td width="10%">姓名</td>
+      
+      <td width="6%">电话</td>
+      
+	  <td width="6%">转发数</td>
+      <td width="6%">助力数</td>
+      <td width="5%">报名时间</td>
+      <td width="5%">状态</td>
+      
+      
+      
+    </tr>
+    <foreach name="list" item="var">
+      <tr>
+        <td><{$var.id}></td>
+		<td><{$var.xm}></td>
+        <td><{$var.tel}></td>
+        <td><{$var.zf_num}></td>
+        <td><{$var.zl_num}></td>
+        <td><{$var.add_time|date='Y-m-d-H:i',###}></td>
+        
+        <td><eq name='var.status' value="1"><font color=green>正常</font><else/><font color=red>已封号</font></eq></td>
+        
+
+        
+         
+        
+            
+      </tr>
+    </foreach>
+  </table>
+  <div class="paging"> <{$page}> </div>
+</div>
+<include  file='public:footer'/>

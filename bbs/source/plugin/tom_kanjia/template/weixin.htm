@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{$kanjiaConfig['plugin_name']}</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--{if $kanjiaInfo['style_id'] == 1}-->
+<link href="source/plugin/tom_kanjia/images/style_green.css" rel="stylesheet" type="text/css">
+<!--{elseif $kanjiaInfo['style_id'] == 2}-->
+<link href="source/plugin/tom_kanjia/images/style_red.css" rel="stylesheet" type="text/css">
+<!--{elseif $kanjiaInfo['style_id'] == 3}-->
+<link href="source/plugin/tom_kanjia/images/style_black.css" rel="stylesheet" type="text/css">
+<!--{else}-->
+<link href="source/plugin/tom_kanjia/images/style_green.css" rel="stylesheet" type="text/css">
+<!--{/if}-->
+<base target="_self">
+</head>
+<body>
+<section class="weixin_box clearfix">
+	<img src="source/plugin/tom_kanjia/images/weixin.png"><br/>
+    <p>{lang tom_kanjia:open_in_wx}</p>
+</section>
+</body>
+</html>

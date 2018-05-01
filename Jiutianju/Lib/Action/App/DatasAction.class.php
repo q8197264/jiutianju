@@ -5,8 +5,8 @@ class  DatasAction extends  CommonAction{
 
     public function cityareas(){
         $data = array();
-        $data['city']  = D('City')->where(array('closed'=>0))->fetchAll();
-        $data['area']  = D('Area')->fetchAll();
+        $data['city']       = D('City')->fetchAll();
+        $data['area']       = D('Area')->fetchAll();
         $data['status'] = self::BAO_REQUEST_SUCCESS;
         echo json_encode($data);
         die;
@@ -23,15 +23,35 @@ class  DatasAction extends  CommonAction{
     public function cab() { //城市地区商圈
         $name = htmlspecialchars($_GET['name']);
         $data = array();
-        $data['city'] = D('City')->where(array('closed'=>0))->fetchAll();
-        $data['area']  = D('Area')->fetchAll();
-        $data['business']  = D('Business')->fetchAll();
+        $data['city']       = D('City')->fetchAll();
+        $data['area']       = D('Area')->fetchAll();
+        $data['business']   = D('Business')->fetchAll();
         header("Content-Type:application/javascript");
         echo  'var '.$name.'='.  json_encode($data).';';
         die;
     }
 	
-    public function tuancata(){
+	public function stock() { 
+        $name = htmlspecialchars($_GET['name']);
+        $data = array();
+        $data['team']      = D('Stockteam') -> select();
+        $data['jury']      = D('Stockjury') -> select();
+        $data['group']     = D('Stockgroup') -> select();
+        header("Content-Type:application/javascript");
+        echo  'var '.$name.'='.  json_encode($data).';';
+        die;
+    }
+	
+	public  function teamjury(){
+        $data = array();
+        $data['team']      = D('Stockteam') -> select();
+        $data['jury']      = D('Stockjury') -> select();
+        header("Content-Type:application/javascript");
+        echo   'var  teamjurys = '.  json_encode($data);die;
+    }
+	
+    public function tuancata()
+    {
         $city_id    = $this->_param('city_id');
         $tuan_cata  = D('TuanCate')->fetchAll();
         $_cata       = array();
@@ -41,41 +61,57 @@ class  DatasAction extends  CommonAction{
         $this->stringify(array('status'=>self::BAO_REQUEST_SUCCESS,'tuan'=>$_cata));
     }
 
-	/*
-    * 获取accessid以及accesstoken
-    */
-	public function xinge(){ 
-        $plat = $this->_get('plat');
-        $where = array('k'=>'xinge');
-        $xinge = D('setting')->where($where)->find();
-        if(empty($xinge))
-        {
-            $data = array('status'=>self::BAO_DB_ERROR,'msg'=>'未能成功获取accesskey');
-            $this->stringify($data);
-        }
-        $xinge = unserialize($xinge['v']);
-        switch ($plat) {
-            case 'ios':
-             if(!empty($xinge['iosappid'])&&!empty($xinge['iosaccesskey']))     
-             $data = array('status'=>self::BAO_REQUEST_SUCCESS,'accessid'=>$xinge['iosappid'],'accesskey'=>$xinge['iosaccesskey']);
-             $this->stringify($data);
-             break;
-            case 'android':
-             if(!empty($xinge['appid'])&&!empty($xinge['appaccesskey']))
-             $data = array('status'=>self::BAO_REQUEST_SUCCESS,'accessid'=>$xinge['appid'],'accesskey'=>$xinge['appaccesskey']);
-             $this->stringify($data);
-             break;
-        }
-        $data = array('status'=>self::BAO_DB_ERROR,'msg'=>'未能成功获取accesskey');
-        $this->stringify($data);
-	}
+	/*三级联动start*/
+	public function onecity() { //城市
+        $name = htmlspecialchars($_GET['name']);
+        $data = array();
+        $data['city'] = D('City')->fetchAll();
+        header("Content-Type:application/javascript");
+        echo  'var '.$name.'='.  json_encode($data).';';
+        die;
+    }
+	public function twoarea() { //地区
+        $cid =  $_POST['cid'];
+        $data = array();
+		$data  = D('Area')->where(array('city_id'=>$cid))->select();
+        echo json_encode($data);
+        die;
+    }
 
+   public function tbusiness() { //商圈
+        $bid =  $_POST['bid'];
+        $data = array();
+		$data  = D('Business')->where(array('area_id'=>$bid))->select();
+        echo json_encode($data);
+        die;
+    }
+	
+	//获取商家分类
+	public function shopcate2($parent_id = 0){
+        D('Shop')->where('shop_id','gt',0)->delete();
+        $str = '';
+        foreach ($datas as $var) {
+            if ($var['parent_id'] == 0 && $var['cate_id'] == $parent_id) {
+                foreach ($datas as $var2) {
+                    if ($var2['parent_id'] == $var['cate_id']) {
+                        $str .= '<option value="' . $var2['cate_id'] . '">' . $var2['cate_name'] . '</option>' . "\n\r";
+                    }
+                }
+            }
+        }
+        echo $str;
+        die;
+    }
+	
+	
+    /*三级联动end*/
 	public function cab_app() { //城市地区商圈
         $name = htmlspecialchars($this->_param('name'));
         $data = array();
         $data['city']       = D('City')->fetchAll();
         $data['area']       = D('Area')->fetchAll();
         $data['business']   = D('Business')->fetchAll();
+        //header("Content-Type:application/javascript");
 		$data = array('status'=>self::BAO_REQUEST_SUCCESS,'cityareas'=>$data);
         $this->stringify($data);
     }
@@ -88,6 +124,26 @@ class  DatasAction extends  CommonAction{
         $data['status'] = self::BAO_REQUEST_SUCCESS;
         echo json_encode($data);
         die;
+	}
+	//获取全站的地址列表
+	public function city() {
+		$upid = isset($_GET['upid']) ? intval($_GET['upid']) : 0;
+		$callback = $_GET['callback'];
+		$outArr = array();
+		$cityList = D('Paddlist') -> where(array('upid' => $upid)) -> select();
+		if (is_array($cityList) && !empty($cityList)) {
+			foreach ($cityList as $key => $value) {
+				$outArr[$key]['id'] = $value['id'];
+				$outArr[$key]['name'] = $value['name'];
+			}
+		}
+		$outStr = '';
+		$outStr = json_encode($outArr);
+		if ($callback) {
+			$outStr = $callback . "(" . $outStr . ")";
+		}
+		echo $outStr;
+		die();
 	}
 	
     

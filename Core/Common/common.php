@@ -390,6 +390,8 @@ function D($name='',$layer='') {
         $app        =   C('DEFAULT_APP');
         $name       =   $app.'/'.$layer.'/'.$name;
     }
+//    var_dump($_model);
+//    exit;
     if(isset($_model[$name]))   return $_model[$name];
     $path           =   explode('/',$name);
     if($list = C('EXTEND_GROUP_LIST') && isset($list[$app])){ // 扩展分组
@@ -463,7 +465,6 @@ function A($name,$layer='',$common=false) {
     }
     $class      =   basename($name.$layer);
     if(class_exists($class,false)) {
-        
         $action             =   new $class();
         $_action[$name]     =   $action;
         return $action;

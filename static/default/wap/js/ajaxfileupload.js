@@ -4,7 +4,7 @@ jQuery.extend({
 
     createUploadIframe: function(id, uri)
 	{
-			//create frame1
+			//create frame
             var frameId = 'jUploadFrame' + id;
             var iframeHtml = '<iframe id="' + frameId + '" name="' + frameId + '" style="position:absolute; top:-9999px; left:-9999px"';
 			if(window.ActiveXObject)
@@ -25,7 +25,7 @@ jQuery.extend({
     },
     createUploadForm: function(id, fileElementId)
 	{
-		//create form5	
+		//create form	
 		var formId = 'jUploadForm' + id;
 		var fileId = 'jUploadFile' + id;
 		var form = jQuery('<form  action="" method="POST" name="' + formId + '" id="' + formId + '" enctype="multipart/form-data"></form>');	
@@ -43,14 +43,14 @@ jQuery.extend({
     },
 
     ajaxFileUpload: function(s) {
-        // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout0		
+        // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout		
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
         var id = new Date().getTime()        
 		var form = jQuery.createUploadForm(id, s.fileElementId);
 		var io = jQuery.createUploadIframe(id, s.secureuri);
 		var frameId = 'jUploadFrame' + id;
 		var formId = 'jUploadForm' + id;		
-        // Watch for a new set of requests6
+        // Watch for a new set of requests
         if ( s.global && ! jQuery.active++ )
 		{
 			jQuery.event.trigger( "ajaxStart" );
@@ -60,7 +60,7 @@ jQuery.extend({
         var xml = {}   
         if ( s.global )
             jQuery.event.trigger("ajaxSend", [xml, s]);
-        // Wait for a response to come back9
+        // Wait for a response to come back
         var uploadCallback = function(isTimeout)
 		{			
 			var io = document.getElementById(frameId);
@@ -86,12 +86,12 @@ jQuery.extend({
                 var status;
                 try {
                     status = isTimeout != "timeout" ? "success" : "error";
-                    // Make sure that the request was successful or notmodified9
+                    // Make sure that the request was successful or notmodified
                     if ( status != "error" )
 					{
-                        // process the data (runs the xml through httpData regardless of callback)1
+                        // process the data (runs the xml through httpData regardless of callback)
                         var data = jQuery.uploadHttpData( xml, s.dataType );    
-                        // If a local callback was specified, fire it and pass it the data7
+                        // If a local callback was specified, fire it and pass it the data
                         if ( s.success )
                             s.success( data, status );
     

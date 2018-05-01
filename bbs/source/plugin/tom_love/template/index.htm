@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{$jyConfig['plugin_name']}</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="source/plugin/tom_love/images/style.css?v={$cssJsVersion}" rel="stylesheet" type="text/css">
+<link href="source/plugin/tom_love/images/index.css?v={$cssJsVersion}" rel="stylesheet" type="text/css">
+<link href="source/plugin/tom_love/images/swiper.min.css" rel="stylesheet" />
+<script type="text/javascript" src="source/plugin/tom_love/images/swiper.min.js"></script>
+<script src="source/plugin/tom_love/images/jquery.js"></script>
+<script type="text/javascript">var commonjspath = 'source/plugin/tom_love/images';</script>
+<script src="source/plugin/tom_love/images/common.js?v={$cssJsVersion}"></script>
+<script type="text/javascript">var usiteurl = "{$uSiteUrl}";var plugin_id="tom_love";var check_r="1";</script>
+<base target="_self">
+</head>
+<body id="index_body">
+<section id="header">
+	<div class="header-title clearfix">
+		<div class="title">
+			<img src="{$jyConfig['plugin_logo']}">
+			<span>{$jyConfig['plugin_name']}</span>
+		</div>
+		<div class="count">
+			<span class="ct">{lang tom_love:index_huiyuanshu} <span> {$userAllCount}</span></span>
+			<span class="ct">{lang tom_love:index_liulanliang} <span> {$clicksNumTxt}<!--{if $clicksNum > 10000}-->{lang tom_love:index_wan}<!--{/if}--></span></span>
+		</div>
+		<div class="guanzu"><a id="guanzu" href="javascript:void(0);">{lang tom_love:index_guanzu}</a></div>
+	</div>
+<!--<div class="header-term clearfix">
+		<div class="fl-term"></div>
+		<div class="fr-term"></div>
+	</div>-->
+    <!--{if $slideList}-->
+	<div class="slide-box swiper-container">
+		<div class="slide-list swiper-wrapper clearfix">
+            <!--{loop $slideList $key $value}-->
+			<div class="item-area swiper-slide">
+                <a href="{$value['link']}">
+                	<img src="{$value['picurl']}" title="{$value['title']}">
+                </a>
+            </div>
+            <!--{/loop}-->
+		</div>
+        <div class="swiper-pagination"></div>
+	</div>
+    <!--{/if}-->
+</section>
+<section id="nav">
+	<div class="nav-list clearfix">
+		<a href="plugin.php?id=tom_love&mod=search&act=list&sex=2">
+			<img src="source/plugin/tom_love/images/Bzhaonvy.png">
+			<h6>{lang tom_love:index_nav_nvyou}</h6>
+		</a>
+		<a href="plugin.php?id=tom_love&mod=search&act=list&sex=1">
+			<img src="source/plugin/tom_love/images/Bzhaony.png">
+			<h6>{lang tom_love:index_nav_nanyou}</h6>
+		</a>
+		<a href="plugin.php?id=tom_love&mod=search&act=list&renzheng=1">
+			<img src="source/plugin/tom_love/images/Brenzhhy.png">
+			<h6>{lang tom_love:index_nav_vip}</h6>
+		</a>
+		<a href="plugin.php?id=tom_love&mod=phb">
+			<img src="source/plugin/tom_love/images/Bpaih.png">
+			<h6>{lang tom_love:index_nav_phb}</h6>
+		</a>
+		<a href="plugin.php?id=tom_love&mod=shuoshuo">
+			<img src="source/plugin/tom_love/images/Bjiaoy.png">
+			<h6>{lang tom_love:index_nav_shuoshuo}</h6>
+		</a>
+	</div>
+</section>
+<section id="main">
+	<div class="marquee">
+		<div class="title">
+			<marquee direction="left">
+				<a href="plugin.php?id=tom_love&mod=article&aid=3">{$jyConfig['index_gonggao_msg']}</a>
+			</marquee>
+		</div>
+	</div>
+    <!--{if $newUserList}-->
+	<div class="newly-bar">
+		<div class="newly-area clearfix">
+			<!--{loop $newUserList $key $value}-->
+            <div class="added <!--{if $value['sex'] == 1}-->boy<!--{else}-->girl<!--{/if}-->">
+				<div class="xq clearfix">
+                    <a href="plugin.php?id=tom_love&mod=info&uid={$value['id']}">
+                        <div class="portrait"><img src="$value['avatar']" /></div>
+                        <div class="xinxi">
+                            <div class="user-name"><span class="sex"></span><span>{$value['nickname']}</span><!--{if $value['renzheng'] == 1}--><span class="rengzheng"></span><!--{/if}--><!--{if $value['vip_id'] == 1}--><span class="vp"></span><!--{/if}--></div>
+                            <div class="user-xq girl">
+                                <!--{if $value['age'] != ''}--><span>{$value['age']}{lang tom_love:sui}</span><!--{/if}--><!--{if $value['friend'] == 1}--><span>{lang tom_love:friend}</span><!--{/if}--><!--{if $value['marriage'] == 1}--><span>{lang tom_love:marriage}</span><!--{/if}-->
+                            </div>
+                        <!--<div class="user-term claerfix">
+                                <span></span><span></span>
+                            </div>-->
+                            <div class="user-dbai">{$value['describe']}</div>
+                            <div class="new"></div>
+                        </div>
+                    </a>
+				</div>
+			<!--<div class="status clearfix">
+					<div class="crush">
+						<a class="" href="javascript:void(0);"></a>
+					</div>
+					<div class="chat">
+						<a class="" href="javascript:void(0);"></a>
+					</div>
+				</div>-->
+			</div>
+			<!--{/loop}-->
+		</div>
+	</div>
+    <!--{/if}-->
+    <!--{if $jyConfig['index_adbox_1']}-->
+    <div class="guangao_list clearfix">
+        <div class="guangao_list_box clearfix">
+            {$jyConfig['index_adbox_1']}
+        </div>
+    </div>
+    <!--{/if}-->
+	<div class="wonderful">
+		<div class="wonder-title clearfix">
+			<span class="w-left">{lang tom_love:index_topic}</span>
+			<a href="plugin.php?id=tom_love&mod=shuoshuo" class="w-right">{lang tom_love:index_shuoshuo_more}&gt;</a>
+		</div>
+		<div class="wonder-content">
+			<!--{loop $ssList $key $value}-->
+            <div class="human-list clearfix">
+                <a href="plugin.php?id=tom_love&mod=shuoshuo">
+                    <div class="toux"><img src="{$value['userinfo']['avatar']}"></div>
+                    <div class="content">
+                        <div class="u-name"><!--{if $value['userinfo']['sex'] == 1}--><span class="man"> </span><!--{else}--><span class="woman"> </span><!--{/if}-->{$value['userinfo']['nickname']}&nbsp;<!--{if $value['userinfo']['renzheng'] == 1}--><img src="source/plugin/tom_love/images/Zhuyrenzhb.png" width="15" height="16"><!--{/if}-->&nbsp;<!--{if $value['userinfo']['vip_id'] == 1}--><img src="source/plugin/tom_love/images/vip.png" width="20" height="12"><!--{/if}--><span class="date-time"><!--{date($value[ss_time], 'u')}--></span></div>
+                        <div class="u-xy">{$value['content']}</div>
+                    <!--<div class="u-xz">
+                            <a class="anlian" href="javascript:void(0);"></a>
+                            <a class="chat" href="javascript:void(0);"></a>
+                        </div>-->
+                    </div>
+                </a>
+			</div>
+            <!--{/loop}-->
+		</div>
+	</div>
+	<!--{if $sexVipList}-->
+	<div class="match">
+		<div class="match-title clearfix">
+			<span class="fate">{lang tom_love:index_fate_match}</span>
+			<a href="javascript:void(0);" class="refresh" id="refresh">{lang tom_love:index_refresh}</a>
+		</div>
+		<div class="match-list clearfix" id="match-list">
+            <!--{loop $sexVipList $key $value}-->
+            <div class="propmt-bar">
+				<a class="propmt" href="plugin.php?id=tom_love&mod=info&uid={$value['id']}">
+					<div class="p-img">
+						<img src="{$value['avatar']}">
+						<div class="map"></div>
+					</div>
+					<p class="p-name">{$value['nickname']}</p>
+					<p class="p-xinxi"><!--{if $value['age']}-->{$value['age']}{lang tom_love:sui}<!--{/if}--> {$value['height']}{lang tom_love:cm}</p>
+				</a>
+			</div>
+            <!--{/loop}-->
+		</div>
+	</div>
+    <!--{/if}-->
+	<div class="vip">
+		<div class="vip-title">
+			<span class="remoed">{lang tom_love:index_remomed_vip}</span>
+			<a href="plugin.php?id=tom_love&mod=rec">{lang tom_love:index_woyaoshangshouye}</a>
+		</div>
+		<div class="vip-list">
+            <!--{loop $userList $key $value}-->
+			<div class="renwu <!--{if $value['sex'] == 1}-->boy<!--{else}-->girl<!--{/if}--> clearfix">
+				<div class="photo"><a href="plugin.php?id=tom_love&mod=info&uid={$value['id']}"><img src="{$value['avatar']}"></a></div>
+				<div class="v-xq">
+                    <a href="plugin.php?id=tom_love&mod=info&uid={$value['id']}">
+                        <div class="v-name">
+                            <span class="sex"><!--{if $value['sex'] == 1}-->{lang tom_love:man_ico}<!--{else}-->{lang tom_love:woman_ico}<!--{/if}--></span>
+                            <span class="name">{$value['nickname']}</span>
+                            <!--{if $value['renzheng'] == 1}-->
+                                <span class="rengzheng"></span>
+                            <!--{/if}-->
+                            <!--{if $value['vip_id'] == 1}-->
+                                <span class="vp"></span>
+                            <!--{/if}-->
+                            <span class="tp">{$value['pic_num']}</span>
+                        </div>
+                        <div class="v-xinxi">
+                            <!--{if $value['age']}-->
+                            <span>{$value['age']}{lang tom_love:sui}</span>
+                            <!--{/if}-->
+                            <!--{if $value['friend'] == 1}-->
+                            <span>{lang tom_love:friend}</span>
+                            <!--{/if}-->
+                            <!--{if $value['marriage'] == 1}-->
+                            <span>{lang tom_love:marriage}</span>
+                            <!--{/if}-->
+                        </div>
+                        <!--<div class="v-tj">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>-->
+                        <div class="v-dubai">{$value['describe']}</div>
+                    </a>
+				<!--<div class="v-chat">
+						<a class="anlian" href="javascript:void(0);"></a>
+						<a class="chat" href="javascript:void(0);"></a>
+					</div>-->
+				</div>
+			</div>
+			<!--{/loop}-->
+		</div> 
+        <div id="m2" class="more" style="display: none;">
+            <img src="source/plugin/tom_love/images/loading.gif" style="display:inline;">{lang tom_love:index_doing_title}
+        </div>
+        <div id="m3" class="more" style="display:none">{lang tom_love:index_no_more_msg}</div>
+	</div>
+</section>
+<!--{if $jyConfig['index_adbox_2']}-->
+<section class="guangao_list clearfix">
+	<div class="guangao_list_box clearfix">
+        {$jyConfig['index_adbox_2']}
+    </div>
+</section>
+<!--{/if}-->
+<section id="code" class="box_hide">
+	<div class="code-bar">
+		<div class="ewcode"><img src="{$jyConfig['fuwuhao_qrcode']}"></div>
+		<div class="ew"><img src="source/plugin/tom_love/images/wenzi.png"></div>
+		<div class="code_close"></div>
+	</div>
+</section>
+<!-- footer start-->
+<section class="footer_block clearfix"></section>
+<footer class="footer_main clearfix">
+	<ul class="clearfix">
+        <li class="footer_nav_index2"><a href="plugin.php?id=tom_love&mod=index&prand={$prand}"><span class="nav2">{lang tom_love:nav_index}</span></a></li>
+        <li class="footer_nav_search1"><a href="plugin.php?id=tom_love&mod=search&act=list&prand={$prand}"><span class="nav1">{lang tom_love:nav_search}</span></a></li>
+        <li class="footer_nav_ss1"><a href="plugin.php?id=tom_love&mod=shuoshuo&prand={$prand}"><span class="nav1">{lang tom_love:nav_ss}</span></a></li>
+        <li class="{$footerNavSmsClass}"><a href="plugin.php?id=tom_love&mod=sms&prand={$prand}"><span class="nav1">{lang tom_love:nav_sms}</span></a></li>
+        <li class="footer_nav_my1"><a href="plugin.php?id=tom_love&mod=my&prand={$prand}"><span class="nav1">{lang tom_love:nav_my}</span></a></li>
+    </ul>
+</footer>
+<!-- footer end-->
+<script>
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideToolbar');
+});
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script src="source/plugin/tom_love/images/index.js"></script>
+<script type="text/javascript">
+$(function(){
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        paginationClickable: true,
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+    $("body").append("<i id='go-top'></i>");
+    var o = 1500;
+	$(window).scroll(function() {
+		$("#go-top").css($(window).scrollTop() > o ? {
+			opacity: 1
+		}: {
+			opacity: 0
+		});
+	});
+	$("#go-top").on("click",
+	function() {
+		$(window).scrollTop(0);
+	});
+})
+
+$('#guanzu').click(function(){
+	$('#code').removeClass('box_hide');
+})
+$('.code_close').click(function(){
+	$('#code').addClass('box_hide');
+})
+
+var flag = 1;
+var pageIndex = 2;
+function loadMore() {
+    
+    if(pageIndex > 50){
+        tusi("{lang tom_love:index_max_50msg}");
+    }
+    
+    if(flag == 1) {
+        flag = 0;
+        $("#m2").show();
+        $.ajax({
+            type: "GET",
+            url: "{$recommendLoadMoreUrl}",
+            data: { act:"loadMoreVip",loadPage:pageIndex},
+            success: function(msg){
+                var data = eval('('+msg+')');
+                if(data == 205){
+                    $("#m2").hide();
+                    $("#m3").show();
+                    return false;
+                }else{
+                    $("#m2").hide();
+                    pageIndex += 1;
+                    $(".vip-list").append(data);
+                    flag = 1;
+                }
+            }
+        })
+    }
+}
+$(window).scroll(function () {
+    var scrollTop       = $(this).scrollTop();
+    var scrollHeight    = $(document).height();
+    var windowHeight    = $(this).height();
+    if ((scrollTop + windowHeight) >= (scrollHeight * 0.9)) {
+        loadMore();
+    }
+});
+
+var sexStart = "{$sexStart}";
+sexStart = sexStart * 1;
+$('#refresh').click(function(){
+    var start = $("#sexStart").val();
+    if(start){
+        sexStart = start;
+    }
+    $.ajax({
+        type: "GET",
+        url: "{$refreshVipUrl}",
+        data: {act:"sexRefresh",sexStart:sexStart},
+        success: function(msg){
+            var data = eval('('+msg+')');
+            if(data == 205){
+                tusi("{lang tom_love:index_refresh_error}");
+            }else if(data == 206){
+                tusi("{lang tom_love:index_refresh_206}");
+            }else{
+                $('#match-list').html(data);
+            }
+        } 
+    })
+})
+
+</script>
+<script type="text/javascript">
+$(function() {
+    FastClick.attach(document.body);
+});
+$(document).ready(function(){
+  $.get("{$ajaxClicksUrl}");
+});
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

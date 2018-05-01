@@ -1,0 +1,42 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">分类设置</li>
+        <li class="li2 ">价格配置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>以后分类上面需要配置的，都尽量在这里写！ </p>
+    <form  target="baocms_frm" action="<{:U('setting/life')}>" method="post">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+               
+                
+                 <tr>
+                    <td class="lfTdBt">置顶每天价格：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[life_zdmoney]" value="<{$CONFIG.life.life_zdmoney}>" class="scAddTextName " />
+                        <code>用户置顶一天需要的价格，支持小数点，不能为空</code>
+                    </td>
+                </tr>
+                
+                 <tr>
+                    <td class="lfTdBt">加急每天价格：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[life_jjmoney]" value="<{$CONFIG.life.life_jjmoney}>" class="scAddTextName " />
+                       <code>用户加急一天需要的价格，支持小数点，不能为空</code>
+                    </td>
+                </tr>
+                
+                 
+               
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </form>
+</div>
+<include  file='public:footer'/>       

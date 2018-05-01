@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<title>{lang tom_kanjia:list_title}</title>
+<link href="source/plugin/tom_kanjia/images/list/reset.css" rel="stylesheet" type="text/css">
+<link href="source/plugin/tom_kanjia/images/list/hong_list.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="source/plugin/tom_kanjia/images/list/click300ms.js"></script>
+<script type="text/javascript" src="source/plugin/tom_kanjia/images/list/jquery.min2.14.js"></script>
+</head>
+<body>
+<!--{if $kanjiaConfig['list_pic_url']}-->  
+<section class="x_header-bar">
+	<div class="header-banner clearfix">
+		<img src="{$kanjiaConfig['list_pic_url']}" />
+	</div>
+</section>
+<!--{/if}-->
+<section class="x_details clearfix">
+	<div class="x_browse clearfix">
+		<span class="b-num fl">{lang tom_kanjia:list_clicks_num}<span class="red-color">{$clicksAllCount}</span></span>
+		<span class="fr">{lang tom_kanjia:list_add_num}<span class="red-color">{$userAllCount}</span></span>
+	</div>
+	<div class="shop-area">
+		<ul class=" shop-list clearfix">
+            <!--{loop $kanjiaList $key $val}-->
+			<li class="clearfix">
+				<div class="sp-img fl">
+					<img src="{$val['pic_url']}" />
+					<span class="sy">{lang tom_kanjia:list_shengyu_1}{$val['shengyu_days']}{lang tom_kanjia:list_shengyu_2}</span>
+				</div>
+				<div class="xq">
+					<div class="q-title">{$val['title']}</div>
+					<div class="q-two ">
+						<span class="old-p fl">{lang tom_kanjia:list_yuanjia}<span class="t-d">{lang tom_kanjia:yuan_ico}{$val['goods_price']}</span></span>
+						<span class="q-cy red-color fr">{$val['user_count']}{lang tom_kanjia:list_canyu}</span>
+					</div>
+					<div class="q-price clearfix">
+						<!--{if $kanjiaConfig['open_base_price']==1 }--><span class="new-p red-color fl">{lang tom_kanjia:yuan_ico}{$val['base_price']}</span><!--{/if}-->
+						<!--{if $val['doing'] == 1}-->
+                            <!--{if $val['must_gz'] == 1 && $showGuanzuBox == 1 }-->
+                            <a href="{$val['guanzu_url']}"><span class="ljk red-bg fr">{lang tom_kanjia:list_doing1}</span></a>
+                            <!--{else}-->
+                            <a href="plugin.php?id=tom_kanjia&kid={$val['id']}&randKey={$val['rand']}"><span class="ljk red-bg fr">{lang tom_kanjia:list_doing1}</span></a>
+                            <!--{/if}-->
+                        <!--{/if}-->
+                        <!--{if $val['doing'] == 2}-->
+                        <span class="ljk fr">{lang tom_kanjia:list_doing2}</span>
+                        <!--{/if}-->
+                        <!--{if $val['doing'] == 3}-->
+                        <span class="ljk fr">{lang tom_kanjia:list_doing3}</span>
+                        <!--{/if}-->
+					</div>
+				</div>
+			</li>
+            <!--{/loop}-->
+		</ul>
+        <div class="pages clearfix">
+            <ul class="clearfix">
+                <li style="width: 40%;"><!--{if $page > 1}--><a href="{$prePageUrl}">{lang tom_kanjia:index_pre_page}</a><!--{else}--><span>{lang tom_kanjia:index_pre_page}</span><!--{/if}--></li>
+                <li style="width: 20%;"><span>{$page}/{$allPageNum}</span></li>
+                <li style="width: 40%;"><!--{if $showNextPage == 1}--><a href="{$nextPageUrl}">{lang tom_kanjia:index_next_page}</a><!--{else}--><span>{lang tom_kanjia:index_next_page}</span><!--{/if}--></li>
+            </ul>
+        </div>
+	</div>
+</section>
+</body>
+</html>

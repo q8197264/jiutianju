@@ -1,6 +1,4 @@
 <?php
-
-
 class BookingModel extends CommonModel{
     protected $pk   = 'shop_id';
     protected $tableName =  'booking';
@@ -80,8 +78,16 @@ class BookingModel extends CommonModel{
 		}
 		 return $tem;
 	}
-     
-    
+	//判断时间是不是过期
+    public function get_expired_time($ding_date,$ding_time){ 
+		$svctime = $ding_date.' '.$ding_time;
+		$booking_time = strtotime($svctime);
+		//echo $booking_time.'--'.time();exit;
+		if($booking_time < time()){
+			return false;
+		}
+		return true;
+	 }
     
     public function getCfg(){
         

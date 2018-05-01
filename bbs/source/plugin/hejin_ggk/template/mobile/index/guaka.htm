@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$charset" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Expires" content="0" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta name="viewport" content=" initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="description" content="&lt;%=ScratchCard.ScratchCardName %>" />
+<title><!--{eval echo stripslashes($vote['title']);}--></title>
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/allimg/global.css" media="all" />
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/allimg/scratchcard.css" media="all" />
+<script src="{HEJIN_PATH}public/allimg/jquery-1.9.1.min.js"></script>
+<script src="{HEJIN_PATH}public/allimg/alert.js"></script>
+<script src="{HEJIN_PATH}public/allimg/wScratchPad.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/allimg/common.js"></script>
+</head>
+<body data-role="page" class="activity-scratch-card-winning">
+
+<div class="main">
+  <div class="scratchcard">
+  {if $status==2}
+  		<div class="banner"><img src="{HEJIN_PATH}public/allimg/activity-scratch-card-end2.jpg"></div>
+  {elseif $status==1}
+  		<div class="banner"><img src="{HEJIN_PATH}public/allimg/activity-scratch-card-end3.jpg"></div>
+  {elseif $status==3}
+            <div class="cover">
+                <a href="<!--{eval echo stripslashes($vote['wxurl']);}-->"><img src="{HEJIN_PATH}public/allimg/activity-scratch-card-gzwm.jpg" alt="" /></a>
+            </div>
+            <div class="scratchcardprize" align="center">{$plugininfo['hjggk_gztsyu']}</div>
+  {elseif $status==4}
+            <div class="cover">
+                <img src="{HEJIN_PATH}public/allimg/activity-scratch-card-bannerbg.png" alt="" />
+                <div id="prize"></div>
+                <div id="scratchpad">{$plugininfo['hjggk_jfbgtsyu']}</div>
+            </div>
+            <div class="scratchcardprize" align="center">{lang hejin_ggk:jifentsa} {$uinfo['yuliua']} {lang hejin_ggk:jifentsb}{lang hejin_ggk:jifentsc} {$vote['jifen']} {lang hejin_ggk:jifentsd}</div>
+  {elseif $status==6}
+            <div class="cover">
+                <img src="{HEJIN_PATH}public/allimg/activity-scratch-card-bannerbg.png" alt="" />
+                <div id="prize"></div>
+                <div id="scratchpad">{$plugininfo['hjggk_xianzhits']}</div>
+            </div>
+            <div class="scratchcardprize" align="center">{lang hejin_ggk:jifentsa} {$uinfo['yuliua']} {lang hejin_ggk:jifentsb}{lang hejin_ggk:jifentsc} {$vote['jifen']} {lang hejin_ggk:jifentsd}</div>
+  {elseif $status==5}
+    <div class="cover"> <img src="{HEJIN_PATH}public/allimg/activity-scratch-card-bannerbg.png" alt="" />
+      <div id="prize"></div>
+      <div id="scratchpad"></div>
+    </div>
+    <div class="scratchcardprize" align="center">{lang hejin_ggk:jifentsa} {$uinfo['yuliua']} {lang hejin_ggk:jifentsb}{lang hejin_ggk:jifentsc} {$vote['jifen']} {lang hejin_ggk:jifentsd}</div>
+  {/if}
+    </div>
+  
+  <div class="content">
+  
+    {if $zjl==1}
+  <div id="zjl" style="display:none" class="boxcontent boxwhite">
+		<div class="box">
+			<div class="title-red"><span>{lang hejin_ggk:gxnzjl}</span></div>
+  <form id="add_form" method="post" enctype="multipart/form-data" action="" onSubmit="return check();">
+    <input type="hidden" name="formhash" value="{FORMHASH}" />
+			<div class="Detail">
+				<p>{lang hejin_ggk:nzhongl}<span class="red">{$winprize}</span></p>
+				<p class="red"><!--{eval echo stripslashes($ggkjl['jpname']);}--></p>
+				<p>
+					<input type="hidden" name="ggkjid" value="$zjlpid">
+					<input type="hidden" name="gid" value="$gid">
+                    {if $uinfo['telphone']}
+                    <input type='tel' name="telphone" class="px" id="telphone" value="<!--{eval echo stripslashes($uinfo['telphone']);}-->" placeholder="{lang hejin_ggk:qshurusjh}" readonly>
+                    {else}
+                    <input type='tel' name="telphone" class="px" id="telphone" value="" placeholder="{lang hejin_ggk:qshurusjh}">
+                    {/if}
+				</p><p>
+				<p>
+					<input class="pxbtn" name="add_ggkjl"  id="save-btn" type="submit" value="{lang hejin_ggk:lingqu}">
+				</p>
+			</div>
+    </form>
+		</div>
+	</div>
+  {/if}
+
+  
+  </div>
+  
+  
+  {if $ggkzjlec>0}
+  <div class="content" style="margin-top:-5px">
+			<div class="boxcontent boxwhite">
+				<div class="box">
+					<div class="title-brown">{lang hejin_ggk:zhunjd}  <!--{eval echo stripslashes($uinfo['telphone']);}--> {lang hejin_ggk:gongxi}</div>
+            <!--{loop $ggkzjle $key $zhongjiang}-->
+					<div class="Detail">
+					<!--{eval $ggkjpinfo = C::t('#hejin_ggk#hjggk_jiangs')->fetch_by_id($zhongjiang['ggkjid']);}-->
+					<p>[<!--{eval echo $key+1}-->] {lang hejin_ggk:nyjzg} <strong><font color='red'><!--{eval echo stripslashes($ggkjpinfo['title']);}--></font></strong><br>{if $zhongjiang['is_lq']}<font color="red">{lang hejin_ggk:yilingqu}</font>{else}{lang hejin_ggk:duijianghao}<font color="red"><!--{eval echo stripslashes($zhongjiang['snno']);}--></font>{/if}</p>	
+			
+					</div>
+            <!--{/loop}-->
+				</div>
+			</div>
+		</div>
+  {/if}
+  
+  <div class="content">
+  {if $vote['guize']}
+    <div class="boxcontent boxwhite">
+      <div class="box">
+        <div class="title-red">{$plugininfo['hjggk_hdsmbt']}</div>
+        <div class="Detail">
+			<!--{eval echo stripslashes($vote['guize']);}-->       
+             </div>
+      </div>
+    </div>
+  {/if}
+    <div class="activity_set">
+      <table cellpadding="0" cellspacing="0">
+        <tr>
+          <td>{lang hejin_ggk:ggkxlsj}</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    <div class="prize_list">
+      
+      
+            <!--{loop $jplist $jiangpin}-->
+            <div class="prize_item">
+                
+                <div class="prize_itema">
+                    <p><!--{eval echo stripslashes($jiangpin['title']);}-->&nbsp;{$jiangpin['number']}{lang hejin_ggk:ming}</p>
+                    <p>{if $jiangpin['telphone']}<a href="tel:<!--{eval echo stripslashes($jiangpin['telphone']);}-->">{lang hejin_ggk:shangjrx}{lang hejin_ggk:maohao}<!--{eval echo stripslashes($jiangpin['telphone']);}--></a>{/if}</p>
+                </div>
+                
+                <div>
+                    <div class="photo">
+                       {if $jiangpin['sjname'] && $jiangpin['descrip']}
+                       <a href="{HEJIN_URL}&model=gjiang&jid=$jiangpin['id']">
+                            <img src="{HEJIN_PATH}{$jiangpin['pic']}" />
+                       </a>
+                       {else}
+                       		<img src="{HEJIN_PATH}{$jiangpin['pic']}" />
+                       {/if}
+                    </div>
+                    <div>
+                        {if $jiangpin['wxurl'] || $jiangpin['yuliud']}
+                        <div class="sharea">
+                            {if $jiangpin['wxurl']}<p><a href="<!--{eval echo stripslashes($jiangpin['wxurl']);}-->">{lang hejin_ggk:gzsjgzh}</a></p>{/if}
+                            {if $jiangpin['sjhdurl']}<p><a href="<!--{eval echo stripslashes($jiangpin['sjhdurl']);}-->">{lang hejin_ggk:bmcjsjhd}</a></p>{/if}
+                        </div>
+                        {/if}
+                        <div>{if $jiangpin['jpname']}<!--{eval echo stripslashes($jiangpin['jpname']);}-->{/if}</div>
+                    </div>
+                </div>
+            </div>
+           <!--{/loop}--> 
+      
+      
+      
+      
+      
+    </div>
+  </div>
+</div>
+<div class="fixshowed"></div>
+
+    
+    
+
+
+
+
+
+<script type="text/javascript">
+        $(function () {
+            $(".popwindow > div > div").each(function () {
+                $(this).css({ bottom: -$(this).height() });
+            });
+            $(".activity_foot > ul > li").bind("click",
+            function () {
+                var _nth = $("div.popwindow > div > div").index($("div.popwindow > div > div:not(.vpop)"));
+                var nth = $("div.activity_foot > ul > li").index($(this));
+                if (_nth == nth) {
+                    if (!$("div.popwindow > div > div:nth-child(" + (nth + 1) + ")").hasClass("vpop")) {
+                        $("div.popwindow > div > div:nth-child(" + (nth + 1) + ")").animate({ bottom: -$("div.popwindow > div > div:nth-child(" + (nth + 1) + ")").height() }, "fast", function () {
+                            $(this).addClass("vpop");
+                        });
+                    }
+                }
+                else {
+                    $("div.popwindow > div > div:nth-child(" + (_nth + 1) + ")").css({ bottom: -$("div.popwindow > div > div:nth-child(" + (_nth + 1) + ")").height() });
+                    $("div.popwindow > div > div:nth-child(" + (_nth + 1) + ")").addClass("vpop");
+                }
+                $("div.popwindow > div > div:nth-child(" + (nth + 1) + ")").removeClass("vpop");
+                $("div.popwindow > div > div:nth-child(" + (nth + 1) + ")").animate({ bottom: '60px' }, "fast");
+            });
+        });
+    </script> 
+<script type="text/javascript">
+{if $status==5}   
+        var zjl = $zjl; 
+        var num = 0;
+        var goon = true;
+        $(function () {
+            var useragent = window.navigator.userAgent.toLowerCase();
+            $("#scratchpad").wScratchPad({
+                width: 150,
+                height: 40,
+                color: "#a9a9a7",
+                scratchUp : function(e, num){
+                },
+                scratchMove: function (e, num) {
+
+                    if (num > 10) {
+                        document.getElementById('prize').innerHTML = "{$winprize}";
+                    }
+                    if (zjl && num > 10 && goon) {
+						$.get('{HEJIN_URL}&model=guaguo&gid=$gid&formhash={FORMHASH}', null, function (result) {
+							if(result==1){
+							}
+                        }, 'text');
+						
+						
+                        goon = false;
+                        $("#zjl").slideToggle(500);
+                    }
+                    if (!zjl && goon&& num > 10) {
+ 						$.get('{HEJIN_URL}&model=guaguo&gid=$gid&formhash={FORMHASH}', null, function (result) {
+							if(result==1){
+							}
+                        }, 'text'); 
+                       	goon = false;
+                        alert("{lang hejin_ggk:xxcanyuts}", "{HEJIN_URL}&model=ggk&gid=$gid");
+                    }
+                    if (useragent.indexOf("android 4") > 0) {
+                        if ($("#scratchpad").css("color").indexOf("51") > 0) {
+                            $("#scratchpad").css("color", "rgb(50,50,50)");
+                        } else if ($("#scratchpad").css("color").indexOf("50") > 0) {
+                            $("#scratchpad").css("color", "rgb(51,51,51)");
+                        }
+                    }
+                }
+            });
+        });
+
+        
+{/if}
+
+
+
+       		
+				 		function check(){
+					var telphone = $("#telphone").val();
+					var regPartton=/1[3-8]+\d{9}/;
+					if(!telphone){
+						alert('{lang hejin_ggk:qsrndsjh}');
+						return false;
+					}else{
+						if(!regPartton.test(telphone)){
+							alert('{lang hejin_ggk:qsrndsjh}');
+							return false;
+						}
+					}
+
+				}
+
+		
+    </script>
+</body>
+</html>

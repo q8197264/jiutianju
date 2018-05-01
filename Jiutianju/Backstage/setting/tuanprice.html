@@ -1,0 +1,41 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">教育结算</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是教育费率相关的信息,这个服务费这里填好后，商家增加教育课程时会自动计算结算价格，统一收费管理。</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('setting/tuanprice')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" >教育技术服务费：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[default_tuanprice]" value="<{$CONFIG.tuanprice.default_tuanprice}>" class="scAddTextName " id="input"/>‰
+						<script type="text/javascript">
+var text = document.getElementById("input");
+text.onkeyup = function(){
+
+if(text.value>1000){
+  text.value = 1000;
+}
+if(text.value<0){
+  text.value =10;
+}
+}
+</script>
+                        <code>教育服务费【只能填10-1000之间的数字，1000表示全部结算给网站，10表示收费的99%都归商户。<font color=red>注意，这里是千分之为单位</font>】</code>
+                    </td>
+                </tr>
+
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

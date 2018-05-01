@@ -1,0 +1,83 @@
+<link href="{HEJIN_PATH}public/admin/css/style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.validation.min.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/admincp.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.tooltip.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.cookie.js"></script>
+<link href="{HEJIN_PATH}public/admin/css/skin_0.css" rel="stylesheet" type="text/css" id="cssfile2" />
+<script type="text/javascript">
+function submit_delete_batch(){
+    var items = '';
+    $('.checkitem:checked').each(function(){
+        items += this.value + ',';
+    });
+    if(items != '') {
+        items = items.substr(0, (items.length - 1));
+        submit_delete(items);
+    }  
+    else {
+        alert('{lang hejin_ggk:clickok}');
+    }
+}
+</script>
+
+<div class="page">
+  <div class="fixed-bar">
+    <div class="item-title">
+      <div class="h3" style="width:auto;">{lang hejin_ggk:ggklist}</div>
+      <ul class="tab-base">
+        <li><a href="$SELF?action=plugins&operation=config&do={$_GET['do']}&identifier=hejin_ggk&pmod=ggk" class="current"><span>{lang hejin_ggk:hdliebiao}</span></a></li>
+		<li><a href="$SELF?action=plugins&operation=config&do={$_GET['do']}&identifier=hejin_ggk&pmod=ggk&model=addggk"><span>{lang hejin_ggk:addggk}</span></a></li>
+		<li>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#F00; font-weight:bolder;">{lang hejin_ggk:qguanzhujc}</span></li>
+      </ul>
+    </div>
+  </div>
+  
+  
+  <form id="list_form" method='post'>
+    <input id="class_id" name="class_id" type="hidden" />
+    <table class="table tb-type2">
+      <thead>
+        
+        <tr class="thead">
+          <th width="5%">ID</th>
+          <th width="15%">{lang hejin_ggk:hdtitle}</th>
+          <th width="35%" style="text-align:center;">{lang hejin_ggk:guanli}</th>
+          <th width="10%">{lang hejin_ggk:gjcs}</th>
+          <th width="10%">{lang hejin_ggk:hdzhuangtai}</th>
+		  <th width="30%" class="align-center">{lang hejin_ggk:caozuo}</th>
+        </tr>
+      </thead>
+      <tbody>
+      
+      <!--{loop $stlists $stinfo}-->
+                        <tr class="hover edit">
+		  <td>$stinfo['id']</td>
+		  <td><!--{eval echo stripslashes($stinfo['title']);}--></td>
+		  <td style="text-align:center;"><a href="$SELF?action=plugins&operation=config&do={$_GET['do']}&identifier=hejin_ggk&pmod=ggk&model=jiangs&gid=$stinfo['id']">{lang hejin_ggk:jianggl}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="$SELF?action=plugins&operation=config&do={$_GET['do']}&identifier=hejin_ggk&pmod=ggk&model=zhongj&gid=$stinfo['id']">{lang hejin_ggk:zhongjjl}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{HEJIN_URL}&model=shangjia&gid=$stinfo['id']" target="_blank">{lang hejin_ggk:sjfjurl}</a></td>
+		  <td>$stinfo['gjcs']</td>
+		  <td>{if $stinfo['start_time']<time() && $stinfo['end_time']>time()}<span style="color: #FB6600;font-weight: bold;
+}">{lang hejin_ggk:hdjxz}</span>{else}{if $stinfo['start_time']>time()}<span style="color: #FB6600;font-weight: bold;
+}">{lang hejin_ggk:hdhwks}</span>{else}<span style="color: #FB6600;font-weight: bold;
+}">{lang hejin_ggk:hdyjjs}</span>{/if}{/if}</td>
+         
+		  <td class='align-center'>
+		  	<a target='_blank' href="{HEJIN_URL}&model=ggk&gid=$stinfo['id']">{lang hejin_ggk:huoquurl}</a> &nbsp;&nbsp;
+		  	<a href="$SELF?action=plugins&operation=config&do={$_GET['do']}&identifier=hejin_ggk&pmod=ggk&model=edit&gid=$stinfo['id']">{lang hejin_ggk:xiugai}</a> &nbsp;&nbsp;
+		  	<a href="$SELF?action=plugins&operation=config&do={$_GET['do']}&identifier=hejin_ggk&pmod=ggk&model=del&gid=$stinfo['id']&formhash={FORMHASH}" onclick="return confirm(&quot;{lang hejin_ggk:shanchuts}&quot;);">{lang hejin_ggk:shanchu}</a>
+		  </td>
+        </tr>
+         <!--{/loop}-->                   
+                
+                      </tbody>
+            <tfoot>
+        <tr class="tfoot">
+          <td>
+          </td>
+          <td id="batchAction" colspan="15">
+            <div class="pagination"><ul>$page_string</ul></div></td>
+        </tr>
+      </tfoot>
+          </table>
+  </form>
+</div>

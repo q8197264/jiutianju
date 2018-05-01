@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{$jyConfig['plugin_name']}</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="source/plugin/tom_love/images/style.css?v={$cssJsVersion}" rel="stylesheet" type="text/css">
+<script src="source/plugin/tom_love/images/jquery.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<base target="_self">
+</head>
+<body>
+<header class="header_style2 clearfix">
+	<a href="plugin.php?id=tom_love&mod=my"></a>
+	<h1>{lang tom_love:share_title}{$jyConfig['score_name']}</h1>
+</header>
+<header class="share_box clearfix">
+	<div class="share_top_box clearfix">
+    	<figure><img src="source/plugin/tom_love/images/jinbi_ico.png"></figure>
+        <article>
+        	<header>{lang tom_love:share_fx}</header>
+            <footer>{lang tom_love:share_score}{$jyConfig['share_score_num']}{$jyConfig['score_name']}</footer>
+        </article>
+    </div>
+    <div class="share_main_btn clearfix">
+        <ul class="clearfix">
+            <li><a href="javascript:void(0);" onclick="showShareGuide();">{lang tom_love:share_btn}</a></li>
+        </ul>
+    </div>
+    <div class="box_both clearfix"></div>
+    <div class="share_more_box clearfix">{$shareString}</div>
+</header>
+<script>
+$(document).ready(function(){
+  $.get("{$ajaxClicksUrl}");
+});
+function showShareGuide(){
+	$('body').append('<div id="share_guide_box" onclick="hideShareGuide();" style="position:fixed;left:0px;top:0px;width:100%;height:100%;background-color: rgba(0,0,0,0.5);text-align:right;" ontouchmove="return true;" ><img src="source/plugin/tom_love/images/share.png" style="margin-top:10px;margin-right:10px;"></div>');
+}
+function hideShareGuide(){
+    $("#share_guide_box").remove();
+}
+
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideToolbar');
+});
+
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

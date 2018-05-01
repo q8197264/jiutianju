@@ -10,7 +10,6 @@ class TuancodeAction extends CommonAction {
 		
     }
 
-    
     public function weixin() {
         $code_id = $this->_get('code_id');
         if (!$detail = D('Tuancode')->find($code_id)) {

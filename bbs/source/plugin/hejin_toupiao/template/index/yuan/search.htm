@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
+    <meta content="yes" name="apple-mobile-web-app-capable">
+
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+
+    <meta content="telephone=no" name="format-detection">
+
+    <meta charset="$charset">
+
+    <title><!--{eval echo stripslashes($vote['title']);}--></title>
+
+    <meta name="description" content="<!--{eval echo stripslashes($vote['content']);}-->">
+
+    <link rel="stylesheet" href="{HEJIN_PATH}public/index/touch.css">    
+
+	<script type="text/javascript" src="{HEJIN_PATH}public/index/jquery-2.1.3.min.js"></script>
+
+
+
+                 <script type="text/javascript" src="{HEJIN_PATH}public/index/app.js"></script>
+
+                 <script type="text/javascript" src="{HEJIN_PATH}public/index/jquery.masonry.min.js"></script>
+
+                
+
+    </head>
+
+<body>
+
+<header>
+
+
+
+    <div class="m_head clearfix">
+
+        <img src="<!--{eval echo stripslashes($vote['pic']);}-->" />
+
+        <div class="num_box">
+
+            {if $ishavezp}<a href="{HEJIN_URL}&model=detail&zid=$havezp['id']" class="join_us">{lang hejin_toupiao:wodezuop}</a>{else}{if $vote['start_time']<time() && $vote['over_time']>time()}<a href="{HEJIN_URL}&model=signup&vid=$vote['id']" class="join_us">{lang hejin_toupiao:woyaobm}</a>{/if}{/if}           
+
+            <ul class="num_box_ul">
+
+                <li>
+
+                    <span class="text">{lang hejin_toupiao:yibaoming}</span>
+
+                    <span>$vote['zuopins']</span>
+
+                </li>
+
+                <li>
+
+                    <span class="text">{lang hejin_toupiao:tprenci}</span>
+
+                    <span><!--{eval echo $vote['toupiaos']+$vote['xntps'];}--></span>
+
+                </li>
+
+                <li>
+
+                    <span class="text">{lang hejin_toupiao:viewnub}</span>
+
+                    <span><!--{eval echo $vote['clicks']+$vote['xnlls'];}--></span>
+
+                </li>
+
+            </ul>
+
+            <img src="{HEJIN_PATH}public/index/mw_004.jpg" />
+
+        </div>
+
+        <div class="search">
+
+    <form action="" id="search_form" method="post">
+
+    <input type="hidden" name="formhash" value="{FORMHASH}" />
+
+    <input type="hidden" name="vid" value="$vid" />
+
+        <div class="search_con">
+
+            <div class="btn"><input type="submit" name="seachid" id="searchBtn" value="{lang hejin_toupiao:search}"></div>
+
+            <div class="text_box"><input type="search" id="searchText" value="" name="keyword" placeholder="{lang hejin_toupiao:seachts}" autocomplete="off"></div>
+
+        </div>
+
+    </form>
+
+</div>    </div>
+
+</header>
+
+
+
+<section class="content" id="get_info" data-rid="503" data-sort="" data-kw="" data-page="">
+
+    <div class="text_a clearfix" id="sort">
+
+        <a href="" class="active">{$keyword}</a>
+
+        <a href="{HEJIN_URL}&model=vote&vid=$vote['id']">{lang hejin_toupiao:newcansai}</a>
+
+        <a href="{HEJIN_URL}&model=rank&vid=$vote['id']" >{lang hejin_toupiao:toupiaoph}</a>
+
+    </div>
+
+    <div class="blank20"></div>
+
+    <div id="pageCon" class="match_page masonry" style="padding-bottom: 50px">
+
+        <ul class="list_box masonry clearfix" style="position: relative;">
+
+        			<!--{loop $zuopins $zuopin}-->
+
+                      <li class="picCon">
+
+                        <div>
+
+                            <i class="number"><!--{eval echo $vote['id']*10000+$zuopin['id'];}-->{lang hejin_toupiao:hao}</i>
+
+                            <a href="{HEJIN_URL}&model=detail&zid=$zuopin['id']" class="img">
+
+                                <img src="http://img.0371xm.com/?url={HEJIN_PATH}<!--{eval echo stripslashes($zuopin['pica']);}-->" alt="">
+
+                            </a>
+
+                            <div class="clearfix">
+
+                                <p>
+
+                                    <!--{eval echo stripslashes($zuopin['zpname']);}--><br/>
+
+                                    {$zuopin['toupiaos']}{lang hejin_toupiao:piao}
+
+                                </p>
+
+                                <a href="" class="vote" data-itid="{$zuopin['id']}" data-vote_num="$vote['id']" data-rule_id="$vote['id']">{lang hejin_toupiao:toupiao}</a>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                   <!--{/loop}--> 
+
+                                </ul>
+
+
+
+    </div>
+
+
+
+    
+
+</section>
+
+<img class="bg" src="{HEJIN_PATH}public/index/mw_005.jpg" />
+
+
+
+<section class="rules">
+
+    <div class="text">    {if $vote['shuomingta']}
+
+        <div class="prize"><!--{eval echo stripslashes($vote['shuomingta']);}--></div>
+
+            <div class="neirong"><!--{eval echo replace($vote['shuomingca']);}--></div>
+
+    {/if}
+
+    {if $vote['shuomingtb']}
+
+        <div class="prize"><!--{eval echo stripslashes($vote['shuomingtb']);}--></div>
+
+             <div class="neirong"><!--{eval echo replace($vote['shuomingcb']);}--></div>
+
+    {/if}
+
+</div>
+
+    <div class="text">    {if $vote['shuomingtc']}
+
+        <div class="ways"><!--{eval echo stripslashes($vote['shuomingtc']);}--></div>
+
+            <div class="neirong"> <!--{eval echo replace($vote['shuomingcc']);}--></div>
+
+    {/if}
+
+</div>
+
+</section>
+
+
+
+<section>
+
+    <div class="pop" id="guanzhu" style="display:none">
+
+        <div class="mengceng"></div>
+
+        <div class="pop_up">
+
+                        <p class="tit_p">{$hejintoupiao['hjtp_ydgzbt']}</p>
+
+            <p class="tit_txt"><!--{eval echo stripslashes($vote['wxgzts']);}--></p>
+
+            <a href="<!--{eval echo stripslashes($vote['wxgzurl']);}-->" class="gz_btn">{$hejintoupiao['hjtp_ydgzan']}</a>
+
+                    </div>
+
+    </div>
+
+    <div class="pop" id="voted" style="display:none;">
+
+        <div class="mengceng"></div>
+
+        <div class="pop_up">
+
+            <span class="closed close_pop_up" id="toupiaook">&nbsp;</span>
+
+            <p class="tit_p" id="dia_title">{lang hejin_toupiao:toupiaotse}</p>
+
+            <p class="tit_txt" id="content">{lang hejin_toupiao:toupiaotsa}</p>
+
+            {if $hejintoupiao['hjtp_tpjl'] && $hejintoupiao['hjtp_tpjlnub']}<p class="tit_txt" id="content">$hejintoupiao['hjtp_tpjlsm']</p>{/if}
+
+            {if $hejintoupiao['hjtp_tpjl'] && $hejintoupiao['hjtp_tpjlnub'] && $hejintoupiao['hjtp_jfxfurl']}<a href="$hejintoupiao['hjtp_jfxfurl']" class="gz_btn">$hejintoupiao['hjtp_jfxftitle']</a>{/if}
+
+            <p class="tit_txt" id="subcontent"></p>
+
+        </div>
+
+    </div>
+
+    
+
+
+
+
+
+    
+
+    <div class="pop" id="voting" style="display:none;">
+
+        <div class="mengceng"></div>
+
+        <div class="pop_up">
+
+            <span class="closed close_pop_up">&nbsp;</span>
+
+            <p class="tit_p" id="voting_title"></p>
+
+            <p class="tit_txt" id="voting_content"></p>
+
+        </div>
+
+    </div>
+
+    <div class="share_overmask" style="display: none;">
+
+        <div class="share_arrow"></div>
+
+        <div class="share_words"></div>
+
+    </div>
+
+</section>
+
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/index1/daohang.css">
+
+
+
+<div class="bot_main">
+
+  <ul>
+
+    <li class="ico_1"><span class="ico"><img src="{HEJIN_PATH}public/index1/i1.png" /></span><span class="txt">{lang hejin_toupiao:shouyea}</span></li>
+
+    <li class="ico_2"><span class="ico"><img src="{HEJIN_PATH}public/index1/i3.png" /></span><span class="txt">{lang hejin_toupiao:paiming}</span></li>
+
+    <li class="ico_3"><span class="ico"><img src="{HEJIN_PATH}public/index1/i11.png" /></span><span class="txt">{if $ishavezp}{lang hejin_toupiao:wodezpa}{else}{lang hejin_toupiao:baoming}{/if}</span></li>
+
+<li class="ico_4"><span class="ico"><img src="{HEJIN_PATH}public/index1/i4.png" /></span><span class="txt">拉票</span></li>
+
+  </ul>
+
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $("#toupiaook").on('click',function(){
+
+                window.location.href = "{HEJIN_URL}&model=vote&vid=$vote['id']&page=$page";
+
+        });
+
+    });
+
+$('.ico_1').on('click', function(){
+
+  location.href = "{HEJIN_URL}&model=vote&vid=$vote['id']";
+
+});
+
+$('.ico_2').on('click', function(){
+
+  location.href = "{HEJIN_URL}&model=rank&vid=$vote['id']";
+
+});
+
+$('.ico_3').on('click', function(){
+
+  {if $ishavezp}
+
+  	location.href = "{HEJIN_URL}&model=detail&zid=$havezp['id']";
+
+  {else}
+
+  	{if $vote['start_time']<time() && $vote['over_time']>time()}
+
+  		location.href = "{HEJIN_URL}&model=signup&vid=$vote['id']";
+
+  	{else}
+
+  		{if $vote['start_time']>time()}
+
+  			VoteEorr("<!--{eval echo date('Y-m-d H:i',$vote['start_time']);}--> {lang hejin_toupiao:baomwksts}");
+
+  		{else}
+
+  			VoteEorr("{lang hejin_toupiao:baomyjs}");
+
+  		{/if}
+
+  	{/if}
+
+  {/if}
+
+});
+
+$('.ico_4').on('click', function(){
+
+	location.href = "http://mp.weixin.qq.com/s?__biz=MzA3NTE5Njc3OA==&mid=204852007&idx=2&sn=6d71bc6665fedd3aec82dfa02cfa1b0e#rd";
+
+});
+
+</script>
+
+
+
+<script type="text/javascript">
+
+    $(function(){
+
+        $('.vote').on('tap', function(e){
+
+            e.preventDefault();
+
+            var self = $(e.target).closest('.vote');
+
+            $.ajax({
+
+                type: "GET",
+
+                url: "{HEJIN_URL}&model=ticket",
+
+                cache: false,
+
+                data: {
+
+                    zid:self.data('itid'),
+
+					formhash:'{FORMHASH}'
+
+					
+
+                },
+
+                success: function(data) {
+
+                    if (data == 102) {//未关注
+
+                        $('#guanzhu').show();
+
+                    } else if (data == 108) {//投票成功
+
+                        $('#voted').show();
+
+                    } else if (data == 106) {//此用户今日已无法投票
+
+						$('#voting_title').html('{lang hejin_toupiao:notoupiao}');
+
+						$('#voting_content').html('{lang hejin_toupiao:tpjihuic}');
+
+                        $('#voting').show();
+
+                    } else if (data == 105) {//此IP下今日已无法投票
+
+						$('#voting_title').html('{lang hejin_toupiao:notoupiao}');
+
+						$('#voting_content').html('{lang hejin_toupiao:toupiaotsb}');
+
+                        $('#voting').show();
+
+                    } else if (data == 103) {//投票还未开始
+
+						$('#voting_title').html('{lang hejin_toupiao:toupiaotsc}');
+
+						$('#voting_content').html('{lang hejin_toupiao:toupiaotsg}<!--{eval echo date("Y-m-d H:i",$vote[vote_time]);}-->{lang hejin_toupiao:toupiaotsf}');
+
+                        $('#voting').show();
+
+                    } else if (data == 104) {//投票已经结束
+
+						$('#voting_title').html('{lang hejin_toupiao:toupiaotsh}');
+
+						$('#voting_content').html('');
+
+                        $('#voting').show();
+
+                    } else if (data == 107) {//投票已经结束
+
+						$('#voting_title').html('{lang hejin_toupiao:toupiaotsi}');
+
+						$('#voting_content').html('{lang hejin_toupiao:toupiaotsj}');
+
+                        $('#voting').show();
+
+                    } else if (data == 110) {//ip不在限制区域中
+
+						$('#voting_title').html('{lang hejin_toupiao:toupiaotsi}');
+
+						$('#voting_content').html('{$hejintoupiao[hjtp_ipxzts]}');
+
+                        $('#voting').show();
+
+                    }else if (data == 109) {//投票已经结束
+
+						$('#voting_title').html('{lang hejin_toupiao:toupiaotsi}');
+
+						$('#voting_content').html('{$hejintoupiao[hjtp_tpxzts]}');
+
+                        $('#voting').show();
+
+                    }
+
+                }
+
+            });
+
+        });
+
+
+
+        var container = $('#pageCon ul');
+
+
+
+        container.imagesLoaded(function(){
+
+            container.masonry({
+
+                itemSelector: '.picCon'
+
+            });
+
+        });
+
+    });
+
+
+
+    $(window).on('unload pageshow', function () {});
+
+	$.get('{HEJIN_URL}&model=clicks&vid=$vote[id]&formhash={FORMHASH}');
+
+</script>
+
+<div style="display:none"></div>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?20a04a0bbc589b01f3064386e78d5697";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+</body>
+
+</html>

@@ -35,7 +35,7 @@
 .detail .ontop{background:#FFF;border-bottom:1px solid #dedede}
 .detail .ontop h1{font-weight:300;margin:0;padding:5px 10px}
 .detail .ontop h2{font-size:14px;font-weight:300;color:#999;margin:0 10px;padding:5px 0;}
-ul.am-avg-sm-2{margin:0 10px;height:70px;line-height:35px;font-size:14px;color:#888;background:#FEFEFE}
+ul.am-avg-sm-2{margin:0 10px;line-height:35px;font-size:14px;color:#888;background:#FEFEFE}
 ul.am-avg-sm-2 li{border-top:1px dashed #DEDEDE;padding-left:4px}
 ul.am-avg-sm-2 li:before{margin-right:4px;font-size:16px}
 .detail-info{background:#FFF;padding:10px}

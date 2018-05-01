@@ -1,0 +1,530 @@
+<include file="public:header" />
+<include file="public:top"/>
+<style type="text/css">
+.header--mini{border-bottom:2px solid <{$color}>!important;color:#666;display:block;min-width:980px}
+.header--mini .wrapper{margin:0 auto;padding:20px 0;width:980px}
+.header--mini .site-logo{width:128px;width:54px;height:36px;background-position:-262px -165px}
+.header--mini .login-block{float:right;line-height:36px}
+.header--mini .login-block .tip{margin-right:10px;vertical-align:sub}
+.header--mini .login-block{float:right;line-height:36px}
+.header--mini .login-block .login{padding:3px 10px}
+
+.btn-small{padding:3px 20px;font-size:12px}
+.btn{background-color:#1a9ee9!important;background-size:100%;background-image:-webkit-linear-gradient(top,#1a9ee9!important,#1a9ee9!important);background-image:linear-gradient(to bottom,#1a9ee9!important,#1a9ee9!important)}
+.btn,.btn-hot,.btn-normal{display:inline-block;vertical-align:middle;padding:8px 20px;font-size:14px;font-weight:700;-webkit-font-smoothing:antialiased;line-height:1.5;letter-spacing:.1em;text-align:center;text-decoration:none;border-width:0 0 1px;border-style:solid;background-repeat:repeat-x;border-radius:2px;-moz-user-select:-moz-none;-ms-user-select:none;-webkit-user-select:none;user-select:none;cursor:pointer}
+.btn,.btn.hover,.btn:focus,.btn:hover{border-color:#0B8074;color:#fff;zoom:1}
+
+.tb-categories .tb-cat li.maintainHover { height:95px; color:#fff;border-bottom:1px dotted #E3E3E3; padding-left:10px; border-left:1px solid #E3E3E3;border-right:1px solid #E3E3E3; background:;  border-top:0;}
+.register_b{ width:250px; height:45px; border:0; color:#FFFFFF; cursor:pointer; font-size:16px; background:; }
+
+.home-tab li.current .home-tab-super{height:43px;line-height:42px;background:#FFF;color:;cursor:default; width:155px;border-top:3px solid ;  }
+.home-tab .home-tab-super:hover{height:42px;line-height:40px;background:#FFF;color:;cursor:pointer; border-top:3px solid ; }
+
+.gwzx .vipduo2{display:block;width:273px;height:43px; padding-left:15px;border-top:3px solid ;font-size:16px;line-height:43px;text-align:left;color:#444;cursor:pointer;border-bottom:0;font-family:'Hiragino Sans GB','Microsoft YaHei','SimSun',sans-serif;}
+
+.dddefault .daohang{margin:0 auto;padding:0;text-align:left;height:46px;clear:both;font-family:"微软雅黑"; border-bottom: 2px solid ; background:#FFFFFF}
+.daohang1000 li.linav1{position:relative;z-index:999;margin-top:0px;float:left;width:220px;height:46px; background:;border-radius:5px 5px 0 0}
+
+#fontt a {color:;}
+.dddefault .sbutton{LINE-HEIGHT:40px;*LINE-HEIGHT:37px;background:;BORDER-RIGHT-WIDTH:0px;WIDTH:110px;FLOAT:right;BORDER-TOP-WIDTH:0px;BORDER-BOTTOM-WIDTH:0px;HEIGHT:40px;BORDER-LEFT-WIDTH:0px;CURSOR:pointer;color:#fff;cursor:pointer;font-size:16px;padding-left: 6px;font-family:'微软雅黑';}
+
+.dddefault .sbutton:hover{LINE-HEIGHT:40px;*LINE-HEIGHT:37px;background:;BORDER-RIGHT-WIDTH:0px;WIDTH:110px;FLOAT:right;BORDER-TOP-WIDTH:0px;BORDER-BOTTOM-WIDTH:0px;HEIGHT:40px;BORDER-LEFT-WIDTH:0px;CURSOR:pointer;color:#fff;cursor:pointer;font-size:16px;padding-left: 6px;font-family:'微软雅黑';}
+
+.searchbox .box-middle {WIDTH: 520px; DISPLAY: block; FLOAT: left;line-HEIGHT: 40px; HEIGHT: 40px;border:1px solid ;}
+
+.gm .tejia{background:;color:#fff;}
+
+.unlogged a.register2{display:inline-block;background:; margin-top:15px;width:80px;height:30px;line-height:2.2;margin-right:20px;text-decoration:none;border-radius:4px;}
+.unlogged a.login1{display:inline-block; margin-top:15px;width:80px;height:30px;border:1px solid #ddd;background-color:#fff;line-height:2.2;margin-right:20px;text-decoration:none;border-radius:4px;color:;}
+.n-h-list li a:hover{color:;}
+.item-info .orange-wrap {height:92px;background-color:;position:relative}
+.contact .dian_ico{ position:absolute;color:; height:29px; width:180px;display:block; top:35px; left:2px;font-size: 24px; font-weight: bold; }
+
+.goods-list li .good-price .price-current {font-size:40px;font-family:Arial;color:;  font-weight:500}
+.goods-list li .good-price .price-current em {font-size: 14px; font-family:"微软雅黑"; color:; vertical-align:1px; margin-left:1px;}
+
+
+.daohang1000 li a.anav:hover{font-size:16px;color:;text-decoration:none;position:relative;width:120px;height:46px;DISPLAY:block}
+#daohangse{;}
+.dddefault .daohang1000 li.linav a.anav:hover em{border-color: transparent transparent;}
+#loading{ position: fixed; left:0; top: 0; right: 0; bottom: 0; background:rgba(255,255,255,1) ; margin-left:-2.5rem;  margin-top:-1rem;z-index:9999999999;}
+#loading img{ position:absolute; width:5rem; height: auto; left:50%; top: 50%; margin-left:-2rem; margin-top:-3rem;}
+.mainbody {	margin: 0 auto;padding: 0;text-align: left;}
+.mainbody1000 {margin: 0 auto;text-align: left;width: 1000px;clear: both;}
+.container {margin: 0 auto;text-align: left;min-width: 1230px;background: url(__TMPL__statics/images/login/bj.jpg);}
+.register {
+	width: 998px;
+	background: #FFFFFF;
+	margin-top: 15px;
+	border-radius: 5px;
+	overflow: auto;
+	height: auto;
+	font-family: "微软雅黑";
+	padding-bottom: 50px
+}
+
+.register_left {
+	float: left;
+	width: 660px;
+	overflow: hidden;
+}
+
+.register_left p.title {
+	margin: 30px 0 20px 70px;
+	font-size: 21px;
+	font-family: "微软雅黑";
+	font-weight: normal;
+	width: 500px;
+}
+
+.register_left table {
+	font-size: 16px;
+	margin: 20px 0 0 70px;
+	display: inline;
+}
+
+.register_left table label {
+	font-size: 12px;
+	color: #999999;
+	margin-left: 10px
+}
+
+.register_left .ddinput {
+	width: 250px;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 5px;
+	background: #FFf;
+	border-radius: 3px;
+	border: 1px #ddd solid;
+}
+
+.register_left .ddinput:hover {
+	width: 250px;
+	height: 40px;
+	padding-left: 5px;
+	background: #FFf;
+	border-radius: 3px;
+	border: 1px #ff5151 solid;
+}
+
+.register_b2 {
+	width: 170px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	border-radius: 5px;
+	background: #ECF5FF;
+	border-bottom: 2px #D2E9FF solid;
+	color: #666;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+.register_b2:hover {
+	opacity: .8;
+}
+
+.register_right {
+	float: right;
+	width: 295px;
+	border-left: 1px solid #E5E5E5;
+	margin: 40px 0 0 0;
+}
+
+.register_right .register_right_1 {
+	margin: 20px 0 0 0;
+	width: 280px;
+	text-align: center;
+	color: #999999;
+}
+
+.register_right .register_right_1 input {
+	margin: 15px 0 0 0;
+}
+.hezuo {
+	width: 200px;
+	padding-left: 50px;
+	float: left;
+}
+
+.hezuo h3 {
+	font-size: 16px;
+	font-family: "微软雅黑";
+	font-weight: normal;
+}
+
+.hezuo ul {
+	margin-top: 18px;
+}
+
+.hezuo ul li {
+	padding-top: 10px;
+	position: relative;
+}
+
+.hezuo ul li a {
+	color: #666666;
+	width: 110px;
+	height: 52px;
+	display: block;
+	line-height: 52px;
+	font-size: 14px;
+	padding-left: 60px;
+}
+
+.hezuo ul li a:hover {
+	text-decoration: none;
+}
+
+.hezuo ul li .denglu {
+	background: url(__TMPL__statics/images/login/login.gif) no-repeat;
+}
+
+.hezuo ul li .sina {
+	background-position: 0 -99px;
+}
+
+.hezuo ul li .qq {
+	background-position: 0 -44px;
+}
+
+.hezuo ul li .tb {
+	background-position: 0 -154px;
+}
+
+.hezuo ul li .qqweibo {
+	background-position: 0 -209px;
+}
+
+.hezuo ul li .kaixin {
+	background-position: 0 -264px;
+}
+
+.hezuo ul li .sina:hover {
+	background-position: -173px -99px;
+}
+
+.hezuo ul li .qq:hover {
+	background-position: -173px -44px;
+}
+
+.hezuo ul li .tb:hover {
+	background-position: -173px -154px;
+}
+
+.hezuo ul li .qqweibo:hover {
+	background-position: -173px -209px;
+}
+.register_b {
+	width: 250px;
+	height: 45px;
+	border: 0;
+	color: #FFFFFF;
+	cursor: pointer;
+	font-size: 16px;
+}
+.dd_cure {
+	cursor: pointer;
+}/*template/miaozhe/inc/css/goos.css*/.c_bgcolor,.n-h-list li a span,.admin_xfl .admin_xfl_xz {
+	background-color: #ff6600;
+}
+
+.c_border,.jy_nav a:hover,.admin_xfl ul {
+	border-color: #ff6600;
+}
+
+.loginWays1 span em,.loginWays1 #menu_usernav em {
+	border-color: #ff6600 transparent transparent;
+}
+
+.dd_color,.c_fcolor,.c_fcolor:link,.c_fcolor:visited,.home-tab li.current .home-tab-super strong,.home-tab .home-tab-super:hover strong,.dddefault #navc a.sub_on,.topleft .topleftA a:hover,.topright a:hover,#fonta a:hover,.jy_nav a:hover, a:hover,.n-h-list li a:hover {
+	color: #ff6600;
+}
+
+.c_bgcolor a.anav:hover,#fontc {
+	background: #e84b0b;
+}
+
+.c_hborder,.dddefault #navc a.sub_on {
+	border-color: #e84b0b
+} /*data/plugin/default/color.css*/
+.loginInput8{margin-left:20px}
+  .ywz_zhuce_huixian{background:#d6d3d3;}
+.ywz_zhuce_hongxianwenzi{float:left; width:80px; margin-left:5px; text-align:center; color:#b0adad; font-size:12px; }
+.ywz_zhuce_hongxian{ background:#ff3300; }
+.ywz_zhuce_hongxian2{ background: #099;}
+.ywz_zhuce_hongxian3{ background: #060;}
+.ywz_zhuce_huixian, .ywz_zhuce_hongxian,  .ywz_zhuce_hongxian2, .ywz_zhuce_hongxian3{float:left; width:80px; height:10px; margin-top:10px; _margin-top:0px; margin-left:5px; _height:8px;font-size:0px;}
+</style>
+<div class="container dddefault">
+<br/>
+
+
+<div class="mainbody" id=s-txt style="width:1000px; margin:0px auto;">
+  <script>
+                var mobile_timeout;
+                var mobile_count = 100;
+                var mobile_lock = 0;
+				var mobile = $('#mobile').val();
+				var yzm = $('#sms_yzm').val();
+                $(function () {
+                    $("#m_zcyz").click(function () {
+                        if (mobile_lock == 0) {
+                            mobile_lock = 1;
+                            $.ajax({
+                                url: '<{:U("Home/passport/sendsms")}>',
+								data: 'mobile=' + $("#mobile").val() + '&sms_yzm=' + $("#sms_yzm").val(),
+								//data: 'mobile=' + $("#mobile").val() + '&account=' + $("#account").val(),
+                                type: 'post',
+                                success: function (data) {
+                                    if (data == 1) {
+                                        mobile_count = 60;
+                                        BtnCount();
+                                    } else {
+                                        mobile_lock = 0;
+                                        error(data);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+
+                BtnCount = function () {
+                    if (mobile_count == 0) {
+                        $('#m_zcyz').html("重新发送");
+                        mobile_lock = 0;
+                        clearTimeout(mobile_timeout);
+                    }
+                    else {
+                        mobile_count--;
+                        $('#m_zcyz').html("获取(" + mobile_count.toString() + ")秒");
+                        mobile_timeout = setTimeout(BtnCount, 1000);
+                    }
+                };
+            </script>
+<div class="mainbody1000">
+	<div class="register">
+    <div class="register_left">
+     <p class="title">免费注册<{$CONFIG['site']['sitename']}>，网购省钱第一站</p>
+     <form  action="<{:U('passport/register')}>" method="post" target="baocms_frm" >
+<table width="680" border="0" align="left" cellpadding="0" cellspacing="0">
+<tr>
+		  <td height="55" align="right">注册手机号 *&nbsp;</td>
+		  <td><li id="emailMatch_list" ><input name="data[account]" id="mobile"  type="text" value="" class="ddinput" autocomplete="off" style="*margin-left:-15px"/></li></td>
+		  <td id="ckemail"><label class="field_notice">请务必填写正确，接收验证码，一站通用</label></td>
+		</tr>
+  <php>
+   $num = $CONFIG['register']['register_register_ip_num'];
+ </php>
+  <if condition="$Registerip EGT $num"> 
+    <tr>
+		  <td width="15%" height="55" align="right">验证码 *&nbsp;</td>
+		  <td><input name="sms_yzm"  id="sms_yzm"   type="text" class="ddinput" value="" /></td>
+		  <td><img id="bao_img_code" src="__ROOT__/index.php?g=app&m=verify&a=index&mt=<{:time()}>" /><em><a rel="bao_img_code" class="yzm_code" href="javascript:void(0);">换一张</a></em></td>
+		</tr>
+    </if>
+    
+		<tr>
+		  <td width="15%" height="55" align="right">手机验证码 *&nbsp;</td>
+		  <td><input name="scode"  type="text"  value="" class="ddinput" value="" /></td>
+		  <td><a href="javascript:void(0);" class="btn loginInput8" id="m_zcyz" style="text-decoration: none;">发送验证码</a></td>
+		</tr>
+					<tr>
+		  <td height="55" align="right">&nbsp;&nbsp;密    码 *&nbsp;&nbsp;</td>
+		  <td><input name="data[password]" type="password"   id="tbPassword" class="ddinput" value=""/></td>
+                      
+		  <td id="ckpass">
+            <div class="ywz_zhuce_huixian" id='pwdLevel_1'> </div>
+                                        <div class="ywz_zhuce_huixian" id='pwdLevel_2'> </div>
+                                        <div class="ywz_zhuce_huixian" id='pwdLevel_3'> </div>
+                                        <div class="ywz_zhuce_hongxianwenzi"> 弱</div>
+                                        <div class="ywz_zhuce_hongxianwenzi"> 中</div>
+                                        <div class="ywz_zhuce_hongxianwenzi"> 强</div>
+            </td>
+            
+		</tr>
+  
+		<tr>
+		  <td height="55" align="right">确认密码 *&nbsp;&nbsp;</td>
+		  <td><input name="password2"  type="password" class="ddinput" value=""/></td>
+		  <td id="ckpass2"><label class="field_notice">请再次输入密码</label></td>
+		</tr>
+		 		   		
+                
+	
+                
+       <if condition="$fuser">
+          		<tr>
+		  <td height="55" align="right" >推荐人<{$fuser['nickname']}> &nbsp;</td>
+		  <td><input type="hidden" name="fuid" value="<{$fuser['user_id']}>"  value=""  class="ddinput"/></td>
+		  <td><label class="field_notice"><font color="#FF0000">推荐人帐号,没有可留空</font></label></td>
+		</tr>
+        </if>	       	
+		
+		<tr>
+		  <td height="55">&nbsp;</td>
+		  <td colspan="2"><input type="checkbox"  name="is_agree" value="checkbox" <if condition="$CONFIG['register']['register_service'] eq 1"> value="1"  checked="checked"  <else/>value="0"</if> /><span style="color:#999; font-size:12px">&nbsp;阅读并同意<a href="<{$CONFIG['register']['register_service_url']}>" target="_blank">&nbsp;服务协议</a>&nbsp;</span></td>
+	    </tr>
+		<tr>
+		  <td height="55">&nbsp;</td>
+		  <td><input type="hidden" name="from" value="" />
+                    <input type="submit" name="sub" value="立即注册"  class="register_b c_bgcolor">
+          </td>
+		  <td></td>
+		</tr>
+	  </table>
+      </form>
+      <div style="clear:both"></div>
+      </div>
+      <div class="register_right">
+           <div class="hezuo">
+            <h3>已经有帐号？请直接登录</h3>
+            <a href="<{:U('passport/login')}>" class="register_b2" style="display:block; margin-top:20px; margin-bottom:20px">账号登录</a>
+              </div>
+                            <div class="hezuo">
+         <h3>使用合作网站帐号登录</h3>
+              <ul>
+              		<if condition="!empty($CONFIG['connect']['qq_app_id'])">	<li><a class="denglu qq" href="<{:U('passport/qqlogin')}>">QQ登陆</a></li></if>
+              		<if condition="!empty($CONFIG['connect']['qq_app_id'])">	<li><a class="denglu sina" href="<{:U('passport/wblogin')}>">微博登陆</a></li></if>	
+                            
+              </ul>
+          </div>
+                </div>
+
+    </div>
+</div>
+</div>
+
+
+
+<br/>
+	
+<div align="center">copyright 2013-2113 <{$Think.SERVER.HTTP_HOST}> All Rights Reserved <{$CONFIG.site.sitename}>版权所有 - <{$CONFIG.site.tongji}>&nbsp;&nbsp;&nbsp;<{$CONFIG.site.icp}>
+ </div></p>
+<br/>
+</div>
+</div>
+ <script type="text/javascript">
+        $('#tbPassword').focus(function () {
+            $('#pwdLevel_1').attr('class', 'ywz_zhuce_hongxian');
+            $('#tbPassword').keyup();
+        });
+        $('#tbPassword').keyup(function () {
+            var __th = $(this);
+
+            if (!__th.val()) {
+                $('#pwd_tip').hide();
+                $('#pwd_err').show();
+                Primary();
+                return;
+            }
+            if (__th.val().length < 6) {
+                $('#pwd_tip').hide();
+                $('#pwd_err').show();
+                Weak();
+                return;
+            }
+            var _r = checkPassword(__th);
+            if (_r < 1) {
+                $('#pwd_tip').hide();
+                $('#pwd_err').show();
+                Primary();
+                return;
+            }
+
+            if (_r > 0 && _r < 2) {
+                Weak();
+            } else if (_r >= 2 && _r < 4) {
+                Medium();
+            } else if (_r >= 4) {
+                Tough();
+            }
+            $('#pwd_tip').hide();
+            $('#pwd_err').hide();
+        });
+        function Primary() {
+            $('#pwdLevel_1').attr('class', 'ywz_zhuce_huixian');
+            $('#pwdLevel_2').attr('class', 'ywz_zhuce_huixian');
+            $('#pwdLevel_3').attr('class', 'ywz_zhuce_huixian');
+        }
+
+        function Weak() {
+            $('#pwdLevel_1').attr('class', 'ywz_zhuce_hongxian');
+            $('#pwdLevel_2').attr('class', 'ywz_zhuce_huixian');
+            $('#pwdLevel_3').attr('class', 'ywz_zhuce_huixian');
+        }
+
+        function Medium() {
+            $('#pwdLevel_1').attr('class', 'ywz_zhuce_hongxian');
+            $('#pwdLevel_2').attr('class', 'ywz_zhuce_hongxian2');
+            $('#pwdLevel_3').attr('class', 'ywz_zhuce_huixian');
+        }
+
+        function Tough() {
+            $('#pwdLevel_1').attr('class', 'ywz_zhuce_hongxian');
+            $('#pwdLevel_2').attr('class', 'ywz_zhuce_hongxian2');
+            $('#pwdLevel_3').attr('class', 'ywz_zhuce_hongxian3');
+        }
+        function checkPassword(pwdinput) {
+            var maths, smalls, bigs, corps, cat, num;
+            var str = $(pwdinput).val()
+            var len = str.length;
+
+            var cat = /.{16}/g
+            if (len == 0) return 1;
+            if (len > 16) { $(pwdinput).val(str.match(cat)[0]); }
+            cat = /.*[\u4e00-\u9fa5]+.*$/
+            if (cat.test(str)) {
+                return -1;
+            }
+            cat = /\d/;
+            var maths = cat.test(str);
+            cat = /[a-z]/;
+            var smalls = cat.test(str);
+            cat = /[A-Z]/;
+            var bigs = cat.test(str);
+            var corps = corpses(pwdinput);
+            var num = maths + smalls + bigs + corps;
+
+            if (len < 6) { return 1; }
+
+            if (len >= 6 && len <= 8) {
+                if (num == 1) return 1;
+                if (num == 2 || num == 3) return 2;
+                if (num == 4) return 3;
+            }
+
+            if (len > 8 && len <= 11) {
+                if (num == 1) return 2;
+                if (num == 2) return 3;
+                if (num == 3) return 4;
+                if (num == 4) return 5;
+            }
+
+            if (len > 11) {
+                if (num == 1) return 3;
+                if (num == 2) return 4;
+                if (num > 2) return 5;
+            }
+        }
+        function corpses(pwdinput) {
+            var cat = /./g
+            var str = $(pwdinput).val();
+            var sz = str.match(cat)
+            for (var i = 0; i < sz.length; i++) {
+                cat = /\d/;
+                maths_01 = cat.test(sz[i]);
+                cat = /[a-z]/;
+                smalls_01 = cat.test(sz[i]);
+                cat = /[A-Z]/;
+                bigs_01 = cat.test(sz[i]);
+                if (!maths_01 && !smalls_01 && !bigs_01) { return true; }
+            }
+            return false;
+        }
+    </script>     
+
+</body>
+</html>

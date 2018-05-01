@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{$kanjiaInfo['title']}</title>
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--{if $kanjiaInfo['style_id'] == 1}-->
+<link href="source/plugin/tom_kanjia/images/style_green.css" rel="stylesheet" type="text/css">
+<!--{elseif $kanjiaInfo['style_id'] == 2}-->
+<link href="source/plugin/tom_kanjia/images/style_red.css" rel="stylesheet" type="text/css">
+<!--{elseif $kanjiaInfo['style_id'] == 3}-->
+<link href="source/plugin/tom_kanjia/images/style_black.css" rel="stylesheet" type="text/css">
+<!--{else}-->
+<link href="source/plugin/tom_kanjia/images/style_green.css" rel="stylesheet" type="text/css">
+<!--{/if}-->
+<script language="javascript" src="source/plugin/tom_kanjia/images/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_kanjia/images';
+</script>
+<script src="source/plugin/tom_kanjia/images/common.js" type="text/javascript"></script>
+<base target="_self">
+</head>
+<body>
+<section class="addpage_from clearfix">
+	<div class="addpage_from_msg">{$add_msg}</div>
+    <form id="addFrom" action="" method="post" enctype="multipart/form-data" onsubmit="return false;">
+        <div class="addpage_from_input"><input name="bmname" placeholder="{lang tom_kanjia:add_bmname}" id="bmname" type="text" style="font-size: 16px;" ></div>
+        <div class="addpage_from_input">
+            <input name="bmtel" id="bmtel" placeholder="{lang tom_kanjia:add_bmtel}" type="text" style="font-size: 16px;" >
+            <input type="hidden" name="formhash" value="{$formhash}">
+            <input type="hidden" name="tomhash" value="{$tomhash}">
+            <input type="hidden" name="kid" value="{$kid}">
+            <input type="hidden" name="openid" value="{$openid}">
+            <input type="hidden" name="act" value="add">
+        </div>
+    </form>
+</section>
+<section class="addpage_btn clearfix">
+    <!--{if $kanjiaInfo['must_gz'] == 1 && $showGuanzuBox == 1 }-->
+    <a href="{$kanjiaInfo['guanzu_url']}" class="color1">{lang tom_kanjia:add_form_btn}</a>
+    <!--{else}-->
+	<a href="javascript:void(0);" class="color1 id_add_form_btn">{lang tom_kanjia:add_form_btn}</a>
+    <!--{/if}-->
+</section>
+
+<section class="more_box_title">
+    <div class="more_box_title_main">
+    	<h1>{lang tom_kanjia:add_content_title}</h1>
+    </div>
+</section>
+<section class="more_box_main">
+    <div class="more_box_main_main">
+    	{$content}
+    </div>
+</section>
+<!--{if $kanjiaConfig['open_footer_box'] == 2}-->
+<section class="guanzu_box clearfix">
+	<div class="guanzu_box_main clearfix">
+        <div class="guanzu_box_main_close"><a href="javascript:void(0);" onclick="close_guanzu_box();">X</a></div>
+        <a href="{$kanjiaInfo['ads_link']}"><img src="{$ads_picurl}" height="100%" style="margin-top: -5px;"></a>
+    </div>
+</section>
+<!--{/if}-->
+<script type="text/javascript">
+
+function close_guanzu_box(){
+    $(".guanzu_box").addClass('box_hide');
+}
+
+$(".id_add_form_btn").click( function () { 
+    var bmname = $("#bmname").val();
+    var bmtel = $("#bmtel").val();
+    
+    if(bmname == ""){
+        tusi("{lang tom_kanjia:add_must_name}");
+        return false;
+    }
+    if(bmtel == '' || !checkMobile(bmtel)){
+        tusi("{lang tom_kanjia:add_must_tel}");
+        return false;
+    }
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxUrl}",
+        data: $('#addFrom').serialize(),
+        success: function(msg){
+            if(msg == '201'){
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(msg == '200'){
+                tusi("{lang tom_kanjia:add_success}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_kanjia:add_error404}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+function checkMobile(s){
+	var regu =/^[1][3|8|4|5|7][0-9]{9}$/;
+	var re = new RegExp(regu);
+	if (re.test(s)) {
+		return true;
+	}else{
+		return false;
+	}
+} 
+</script>
+</body>
+</html>

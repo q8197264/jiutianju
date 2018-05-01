@@ -1,0 +1,304 @@
+<include  file='public:headermain'/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="__TMPL__statics/css/bootstrap.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="__TMPL__statics/css/stylenew.css"/>
+        	<link rel="stylesheet" href="__TMPL__statics/css/ace.min.css" />
+        <link rel="stylesheet" href="__TMPL__statics/css/new2font-awesome.min.css" />
+        <link href="__TMPL__statics/css/codemirror.css" rel="stylesheet">
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+        <!--[if lte IE 8]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+		<script src="__TMPL__statics/js/ace-extra.min.js"></script>
+		<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+        		<!--[if !IE]> -->
+		<script src="__TMPL__statics/js/jquery.min.js"></script>        
+		<!-- <![endif]-->
+           	<script src="__TMPL__statics/js/echarts.js"></script>
+        <script src="__TMPL__statics/js/bootstrap.min.js"></script> 
+		
+      <script src="/Public/js/echarts-all-3.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/default/webuploader/webuploader.css">
+		<script src="/static/default/webuploader/webuploader.min.js"></script>
+       <title></title>
+       </head>		
+<body>
+
+<style>
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
+    /* border: 1px solid #ddd; */
+}
+.table thead>tr>th, .table tbody>tr>th, .table tfoot>tr>th, .table thead>tr>td, .table tbody>tr>td, .table tfoot>tr>td {
+    padding: 8px;
+    line-height: 1.428571429;
+    vertical-align: top;
+    /* border-top: 1px solid #ddd; */
+}
+</style>
+<div class="page-content clearfix">
+
+ <div class="alert alert-block alert-success">
+  <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+  <i class="icon-ok green"></i><{$admin.username}>,欢迎使用<strong class="green"><{$CONFIG.site.title}>管理系统</strong>,你上次登陆时间为<strong class="red"><{$admin.last_time|date="Y-m-d H:i:s",###}></strong>，上次登陆IP:<strong class="red"><{$admin.last_ip}></strong>.如有问题，请及时更改您的密码！！	
+ </div>
+   <div class="alert alert-block alert-success1">
+  <button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button>
+  <i class="icon-ok white"></i><font color=white><{$admin.username}>,当前程序版本号：WUCAI11.6购买qq 185939166
+ </div>
+ <div id="www_hatudou_com" style="height:220px;"></div>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('www_hatudou_com'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '网站销售额统计，总销售"<{:round($money['all']/100,2)}>"元'
+            },
+            tooltip: {},
+            legend: {
+                data:['销售额']
+            },
+            xAxis: {
+                data: ["会员充值","外卖","商城","家政","酒店","农家乐","五折卡"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销售额（元）',
+                type: 'bar',
+                data: ["<{:round($money['money']/100,2)}>", "<{:round($money['ele']/100,2)}>", "<{:round($money['goods']/100,2)}>",  "<{:round($money['appoint']/100,2)}>", "<{:round($money['hotel']/100,2)}>", "<{:round($money['farm']/100,2)}>","<{:round($money['zhe']/100,2)}>"]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+ <div class="state-overview clearfix">
+                  <div class="col-lg-3 col-sm-6">
+                      <section class="panel">
+                      <a  title="商城会员">
+                          <div class="symbol terques">
+                             <i class="icon-user"></i>
+                          </div>
+                          <div class="value">
+                              <h1>共<font color=red><{$counts.users}></font>人</h1>
+                              <p>网站用户数</p>
+                          </div>
+                          </a>
+                      </section>
+                  </div>
+                  <div class="col-lg-3 col-sm-6">
+                      <section class="panel">
+                          <div class="symbol red">
+                              <i class="icon-tags"></i>
+                          </div>
+                          <div class="value">
+                              <h1>共<font color=red><{$counts.shop}></font>户</font></h1>
+                              <p>商家入驻数</p>
+                          </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-3 col-sm-6">
+                      <section class="panel">
+                          <div class="symbol yellow">
+                              <i class="icon-shopping-cart"></i>
+                          </div>
+                          <div class="value">
+                              <h1>总<font color=red><{$counts['order']}></font>单</h1>
+                              <p>商城订单</p>
+                          </div>
+                      </section>
+                  </div>
+                  <div class="col-lg-3 col-sm-6">
+                      <section class="panel">
+                          <div class="symbol blue">
+                              <i class="icon-bar-chart"></i>
+                          </div>
+                          <div class="value">
+                              <h1>￥<font color=red><{:round($counts['money_and']/100,2)}></font>元</h1>
+                              <p>资金统计</p>
+                          </div>
+                      </section>
+                  </div>
+              </div>
+             <!--实时交易记录-->
+             <div class="clearfix">
+              <div class="Order_Statistics ">
+			  
+			   
+
+          <div class="title_name">会员数据【总共<font color=red><{$counts.users}></font>人】</div>
+           <table class="table table-bordered">
+           <tbody>
+           <tr><td class="name">今日新增：</td><td class="munber"><a href="#"><{$counts.totay_user}></a>&nbsp;人</td></tr>
+           <tr><td class="name">已验证手机：</td><td class="munber"><a href="#"><{$counts.user_moblie}></a>&nbsp;人</td></tr>
+           <tr><td class="name">已绑定邮箱：</td><td class="munber"><a href="#"><{$counts.user_email}></a>&nbsp;人</td></tr>
+           <tr><td class="name">QQ注册用户：</td><td class="munber"><a href="#"><{$counts.user_qq}></a>&nbsp;人</td></tr>
+           <tr><td class="name">微信登录：</td><td class="munber"><a href="#"><{$counts.user_weixin}></a>&nbsp;人</td></tr>
+           </tbody>
+          </table>
+         </div> 
+         <div class="Order_Statistics">
+          <div class="title_name">会员资金【总<font color=red><{:round($counts['money_and']/100,2)}></font>元】</div>
+           <table class="table table-bordered">
+           <tbody>
+           <tr><td class="name">今日流动：</td><td class="munber"><a href="#"><{$counts['moneylogs']}></a>&nbsp;元</td></tr>
+           <tr><td class="name">提现总数：</td><td class="munber"><a href="#"><{:round($counts['money_cash']/100,2)}></a>&nbsp;元</td></tr>
+           <tr><td class="name">提现成功：</td><td class="munber"><a href="#"><{:round($counts['money_cash_ok']/100,2)}></a>&nbsp;元</td></tr>
+           <tr><td class="name">今日提现：</td><td class="munber"><a href="#"><{:round($counts['money_cash_day']/100,2)}></a>&nbsp;元</td></tr>
+		   <tr><td class="name">未处理提现：</td><td class="munber"><a href="#"><{$counts['money_cash_audit']}></a>&nbsp;人</td></tr>
+         </tbody>
+          </table>
+         </div> 
+         <div class="Order_Statistics">
+          <div class="title_name">商家数据【总<font color=red><{$counts.shop}></font>户】</div>
+           <table class="table table-bordered">
+           <tbody>
+           <tr><td class="name">今日商家申请：</td><td class="munber"><a href="#"><{$counts.totay_shop}></a>&nbsp;家</td></tr>
+           <tr><td class="name">待审核商户：</td><td class="munber"><a href="#"><{$counts.totay_shop_audit}></a>&nbsp;户</td></tr>
+           <tr><td class="name">待认领商户：</td><td class="munber"><a href="#"><{$counts.shoprecognition}></a>&nbsp;户</td></tr>
+           <tr><td class="name">已认证商户：</td><td class="munber"><a href="#"><{$counts.shop_audit}></a>&nbsp;户</td></tr>
+           <tr><td class="name">微店商户：</td><td class="munber"><a href="#"><{$counts.shop_weidian}></a>&nbsp;户|待审核<font color=red><{$counts.shop_weidian_audit}></font>户</td></tr>
+		   </tbody>
+          </table>
+         </div> 
+             <div class="Order_Statistics">
+          <div class="title_name">商城数据【总<font color=red><{$counts['goods']}></font>个商品】</div>
+           <table class="table table-bordered">
+           <tbody>
+           <tr><td class="name">今日新增商品：</td><td class="munber"><a href="#"><{$counts['goods_day']}></a>&nbsp;个|待审核<font color=red><{$counts['goods_audit']}></font>个</td></tr>
+           <tr><td class="name">商城订单：</td><td class="munber"><a href="#"><{$counts['order_day']}></a>&nbsp;笔</td></tr>
+           <tr><td class="name">商城退款：</td><td class="munber"><a href="#"><{$counts.order_tui}></a>&nbsp;笔</td></tr>
+           <tr><td class="name">商城总点评：</td><td class="munber"><a href="#"><{$counts.dianping_goods}></a>&nbsp;条</td></tr>
+		   <tr><td class="name">今日商城点评：</td><td class="munber"><a href="#"><{$counts.totay_dianping_goods}></a>&nbsp;条</td></tr>
+          </tbody>
+          </table>
+         </div> 
+        <div class="Order_Statistics">
+          <div class="title_name">抢购数据【总<font color=red><{$counts.tuan}></font>个抢购】</div>
+           <table class="table table-bordered">
+           <tbody>
+           <tr><td class="name">今日上单：</td><td class="munber"><a href="#"><{$counts.tuan_day}></a>&nbsp;个|待审核<font color=red><{$counts.tuan_audit}></font>个</td></tr>
+           <tr><td class="name">订单总数：</td><td class="munber"><a href="#"><{$counts.order_tuan}></a>&nbsp;笔</td></tr>
+           <tr><td class="name">今日订单：</td><td class="munber"><a href="#"><{$counts.totay_order_tuan}></a>&nbsp;笔</td></tr>
+           <tr><td class="name">未消费抢购券：</td><td class="munber"><a href="#"><{$counts.tuan_code_used}></a>&nbsp;张</td></tr>
+           <tr><td class="name">团购点评数：</td><td class="munber"><a href="#"><{$counts.dianping_tuan}></a>&nbsp;条</td></tr>
+			</tbody>
+          </table>
+         </div> 
+		 <div class="Order_Statistics">
+          <div class="title_name">外卖数据【总<font color=red><{$counts.ele}></font>个商家】</div>
+           <table class="table table-bordered">
+           <tbody>
+		   <tr><td class="name">外卖菜品数：</td><td class="munber"><a href="#"><{$counts.eleproduct}></a>&nbsp;个</td></tr>
+           <tr><td class="name">今日新增菜品：</td><td class="munber"><a href="#"><{$counts.eleproduct_day}></a>&nbsp;个|待审核<font color=red><{$counts.eleproduct_audit}></font>个</td></tr>
+           <tr><td class="name">外卖总订单：</td><td class="munber"><a href="#"><{$counts.order_waimai}></a>&nbsp;单|今日<font color=red><{$counts.totay_order_waimai}></font>单</td></tr>
+           <tr><td class="name">外卖退款申请：</td><td class="munber"><a href="#"><{$counts.order_waimai_tui}></a>&nbsp;笔</td></tr>
+           <tr><td class="name">外卖点评数：</td><td class="munber"><a href="#"><{$counts.dianping_waimai}></a>&nbsp;条</td></tr>
+		    </tbody>
+          </table>
+         </div> 
+         <div class="Order_Statistics">
+          <div class="title_name">物流快递数据【总<font color=red><{$counts.delivery}></font>个配送员】</div>
+           <table class="table table-bordered">
+           <tbody>
+		   <tr><td class="name">配送定单总数：</td><td class="munber"><a href="#"><{$counts.delivery_order}></a>&nbsp;个</td></tr>
+           <tr><td class="name">等待接单数：</td><td class="munber"><a href="#"><{$counts.delivery_order_day_qiang}></a>&nbsp;个</td></tr>
+           <tr><td class="name">今日配送中：</td><td class="munber"><a href="#"><{$counts.delivery_order_day_zhong}></a>&nbsp;单</td></tr>
+           <tr><td class="name">今日已完成：</td><td class="munber"><a href="#"><{$counts.delivery_order_day_ok}></a>&nbsp;笔</td></tr>
+           <tr><td class="name">跑脚总数：</td><td class="munber"><a href="#"><{$counts.delivery_order_day_ok}></a>&nbsp;条</td></tr>
+		    </tbody>
+          </table>
+         </div> 
+<div class="Order_Statistics">
+          <div class="title_name">订座数据统计【总<font color=red><{$counts.shop_ding}></font>个订座商家】</div>
+           <table class="table table-bordered">
+           <tbody>
+		   <tr><td class="name">包厢数统计：</td><td class="munber"><a href="#"><{$counts.shop_ding_room}></a>&nbsp;个</td></tr>
+           <tr><td class="name">总共预约数：</td><td class="munber"><a href="#"><{$counts.shop_ding_yuyue}></a>&nbsp;人</td></tr>
+           <tr><td class="name">今日预约数：</td><td class="munber"><a href="#"><{$counts.shop_ding_yuyue_day}></a>&nbsp;次</td></tr>
+           <tr><td class="name">订座点评：</td><td class="munber"><a href="#"><{$counts.shop_ding_dianping}></a>&nbsp;条</td></tr>
+           <tr><td class="name">今日订座点评：</td><td class="munber"><a href="#"><{$counts.shop_ding_dianping_day}></a>&nbsp;条</td></tr>
+		    </tbody>
+          </table>
+         </div> 
+<div class="Order_Statistics">
+          <div class="title_name">优惠券统计【总<font color=red><{$counts.coupon}></font>个券种】</div>
+           <table class="table table-bordered">
+           <tbody>
+		   <tr><td class="name">今日新增券种：</td><td class="munber"><a href="#"><{$counts.coupon_day}></a>&nbsp;个</td></tr>
+           <tr><td class="name">待审核券种：</td><td class="munber"><a href="#"><{$counts.coupon_audit}></a>&nbsp;个</td></tr>
+           <tr><td class="name">总共下载次数：</td><td class="munber"><a href="#"><{$counts.shop_ding_yuyue_day}></a>&nbsp;次</td></tr>
+           <tr><td class="name">今日下载次数：</td><td class="munber"><a href="#"><{$counts.coupon_download_day}></a>&nbsp;次</td></tr>
+           <tr><td class="name">未使用优惠券：</td><td class="munber"><a href="#"><{$counts.coupon_download_day}></a>&nbsp;张</td></tr>
+		    </tbody>
+          </table>
+         </div> 
+ 
+ <div class="Order_Statistics">
+          <div class="title_name">分类信息统计【总<font color=red><{$counts.life}></font>条信息】</div>
+           <table class="table table-bordered">
+           <tbody>
+		   <tr><td class="name">分类信息总数：</td><td class="munber"><a href="#"><{$counts.life}></a>&nbsp;条</td></tr>
+           <tr><td class="name">分类待审核：</td><td class="munber"><a href="#"><{$counts.life_audit}></a>&nbsp;条</td></tr>
+           <tr><td class="name">今日新增量：</td><td class="munber"><a href="#"><{$counts.totay_life}></a>&nbsp;条</td></tr>
+           <tr><td class="name">今日待审核：</td><td class="munber"><a href="#"><{$counts.life_audit}></a>&nbsp;条</td></tr>
+           <tr><td class="name">分类信息总浏览：</td><td class="munber"><a href="#"><{$counts.life_views}></a>&nbsp;次</td></tr>
+		    </tbody>
+          </table>
+         </div> 
+ </div>
+ <!--记录-->
+ <div class="clearfix">
+  <div class="home_btn">
+  
+ 
+     <div class=left >
+     <a href="<{:U('goods/index')}>"  title="添加商品" class="btn  btn-info btn-sm no-radius">
+     <i class="bigger-200"><img src="__TMPL__statics/images/icon-addp.png" /></i>
+     <h5 class="margin-top">添加商品</h5>
+     </a>
+     <a href="<{:U('goodscate/index')}>"  title="产品分类" class="btn  btn-primary btn-sm no-radius">
+     <i class="bigger-200"><img src="__TMPL__statics/images/icon-cpgl.png" /></i>
+     <h5 class="margin-top">产品分类</h5>
+     </a>
+     <a href="<{:U('user/index')}>"  title="会员管理" class="btn  btn-success btn-sm no-radius">
+     <i class="bigger-200"><img src="__TMPL__statics/images/icon-grxx.png" /></i>
+     <h5 class="margin-top">会员管理</h5>
+     </a>
+     <a href="<{:U('setting/site')}>"  title="系统设置" class="btn  btn-info btn-sm no-radius">
+     <i class="bigger-200"><img src="__TMPL__statics/images/xtsz.png" /></i>
+     <h5 class="margin-top">系统设置</h5>
+     </a>
+     <a href="<{:U('order/index')}>"  title="商品订单" class="btn  btn-purple btn-sm no-radius">
+     <i class="bigger-200"><img src="__TMPL__statics/images/icon-gwcc.png" /></i>
+     <h5 class="margin-top">商品订单</h5>
+     </a>
+     <a href="<{:U('adsite/index')}>"  title="添加广告" class="btn  btn-pink btn-sm no-radius">
+     <i class="bigger-200"><img src="__TMPL__statics/images/icon-ad.png" /></i>
+     <h5 class="margin-top">添加广告</h5>
+     </a>
+      <a href="<{:U('article/index')}>"  title="添加文章" class="btn  btn-info btn-sm no-radius">
+     <i class="bigger-200"><img src="__TMPL__statics/images/icon-addwz.png" /></i>
+     <h5 class="margin-top">添加文章</h5>
+     </a>
+     </div>
+  </div>
+ 
+ </div>
+   
+     </div>
+	
+</body>
+
+</html>

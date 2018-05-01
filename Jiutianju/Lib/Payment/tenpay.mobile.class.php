@@ -39,7 +39,7 @@ class tenpay
     
 
         /* 返回的路径 */
-        $return_url = __HOST__ . U( 'mobile/payment/respond', array('code' => 'tenpay'));
+        $return_url = __HOST__ . U( 'wap/payment/respond', array('code' => 'tenpay'));
 
         /* 总金额 */
         $total_fee = $logs['logs_amount']*100;

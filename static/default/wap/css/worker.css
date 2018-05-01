@@ -1,10 +1,14 @@
-
-
-.detail-base {margin-top:20px;margin-bottom: 10px;}
-.detail-base p{margin:0;color:#999;}
-.detail-base h1{font-size:16px;font-weight:700;margin-bottom:5px;}
-.detail-base .pic img{width:90%;height:100px;position:relative;}
-.detail-base .pic span.album{position: absolute; right:10%;bottom: 0;width: 20px;height: 20px;line-height: 20px;text-align: center;background-color: rgba(0,0,0,.5);color: #fff;-webkit-transform: scale(.75);-moz-transform: scale(.75);-ms-transform: scale(.75);-o-transform: scale(.75); transform: scale(.75);-webkit-transform-origin: 100% 100%;-moz-transform-origin: 100% 100%;-ms-transform-origin: 100% 100%;-o-transform-origin: 100% 100%; transform-origin: 100% 100%;}
+/*定义颜色*/
+.top-fixed {background: #EE3333 !important;}
+.foot-fixed .active {color: #EE3333;}
+.worker_container{margin: 0 auto;padding: 10px;}
+.worker_bg{background:url(../image/my-photo.png) no-repeat;}
+.worker_line{ overflow:hidden;}
+.worker_detail-base { margin:5px 0;}
+.worker_detail-base p{margin:0;color:#999;}
+.worker_detail-base h1{font-size:16px;font-weight:700;margin-bottom:5px;}
+.worker_detail-base .pic img{width:80%;height:80%;position:relative;border-radius: 100%;}
+.worker_detail-base .pic span.album{position: absolute; right:10%;bottom: 0;width: 20px;height: 20px;line-height: 20px;text-align: center;background-color: rgba(0,0,0,.5);color: #fff;-webkit-transform: scale(.75);-moz-transform: scale(.75);-ms-transform: scale(.75);-o-transform: scale(.75); transform: scale(.75);-webkit-transform-origin: 100% 100%;-moz-transform-origin: 100% 100%;-ms-transform-origin: 100% 100%;-o-transform-origin: 100% 100%; transform-origin: 100% 100%;}
 .detail-contact{height:90px;padding: 10px;}
 .detail-contact p{margin:5px 0;}
 .detail-contact .icon{font-size:16px;color:#999;margin-right:5px;}
@@ -157,7 +161,13 @@
 .panel-list ul{padding:0;list-style:none}
 .panel-list li{overflow:hidden;border-bottom:thin solid #eee}
 .panel-list li i{float:right;color:#999}
-.panel-list li span{float:left;width:30px;text-align:center;color:#999;font-size:16px}
+.panel-list li span{float: left;
+    width: 30px;
+    text-align: center;
+    color: #999;
+    font-size: 20px;
+    line-height: 48px;
+    height: 50px;}
 .panel-list li a{display:block;padding:0 10px;height:50px;line-height:50px;width:100%}
 .panel-list li em{float:right}
 .panel-list li font{color:#BDBDBD;font-size:12px}

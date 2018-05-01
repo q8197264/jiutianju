@@ -7,7 +7,7 @@ ul{ padding-left:0px;}
 <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>  
 	<header class="top-fixed bg-yellow bg-inverse">
 		<div class="top-back">
-			<a class="top-addr" href="<{:U('worker/index/index')}>"><i class="icon-angle-left"></i></a>
+			<a class="top-addr" href="<{:U('index/index')}>"><i class="iconfont icon-angle-left"></i></a>
 		</div>
 		<div class="top-title">
 			订单管理
@@ -16,13 +16,7 @@ ul{ padding-left:0px;}
 		<a href="<{:U('passport/logout')}>"><i class="icon-sign-out"></i></a>
      	</div>
 	</header>
-
-    
-
  <!-- 筛选TAB -->
-
-
-
 <ul id="shangjia_tab">
         <li style="width:16.66666667%;"><a href="<{:LinkTo('tuan/order',array('aready'=>0))}>" <eq name='aready' value='0'>class="on"</eq>>待付款</a></li>
         <li style="width:16.66666667%;"><a href="<{:LinkTo('tuan/order',array('aready'=>1))}>" <eq name='aready' value='1'>class="on"</eq>>已付款</a></li>
@@ -37,33 +31,11 @@ ul{ padding-left:0px;}
 	 <div class="blank-10 bg"></div>  <ul></ul>
 </div>	
 
-
 <script>
 	$(document).ready(function () {
-		loaddata('<{:U("worker/tuan/orderload",array("aready"=>$aready,"p"=>"0000"))}>', $("#list-media ul"), true);
+		loaddata('<{:U("tuan/orderload",array("aready"=>$aready,"p"=>"0000"))}>', $("#list-media ul"), true);
 	});
 </script>
 
-
 </div>
-
-        
-
-        
-
-
-
-
-
-
-
-
-
-		
-
 <include file="public:footer"/>
-
-
-
-
-

@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{$shareTitle}</title>
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--{if $kanjiaInfo['style_id'] == 1}-->
+<link href="source/plugin/tom_kanjia/images/style_green.css" rel="stylesheet" type="text/css">
+<!--{elseif $kanjiaInfo['style_id'] == 2}-->
+<link href="source/plugin/tom_kanjia/images/style_red.css" rel="stylesheet" type="text/css">
+<!--{elseif $kanjiaInfo['style_id'] == 3}-->
+<link href="source/plugin/tom_kanjia/images/style_black.css" rel="stylesheet" type="text/css">
+<!--{else}-->
+<link href="source/plugin/tom_kanjia/images/style_green.css" rel="stylesheet" type="text/css">
+<!--{/if}-->
+<link href="source/plugin/tom_kanjia/images/music/music.css" rel="stylesheet" type="text/css">
+<script language="javascript" src="source/plugin/tom_kanjia/images/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_kanjia/images';
+</script>
+<script src="source/plugin/tom_kanjia/images/common.js" type="text/javascript"></script>
+
+<base target="_self">
+</head>
+<body>
+<!--{if $kanjiaInfo['mp3_link']}-->
+<script src="source/plugin/tom_kanjia/images/music/music.js"></script>
+<div class="music_play_yinfu" id="music_audio_btn" style="display: block;">
+    <div id="music_yinfu" class="music_rotate"></div>
+    <audio preload="auto" autoplay id="music_media" src="{$kanjiaInfo['mp3_link']}" loop></audio>
+</div>
+<!--{/if}-->
+<section class="top_box clearfix">
+  <img src="{$kanjia_pic_url}" width="100%">
+    <div class="top_box_bottom">&nbsp;&nbsp;
+        <!--{if $showBtnBox == 1}-->
+        {lang tom_kanjia:index_time}
+        <span id="day_show">0</span>{lang tom_kanjia:index_time_day}
+        <span id="hour_show">0</span>{lang tom_kanjia:index_time_hour}
+        <span id="minute_show">0</span>{lang tom_kanjia:index_time_minute}
+        <span id="second_show">0</span>{lang tom_kanjia:index_time_second}
+        <!--{/if}-->
+        <!--{if $showBtnBox == 2}-->
+        {lang tom_kanjia:index_time_no_start}
+        <!--{/if}-->
+        <!--{if $showBtnBox == 3}-->
+        {lang tom_kanjia:index_time_over}
+        <!--{/if}-->
+    </div>
+</section>
+<section class="about_box clearfix">
+    <!--{if $isSelf == 1}-->
+	<div class="about_box_main clearfix">
+    	<div class="about_box_main_title clearfix">{lang tom_kanjia:index_about_title}<span>{$userInfo['name']}</span>{lang tom_kanjia:index_about_title3}</div>
+        <div class="about_box_main_desc clearfix">{$infpStr}</div>
+    </div>
+    <!--{else}-->
+    <div class="about_box_main clearfix">
+        <div class="about_box_main_title clearfix">{lang tom_kanjia:index_about_title2}{lang tom_kanjia:index_about_title3}</div>
+        <div class="about_box_main_desc clearfix">{$bk_infoStr}</div>
+    </div>
+    <!--{/if}-->
+</section>
+<section class="btn_box clearfix">
+	<div class="btn_box_main clearfix">
+   	  <div class="btn_box_main_btn clearfix">
+          <!--{if $showBtnBox == 1}-->
+            <!--{if $isSelf == 1}-->
+                <ul>
+                    <!--{if $userInfo['is_zikan'] == 1}-->
+                    <li><a href="javascript:void(0);" onclick="showShareGuide();">{lang tom_kanjia:index_qinghaoyoubangmang}</a></li>
+                    <!--{else}-->
+                    <li><a href="javascript:void(0);" class="a_zikan_btn">{lang tom_kanjia:index_zikanyidao}</a></li>
+                    <!--{/if}-->
+                    <li><a href="#content_rule">{lang tom_kanjia:index_guizhe}</a></li>
+                </ul>
+            <!--{else}-->
+                <ul>
+                    <!--{if $isHelpKanjia == 0}-->
+                        <!--{if $kanjiaConfig['oauth2_guanzu'] == 1 && $subscribe == 0}-->
+                        <li><a href="{$kanjiaInfo['guanzu_url']}" class="a_kanjia_box">{lang tom_kanjia:index_bangkanyidao}</a></li>
+                        <!--{else}-->
+                            <!--{if $kanjiaConfig['oauth2_guanzu'] == 1 || $kanjiaConfig['oauth2_userinfo'] == 1}-->
+                            <li><a href="javascript:void(0);" class="a_kanjia_box a_kanjia_btn">{lang tom_kanjia:index_bangkanyidao}</a></li>
+                            <!--{else}-->
+                            <li><a href="javascript:void(0);" class="a_kanjia_box" onclick="show_add_box();">{lang tom_kanjia:index_bangkanyidao}</a></li>
+                            <!--{/if}-->
+                        <!--{/if}-->
+                    <!--{else}-->
+                    <li><a href="javascript:void(0);" onclick="showShareGuide();">{lang tom_kanjia:index_qinghaoyoubangtakan}</a></li>
+                    <!--{/if}-->
+                    <!--{if $kanjiaInfo['must_gz'] == 1}-->
+                    <li><a href="{$kanjiaInfo['guanzu_url']}">{lang tom_kanjia:index_woyaocanjia}</a></li>
+                    <!--{else}-->
+                    <li><a href="plugin.php?id=tom_kanjia&kid={$kid}">{lang tom_kanjia:index_woyaocanjia}</a></li>
+                    <!--{/if}-->
+                </ul>
+            <!--{/if}-->
+          <!--{/if}-->
+          <!--{if $showBtnBox == 2}-->
+            <ul>
+                <li><a href="javascript:void(0);">{lang tom_kanjia:index_no_start}</a></li>
+                <li><a href="#content_rule">{lang tom_kanjia:index_guizhe}</a></li>
+            </ul>
+          <!--{/if}-->
+          <!--{if $showBtnBox == 3}-->
+            <ul>
+                <li><a href="javascript:void(0);">{lang tom_kanjia:index_over}</a></li>
+                <li><a href="#content_rule">{lang tom_kanjia:index_guizhe}</a></li>
+            </ul>
+          <!--{/if}-->
+          <!--{if $showBtnBox == 4}-->
+            <ul>
+                <li><a href="javascript:void(0);">{lang tom_kanjia:index_sale_over}</a></li>
+                <li><a href="#content_rule">{lang tom_kanjia:index_guizhe}</a></li>
+            </ul>
+          <!--{/if}-->
+          <!--{if $showBtnBox == 5}-->
+            <ul>
+                <li><a href="javascript:void(0);">{lang tom_kanjia:index_yiduihuan}</a></li>
+                <!--{if $kanjiaInfo['must_gz'] == 1}-->
+                <li><a href="{$kanjiaInfo['guanzu_url']}">{lang tom_kanjia:index_woyaocanjia}</a></li>
+                <!--{else}-->
+                <li><a href="plugin.php?id=tom_kanjia&kid={$kid}">{lang tom_kanjia:index_woyaocanjia}</a></li>
+                <!--{/if}-->
+            </ul>
+          <!--{/if}-->
+      </div>
+    </div>
+</section>
+<!--{if $showDuihuanBtn == 1}-->
+<section class="duihuan_btn clearfix">
+	<div class="duihuan_btn_main clearfix">
+   	  <div class="duihuan_btn_main_btn clearfix">
+        	<ul>
+                <!--{if $kanjiaInfo['buy_url']}-->
+                <li><a href="{$kanjiaInfo['buy_url']}">{lang tom_kanjia:index_buy_url}</a></li>
+                <!--{else}-->
+                    <!--{if $userInfo['dh_status'] == 1}-->
+                    <li><a href="javascript:void(0);">{lang tom_kanjia:index_yijinduihuan}</a></li>
+                    <!--{else}-->
+                    <li><a href="javascript:void(0);" onclick="show_duihuan_box();">{lang tom_kanjia:index_dianjiduihuan}</a></li>
+                    <!--{/if}-->
+                <!--{/if}-->
+            </ul>
+      </div>
+    </div>
+</section>
+<!--{/if}-->
+<section class="qyt_box clearfix">
+    <div class="qyt_box_table clearfix">
+    	<table cellpadding="0" cellspacing="0" >
+        	<thead>
+            	<tr>
+                  <th width="33%">{lang tom_kanjia:index_qyt_name}</th>
+                  <th width="33%">{lang tom_kanjia:index_qyt_price}</th>
+                  <th width="33%">{lang tom_kanjia:index_qyt_price_after}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--{loop $logList $key $val}-->
+       	  		<tr class="top">
+          			<td>{$val['name']}</td>
+                	<td><span style="text-decoration: line-through;color: #C0BBBB;">{lang tom_kanjia:index_price}{$val['price']}</span></td>
+                    <td><img src="source/plugin/tom_kanjia/images/jinbi_ico.png" width="20" height="20">{lang tom_kanjia:index_price}{$val['price_after']}</td>
+                </tr>
+                <!--{/loop}-->
+            </tbody>
+        	
+        </table>
+        <div class="pages clearfix">
+            <ul class="clearfix">
+                <li style="width: 40%;"><!--{if $page > 1}--><a href="{$prePageUrl}">{lang tom_kanjia:index_pre_page}</a><!--{else}--><span>{lang tom_kanjia:index_pre_page}</span><!--{/if}--></li>
+                <li style="width: 20%;"><span>{$page}/{$allPageNum}</span></li>
+                <li style="width: 40%;"><!--{if $showNextPage == 1}--><a href="{$nextPageUrl}">{lang tom_kanjia:index_next_page}</a><!--{else}--><span>{lang tom_kanjia:index_next_page}</span><!--{/if}--></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="more_box_title">
+    <div class="more_box_title_main">
+    	<h1>{lang tom_kanjia:index_goods_title}</h1>
+    </div>
+</section>
+<section class="more_box_main">
+    <div class="more_box_main_main">{$goodinfo}</div>
+</section>
+<section class="more_box_title" id="content_rule">
+    <div class="more_box_title_main" >
+    	<h1>{lang tom_kanjia:index_guizhe}</h1>
+    </div>
+</section>
+<section class="more_box_main">
+    <div class="more_box_main_main">{$content}</div>
+</section>
+<section class="more_box_title">
+    <div class="more_box_title_main clearfix">
+    	<h1><font color="#FF0000">{lang tom_kanjia:index_phb_title}</font></h1>
+    </div>
+</section>
+<section class="qyt_box clearfix" style="margin-top: 20px;">
+    <div class="qyt_box_table clearfix">
+    	<table cellpadding="0" cellspacing="0" >
+        	<thead>
+            	<tr>
+                  <th width="20%">{lang tom_kanjia:index_phb_no}</th>
+                  <th width="40%">{lang tom_kanjia:index_phb_name}</th>
+                  <th width="40%">{lang tom_kanjia:index_phb_prize}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--{loop $userList $key $val}-->
+       	  		<tr class="top">
+          			<td>{$val['user_no']}</td>
+                	<td>{$val['user_name']}</td>
+                    <td><img src="source/plugin/tom_kanjia/images/jinbi_ico.png" width="20" height="20">{lang tom_kanjia:index_price}{$val['user_price']}</td>
+                </tr>
+                <!--{/loop}-->
+            </tbody>
+        	
+        </table>
+    </div>
+</section>
+<section class="banquan_main">
+    <div class="banquan_main_main">
+    	{$kanjiaConfig['copyright']}
+    </div>
+</section>
+<!--{if $kanjiaConfig['open_footer_ads'] == 1}-->
+<section class="guanzu_box clearfix">
+	<div class="guanzu_box_main clearfix">
+        <div class="guanzu_box_main_close"><a href="javascript:void(0);" onclick="close_guanzu_box();">X</a></div>
+        <a href="{$kanjiaInfo['ads_link']}"><img src="{$ads_picurl}" height="100%" style="margin-top: -5px;"></a>
+    </div>
+</section>
+<!--{/if}-->
+<section class="add_box clearfix box_hide">
+	<div class="add_box_main clearfix">
+        <div class="add_box_main_msg">{lang tom_kanjia:index_add_msg1}{$userInfo['name']}{lang tom_kanjia:index_add_msg2}</div>
+        <form id="kanjia">
+            <!--{if $kanjiaConfig['oauth2_guanzu'] == 1 || $kanjiaConfig['oauth2_userinfo'] == 1}-->
+        	<div class="add_box_main_input"><input name="name" id="name" value="{$nickname}" type="text"></div>
+            <!--{else}-->
+            <div class="add_box_main_input"><input name="name" id="name" placeholder="{lang tom_kanjia:index_add_name}" type="text"></div>
+            <!--{/if}-->
+            <div class="add_box_main_input">
+                <input name="num_sun" id="num_sun" type="text" style="width: 100px;">&nbsp;{lang tom_kanjia:index_add_sun}{$num_a}+{$num_b}=?
+                <input type="hidden" name="formhash" value="{$formhash}">
+                <input type="hidden" name="openid" value="{$openid}">
+                <input type="hidden" name="num_a" value="{$num_a}">
+                <input type="hidden" name="num_b" value="{$num_b}">
+                <input type="hidden" name="num_count" id="num_count" value="{$num_count}">
+            </div>
+        </form>
+        <div class="add_box_main_btn">
+        	<ul>
+            	<li><a href="javascript:void(0);" class="a_kanjia_btn">{lang tom_kanjia:index_add_btn_ok}</a></li>
+                <li><a href="javascript:void(0);" onclick="close_add_box();" class="close">{lang tom_kanjia:index_add_btn_no}</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="duihuan_box clearfix box_hide">
+	<div class="duihuan_box_main clearfix" style="height: 150px;">
+        <div class="duihuan_box_main_msg">{lang tom_kanjia:index_duihuan_title}</div>
+        <form id="dh_form">
+        	<div class="duihuan_box_main_input">
+                <input name="dh_pwd" id="dh_pwd" type="text" placeholder="{lang tom_kanjia:index_duihuan_place}">
+                <input type="hidden" name="formhash" value="{$formhash}">
+            </div>
+        </form>
+        <div class="duihuan_box_main_btn">
+        	<ul>
+            	<li><a href="javascript:void(0);" class="a_duihuan_btn">{lang tom_kanjia:index_duihuan_btn}</a></li>
+                <li><a href="javascript:void(0);" onclick="close_duihuan_box();" class="close">{lang tom_kanjia:index_add_btn_no}</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="dialog_box clearfix box_hide">
+	<div class="dialog_box_main clearfix">
+        <div class="dialog_box_main_box">
+        	<div class="dialog_box_main_box_left"><img src="source/plugin/tom_kanjia/images/foutou_ico.png" width="130" height="100"></div>
+            <div class="dialog_box_main_box_right"><span class="tt" id="kanjiamsg">{lang tom_kanjia:index_dialog_msg}</span><br/><span id="kandiaojiage" class="num">{lang tom_kanjia:index_price}0</span></div>
+        </div>
+  		<div class="dialog_box_main_btn clearfix ">
+            <a href="javascript:void(0);" onclick="close_dialog_box();">{lang tom_kanjia:index_dialog_btn}</a>
+        </div>
+    </div>
+</section>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script src="source/plugin/tom_kanjia/images/wx.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function() {
+    FastClick.attach(document.body);
+});
+function showShareGuide(){
+	$('body').append('<section class="top_box clearfix box_hide"><img src="{$share_logo}"></section><div id="share_guide_box" onclick="hideShareGuide();" style="position:fixed;z-index:9999999;right:0px;top:0px;width:100%;height:100%;background-color: rgba(0,0,0,0.8);text-align:right;" ontouchmove="return true;" ><img src="source/plugin/tom_kanjia/images/share.png" style="margin-top:10px;margin-right:10px;float: right;"></div>');
+}
+function hideShareGuide(){
+    $("#share_guide_box").remove();
+}
+
+function close_dialog_box(){
+    $(".dialog_box").addClass('box_hide');
+    setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+}
+
+function close_guanzu_box(){
+    $(".guanzu_box").addClass('box_hide');
+}
+
+function close_add_box(){
+    $(".add_box").addClass('box_hide');
+}
+
+function show_add_box(){
+    $(".add_box").removeClass('box_hide');
+}
+
+function close_duihuan_box(){
+    $(".duihuan_box").addClass('box_hide');
+}
+
+function show_duihuan_box(){
+    $(".duihuan_box").removeClass('box_hide');
+}
+
+var submintZikanStatus = 0;
+$(".a_zikan_btn").click( function () { 
+    if(submintZikanStatus == 1){
+        return false;
+    }
+    submintZikanStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxZikanUrl}",
+        dataType : "json",
+        data: "",
+        success: function(data){
+            submintZikanStatus = 0;
+            if(data.status == 100) {
+                tusi("{lang tom_kanjia:index_have_bangkanguo}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 200){
+                $('#kandiaojiage').html(data.price);
+                $(".dialog_box").removeClass('box_hide');
+            }else{
+                tusi("{lang tom_kanjia:index_kanjia_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+
+var submintKanjiaStatus = 0;
+$(".a_kanjia_btn").click( function () { 
+    var name = $("#name").val();
+    var num_count = $("#num_count").val();
+    var num_sun = $("#num_sun").val();
+    
+    if(submintKanjiaStatus == 1){
+        return false;
+    }
+    
+    if(name == ""){
+        tusi("{lang tom_kanjia:index_add_must_name}");
+        return false;
+    }
+    <!--{if $kanjiaConfig['oauth2_guanzu'] == 1 || $kanjiaConfig['oauth2_userinfo'] == 1}-->
+    <!--{else}-->
+    if(num_sun == "" || num_count != num_sun){
+        tusi("{lang tom_kanjia:index_add_must_sun}");
+        return false;
+    }
+    <!--{/if}-->
+    loading('{lang tom_kanjia:doing_msg}');
+    submintKanjiaStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxKanjiaUrl}",
+        dataType : "json",
+        data: $('#kanjia').serialize(),
+        success: function(data){
+            $(".add_box").addClass('box_hide');
+            loading(false);
+            submintKanjiaStatus = 0;
+            if(data.status == 201) {
+                tusi("{lang tom_kanjia:index_have_bangkanguo}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},2888);
+            }else if(data.status == 301){
+                tusi("{lang tom_kanjia:index_kanjia_error301}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},2888);
+            }else if(data.status == 302){
+                tusi("{lang tom_kanjia:index_kanjia_error302}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},2888);
+            }else if(data.status == 303){
+                tusi("{lang tom_kanjia:index_kanjia_error303}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},2888);
+            }else if(data.status == 200){
+                $('#kandiaojiage').html(data.price);
+                $(".dialog_box").removeClass('box_hide');
+            }else if(data.status == 100){
+                $('#kanjiamsg').html("{lang tom_kanjia:index_yijinzuidil}");
+                $(".dialog_box").removeClass('box_hide');
+            }else{
+                tusi("{lang tom_kanjia:index_kanjia_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+
+var submintDuihuanStatus = 0;
+$(".a_duihuan_btn").click( function () { 
+    var dh_pwd = $("#dh_pwd").val();
+    
+    if(submintDuihuanStatus == 1){
+        return false;
+    }
+    
+    if(dh_pwd == ""){
+        tusi("{lang tom_kanjia:index_must_dh_pwd}");
+        return false;
+    }
+    
+    submintDuihuanStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxDuihuanUrl}",
+        dataType : "json",
+        data: $('#dh_form').serialize(),
+        success: function(data){
+            submintDuihuanStatus = 0;
+            if(data.status == 100) {
+                tusi("{lang tom_kanjia:index_dh_pwd_error}");
+            }else if(data.status == 200){
+                $(".duihuan_box").addClass('box_hide');
+                tusi("{lang tom_kanjia:index_dh_suceess}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_kanjia:index_dh_error}");
+            }
+        }
+    });
+});
+
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+    
+var intDiff = parseInt({$daojishiTimes});
+function timer(intDiff){
+    window.setInterval(function(){
+    var day=0,
+        hour=0,
+        minute=0,
+        second=0;  
+    if(intDiff > 0){
+        day = Math.floor(intDiff / (60 * 60 * 24));
+        hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+        minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+        second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+    }
+    if (minute <= 9) minute = '0' + minute;
+    if (second <= 9) second = '0' + second;
+    $('#day_show').html(day+'');
+    $('#hour_show').html(hour+'');
+    $('#minute_show').html(minute+'');
+    $('#second_show').html(second+'');
+    intDiff--;
+    }, 1000);
+} 
+$(function(){
+    timer(intDiff);
+});
+</script>
+</body>
+</html>

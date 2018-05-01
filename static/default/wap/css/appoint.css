@@ -9,6 +9,23 @@
 .focus .bd li img{width:100%;background:url(images/loading.gif) center center no-repeat;  }
 .focus .bd li a{ -webkit-tap-highlight-color:rgba(0, 0, 0, 0); }
 
+/*技师列表*/
+.goods_title{ border-bottom: 0.1rem solid #F0F0F0;background:#fff; padding:0.6rem 0.8rem; overflow:hidden;font-size:16px}
+.goods_title .more{ font-size:12px;}
+.goods_limit_buy_time{ font-size:12px; color:#999; margin-left:1.2rem;}
+.goods_limit_buy_time .ico{width:162px; height:1.6rem; background-size:100%; vertical-align:middle; margin-right:0.8rem;}
+.goods_limit_buy_time .time{ color:#ff6600;}
+.goods_limit_buy_time .time span{ display:inline-block; border-radius:0.3rem; background:#ff6600; padding:0 0.2rem; line-height:1.8rem; color:#fff; margin:0 0.4rem;}
+.goods_limit_buy{ padding:0.6rem;background-color:#F0F0F0;}
+.goods_limit_buy .locatLabel_switch{ width:100%; z-index:1; text-align:center; overflow:hidden; position:relative;}
+.goods_limit_buy .locatLabel_switch .swiper-wrapper {position: relative;width: 100%;z-index: 1;display: -webkit-box;display: -moz-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-transition-property: -webkit-transform;-moz-transition-property: -moz-transform;-o-transition-property: -o-transform;-ms-transition-property: -ms-transform;transition-property: transform;-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;-webkit-transform: translate3d(0,0,0);-moz-transform: translate3d(0,0,0);-o-transform: translate(0,0);-ms-transform: translate3d(0,0,0);transform: translate3d(0,0,0);}
+.goods_limit_buy .locatLabel_switch .swiper-slide{-webkit-flex-shrink: 0;-ms-flex: 0 0 auto;flex-shrink: 0;height: 100%;position: relative;text-align: center;
+display: -webkit-box;display: -ms-flexbox;display: -webkit-flex;display: flex;-webkit-box-pack: center;-ms-flex-pack: center;-webkit-justify-content: center;justify-content: center;-webkit-box-align: center;-ms-flex-align: center;-webkit-align-items: center;align-items: center;}
+.goods_limit_buy .locatLabel_switch .box{line-height:2.4rem; font-size:14px; margin-right:0.4rem; background-color: #fff;}
+.goods_limit_buy .locatLabel_switch .box a{ width:100%; display:block;}
+.goods_limit_buy .locatLabel_switch .box img{ width:100%; min-height:6.8rem; height:6.8rem;}
+.goods_limit_buy .locatLabel_switch .box p{overflow:hidden; margin-bottom:0px;}
+
 
 .item-list li{border-bottom:thin solid #EEE;}
 .item-list li:last-child{border:none;}
@@ -73,7 +90,7 @@
 
 
 .send-form .row{overflow:hidden;border-bottom:thin solid #EEE;padding:0;}
-.send-form .icon{float:left;width:10%;text-align:center;color:#999;height:50px;line-height:60px;overflow:hidden;font-size:16px;}
+.send-form .iconfont{float:left;width:10%;text-align:center;color:#999;height:50px;line-height:60px;overflow:hidden;font-size:16px;}
 .send-form .line-input{border:none;float:left;background:#FFF;height:50px;width:90%;padding-top:12px;overflow:hidden;}
 
 /*小区搜索*/
@@ -127,3 +144,9 @@
 .dian-list .item-con{line-height: 15px;font-size: 13px;color: #787878;}
 .dian-list .item-pic  {overflow:hidden;width:100%;}
 .dian-list .item-pic img{width:80px;height:60px;float:left;margin:5px 5px 0 0;}
+
+/*支付确认*/
+.pay-form .row{padding:0 10px;overflow:hidden}
+.pay-form .row p{margin:0}
+.pay-form .text-input{width:100%;border:none;}
+.pay-form .text-area{width:100%;height:80px;resize:none;}

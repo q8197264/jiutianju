@@ -18,8 +18,8 @@ class chinapay
         $security_key          = $payment['chinapay_key'];
         $merId                 = $payment['chinapay_account'];
         $logsNumber            =  $logs['logs_id'] . '-' . $this->_formatSN($logs['logs_id']);	
-        $frontEndUrl           = __HOST__ . U( 'mobile/payment/respond', array('code' => 'chinapay'));
-        $backEndUrl            = __HOST__ . U( 'mobile/payment/respond', array('code' => 'chinapay'));
+        $frontEndUrl           = __HOST__ . U( 'wap/payment/respond', array('code' => 'chinapay'));
+        $backEndUrl            = __HOST__ . U( 'wap/payment/respond', array('code' => 'chinapay'));
         $merAbbr               = $payment['chinapay_merabbr'];
 
         $params = array(

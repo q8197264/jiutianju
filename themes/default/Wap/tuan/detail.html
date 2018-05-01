@@ -1,0 +1,144 @@
+<php>$mobile_title = $detail['title'].'抢购';</php>
+<include file='public:header'/>    
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{:U('tuan/index')}>"><i class="iconfont icon-angle-left"></i></a>
+		</div>
+		<div class="top-title">抢购详情</div>
+		<div class="top-share">
+			<a href="javascript:void(0);" id="share-btn"></a>
+		</div>
+	</header>  
+	<div class="tuan-detail">
+		<div class="line banner">	
+			<img src="<{:config_img($detail['photo'])}>">	
+			<div class="title">
+				<h1><{:bao_Msubstr($detail['title'],0,10,false)}></h1>
+				<p><{:bao_Msubstr($detail['intro'],0,48,false)}></p>
+			</div>	
+		</div>
+		<div class="line price">
+			<div class="x7">
+				<span class="text-main padding-top"><em><{$detail.tuan_price}></em>元</span>  <del>￥<{$detail.price}></del>	
+			</div>
+			<div class="x5">    
+            
+            <if condition="$detail['bg_date'] gt $today">  
+                <a class="button button-block button-big bg-gray" href="javascript:void(0);">即将开抢</a>	
+            <else/>
+                <if condition="$detail.num lt 1 ">
+                    <a class="button button-block button-big bg-gray" href="javascript:void(0);">卖光了</a>	
+                <else />
+                    <a class="button button-block button-big bg-yellow" href="<{:U('tuan/buy',array('tuan_id'=>$detail['tuan_id']))}>">立即购买</a>	
+                </if>
+             </if>  
+			</div>
+            
+		</div>
+		<hr />
+		<div class="line info">
+			<div class="x6">
+				<span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">退</div></span>
+				<span class="text-green">支持随时退款</span>
+			</div>
+			<div class="x6">
+				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">售</div></span>
+				<span class="text-gray">已售 <{$detail.sold_num}> 份</span>
+			</div>
+            <div class="x6">
+            <if condition="$detail['freebook'] eq 1">
+                <span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">预</div></span>
+                <span class="text-green">免预约</span>
+            <else />
+                <span class="txt-border txt-little radius-circle border-green"><div class="txt radius-circle bg-green">否</div></span>
+                <span class="text-green">需预约</span>
+            </if>
+			</div>
+            <div class="x6">
+				<span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">距</div></span>
+				<span class="text-gray"><{$detail.d}></span>
+			</div>
+			<if condition="$detail['use_integral']">
+                <div class="x6">
+                    <span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">抵</div></span>
+                    <span class="text-gray">可使用<{$detail.use_integral}>积分</span>
+                </div>
+            </if>
+            <if condition="$detail['xiangou']">
+                <div class="x6">
+                    <span class="txt-border txt-little radius-circle border-gray"><div class="txt radius-circle bg-gray">限</div></span>
+                    <span class="text-gray">限购<{$detail.xiangou}>份</span>
+                </div>
+            </if>
+            
+
+		</div>
+		<hr />
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line status">
+			<div class="x7">
+				<span class="ui-starbar"><span style="width:<{:round($score*10,2)}>%"></span></span>
+			</div>
+			<div class="x5" onclick="location='<{:U('tuan/dianping',array('tuan_id'=>$detail['tuan_id']))}>'">
+				<span class="float-right margin-small-top"><{$pingnum}>人评价 <i class="iconfont icon-angle-right"></i></span>
+			</div>
+		</div>
+		<hr />
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line shop">
+			<div class="x9 border-right">
+				<h2> <a href="<{:U('shop/detail',array('shop_id'=>$detail['shop_id']))}>"><{$shop.shop_name}></a> <a  style="color:#F00; "href="<{:U('shop/gps',array('shop_id'=>$detail['shop_id']))}>"> （点击导航）</a></h2>
+				<p><{$shop.addr}></p>
+			</div>
+			<div class="x3">
+				<a class="tel" href="tel:<{$shop.tel}>"><i class="iconfont icon-shouji2 text-main"></i></a>
+			</div>
+		</div>
+		<hr />
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line intro">
+			<h2>抢购介绍<span class="float-right iconfont icon-angle-right"></span></h2>
+			<div class="container">
+				<{$tuandetails.details}>
+			</div>
+		</div>
+		<hr />
+		<div class="blank-10 bg"></div>
+		<hr />
+		<div class="line intro">
+			<h2>抢购须知<span class="float-right iconfont icon-angle-right"></span></h2>
+            
+			<div class="container">
+				<{$tuandetails.instructions}>
+			</div>
+		</div>
+		<hr />
+        
+        
+        <div class="blank-10 bg"></div>
+        
+         <div class="line intro">
+			<h2>本店其他抢购<span class="float-right iconfont icon-angle-right"></span></h2>
+		</div>
+        
+        <div class="line intro ">
+         <volist name="tuans" id="item" key="index">
+            <li style="margin:10px;" class="x6" onclick="location='<{:U('tuan/detail',array('tuan_id'=>$item['tuan_id']))}>'">
+            <div class="line banner">
+            
+                <img src="<{:config_img($item['photo'])}>">	
+                <div class="title1">
+                    <h1><{:bao_msubstr($item['title'],0,8)}></h1>
+                    <p>现价：<{:round($item['tuan_price']/100,2)}></span>&nbsp;&nbsp;<del>￥<{:round($item['price']/100,2)}></del></p>
+            
+                </div>
+            </div>
+            </li>
+        </volist>
+      </div>
+     </div> 
+	<div class="blank-10"></div>
+	<include file='public:footer'/> 

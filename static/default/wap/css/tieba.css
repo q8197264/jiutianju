@@ -1,3 +1,12 @@
+.card_num{height:40px;line-height:40px;text-align:center;color:#aaaaaa}
+.card_num .a{color:#fc851b}
+.card_num span{margin-right:10px}
+.card_num .b{color:#005dd1}
+.card_num .c{color:#409700}
+.sign_btn{border:1px solid #e8eaec;height:32px;line-height:32px;text-align:center;font-size:1em;margin:0 15px}
+.sign_btn a{color:#585858;display:block}
+.sign_btn a:before,.sign_btn.isqiandao1:before{display:inline-block;vertical-align:middle;width:30px;height:32px;background-position:-68px -92px}
+
 .main-coll .panel{border:none;}
 .main-coll .panel .panel-head{background:#fff;border-bottom:thin solid #eee;overflow:hidden;}
 .main-coll .panel .panel-head h4{float:left;}
@@ -26,7 +35,7 @@
 .tie-item .item-body .pic img{width:99%;}
 .tie-item .item-body .gallery{width:100%;overflow:hidden;padding:0;}
 .tie-item .item-body .gallery li{float:left;border:none; list-style:none}
-.tie-item .item-body .gallery img{height: 90px;overflow: hidden;float: left;display: inline;margin-right: 10px;position: relative;z-index: 1; width:auto}
+.tie-item .item-body .gallery img{max-width: 90px;height: 67px;overflow: hidden;float: left;display: inline;margin-right: 10px;position: relative;z-index: 1; width:auto}
 .tie-item .item-body .pic span{width:25%;float:left;display:block;}
 .tie-item .item-body .ctrl{overflow:hidden;color:#999;width:100%;text-align:right;}
 .tie-item .item-body .ctrl a{margin-left:20px;color:#4170B6;display:block;float:right;height:40px;line-height:40px;padding:0 10px;}

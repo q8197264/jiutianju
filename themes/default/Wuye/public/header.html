@@ -14,8 +14,7 @@
 
         
 		 <script>
-            function bd_encrypt(gg_lat, gg_lon)   // 百度地图测距偏差 问题修复
-            {
+            function bd_encrypt(gg_lat, gg_lon)   {
                 var x_pi = 3.14159265358979324 * 3000.0 / 180.0;
                 var x = gg_lon;
                 var y = gg_lat;
@@ -23,11 +22,16 @@
                 var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
                 var bd_lon = z * Math.cos(theta) + 0.0065;
                 var bd_lat = z * Math.sin(theta) + 0.006;
-                dingwei('<{:U("mobile/index/dingwei",array("t"=>$nowtime,"lat"=>"llaatt","lng"=>"llnngg"))}>', bd_lat, bd_lon);
+                dingwei('<{:U("wap/index/dingwei",array("t"=>$nowtime,"lat"=>"llaatt","lng"=>"llnngg"))}>', bd_lat, bd_lon);
             }
             navigator.geolocation.getCurrentPosition(function (position) {
                 bd_encrypt(position.coords.latitude, position.coords.longitude);
             });
         </script>
+        
+           <style>
+	.foot-fixed .active{color:<{$color}>!important}
+	.top-fixed {background: <{$color}>!important;}
+	</style>   
 	</head>
 	<body>

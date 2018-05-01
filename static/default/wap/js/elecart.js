@@ -182,13 +182,12 @@ window.ele = {
             for (var i in goods) {
                 if(i==shop_id){
                     for (var index in goods[i]) {
-                       num += goods[i][index]['num'] * goods[i][index]['price'];
-					
+                        num += goods[i][index]['num'] * goods[i][index]['price'];
                     }
                 }
             }
-			//alert(Digit.round(num, 2));
-            return num.toFixed(2);//去更新缓存啊
+           // return num;
+			return num.toFixed(2);//去更新缓存啊
         }
     },
     removeby: function (product_id) {
@@ -372,7 +371,7 @@ window.mall = {
                     }
                 }
             }
-            return num;//
+            return num;
         }
     },
     removeby: function (goods_id) {

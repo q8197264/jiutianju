@@ -344,6 +344,7 @@ extend(Chart.prototype, {
 				chartOptions,
 				{
 					exporting: {
+						
 						sourceWidth: options.sourceWidth || chartExportingOptions.sourceWidth,
 						sourceHeight: options.sourceHeight || chartExportingOptions.sourceHeight
 					}

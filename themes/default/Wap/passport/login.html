@@ -1,0 +1,148 @@
+<include file="public:header"/>
+<style>
+.input {font-size: 16px;}
+  /*login*/
+.min_height{min-height:480px;position:relative;}
+.login { margin-top:15px;}
+.login .item2,.user_reg .item2,.get_pw .item2{background:#ffffff;border:1px solid #eeeeee;height:46px;padding:8px 10px 10px 72px;position:relative; margin:10px; border-radius: 26px;}
+.login li input,.user_reg li input,.get_pw li input{font-size:16px;line-height:16px;padding:5px 0;width:100%; border:0 none; outline:0; vertical-align:-4px;}
+input:-webkit-autofill { -webkit-box-shadow: 0 0 0px 1000px white inset;}
+.login li.userName:before,.login li.pw:before,.user_reg li.userName:before,.user_reg li.pw:before,.user_reg li.vcode:before,.get_pw li.pw:before,.get_pw li.confirm_pw:before,.get_pw li.email_phone:before,.get_pw li.vcode:before,.user_reg li.userqq:before,.user_reg li.email:before,.user_reg li.mobile:before{width:40px;height:26px;border-right:1px solid #eeeeee;margin-right:15px;background-size:120px auto;background-position:0 -35px; position:absolute; left: 19px; top:9px;}
+
+
+.user_reg li.email:before { background-position:-97px -386px;}
+.user_reg li.mobile:before { background-position:-48px -388px;}
+
+.login li.pw:before,.user_reg li.pw:before,.get_pw li.pw:before{background-position:-98px -281px;}
+.user_reg li.userqq:before {background-position:-92px -643px;}
+.login li.pw .q{position:absolute;top:9px;right:10px;color:#ffffff;background:#999999;border-radius:50px;text-align:center;height:22px;line-height:22px;width:22px;font-style:normal;font-family:arial;}
+.login li.pw .q a{color:#ffffff;}
+.dl{margin:20px auto 0;}
+.login_nav{margin-top:10px;}
+.login_nav li{border:0;border-left:1px solid #dedede;font-size:14px;}
+.login_nav li:first-child{border:0;}
+.login_nav li a{color:#333333;display:block;}
+
+.login_nav li.qq a:before{background-position:6px -312px;}
+.login_nav li.wx a:before{background-position:-41px -312px;}
+.login_nav li.reg a:before{background-position:-85px -312px;}
+.login_nav .title{text-align:center;font-size:15px;line-height:24px;position:relative;margin-bottom:5px;}
+.login_nav .title:before{position:absolute;top:11px;width:90%;left:50%;margin-left:-45%;height:1px;background: -webkit-linear-gradient(left,#eee,#7f7f7f,#eee);content:'';}
+.login_nav .title span{display:inline-block;padding:0 10px;background:#fff;position:relative; font-size:12px; color:#aaa;}
+.login_nav li.qq a:before {
+    background-position: 6px -312px;
+}
+/*注册*/
+.user_reg ul { margin-top:20px;}
+.user_reg li.vcode:before{background-position:0 -352px;}
+.login li.vcode2,.user_reg li.vcode2,.get_pw li.vcode2 { padding-left:10px; height:auto;}
+.login li.vcode2:before,.user_reg li.vcode2:before,.get_pw li.vcode2:before { display:none;}
+
+.user_reg li.vcode img{position:absolute;top:11px;right:18px;}
+.user_reg .open{width:40px;height:30px;position:absolute;top:8px;right:18px;background-position:-35px -349px;background-size:120px auto;}
+.user_reg .open.on{background-position:-80px -349px;}
+.user_reg .getIcode { display:block; position:absolute;top:9px;right:18px; color:#aaa; padding-left:10px; border-left:1px solid #eee;}
+.reg_tips{color:#999999;font-size:13px;margin-top:20px;text-align:center;width:100%;}
+.reg_tips a{color:#4fbe3e;}
+/*.user_reg .reg_type{background:#ffffff;border-bottom:1px solid #eeeeee;padding:20px 25%;font-size:16px;}
+.user_reg .reg_type div{float:left;width:80px;text-align:center;}
+.user_reg .reg_type .business{float:right;}
+.user_reg .reg_type i{background-color:#b6b6b6;border-radius:100px;height:60px;width:60px;display:block; margin:0 auto 5px;}
+.user_reg .reg_type .current i{background-color:#fb9031;}
+.user_reg .reg_type i:before{width:40px;height:40px;margin-top:10px;}
+.user_reg .reg_type .personal i:before{background-position:-115px -173px;}
+.user_reg .reg_type .business i:before{background-position:7px -384px;background-size:120px auto;}*/
+
+.reg_type { display:-webkit-box; display:-moz-box; display:box; margin:20px;}
+.reg_type .item { width:100%; -webkit-box-flex:1; -webkit-flex:1; flex:1; text-align:center;}
+.reg_type .item i,.reg_type .item i:before { display:inline-block; vertical-align:middle; border:1px solid #eee; border-radius:50%; width:15px; height:15px; position:relative; z-index:1; margin-right:5px;}
+.reg_type .item i:before { position:absolute; width:11px; height:11px; left:2px; top:2px; display:inline-block; border:0 none; background-color:#fff; margin-right:0;}
+.reg_type .current i { border:1px solid #fb9031;}
+.reg_type .current i:before { background-color:#fb9031;}
+
+.tab_reg { display:-webkit-box; display:-moz-box; display:box; border-bottom:1px solid #eee; margin:0 10px;}
+.tab_reg .item { width:100%; -webkit-box-flex:1; -webkit-flex:1; flex:1; text-align:center;}
+.tab_reg .tit { display:inline-block; vertical-align:middle; padding:8px 5px; border-bottom:1px solid #eee; margin-bottom:-1px;}
+.tab_reg .current .tit { border-bottom:1px solid #fb9031;}
+.dl {
+    margin: 20px auto 0;
+}
+  .fb, .save, .dl, .reg_btn {
+    background: #fb9031;
+}
+  .fb, .save, .dl, .reg_btn {
+    color: #ffffff;
+    
+    display: block;
+    width: 60%;
+    margin: 0 auto 20px;
+    font-size: 16px;
+    border-radius: 50px;
+    height: 40px;
+    position: relative;
+    border: 0 none;
+    outline: 0;
+    cursor: pointer;
+}
+  .tabs ul, .login_nav ul, .filter ul, .job_filter ul, .job_condit, .job_condit2 {
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+}
+a{text-decoration:none;color:#2d374b;-webkit-tap-highlight-color:none;}
+.tabs li, .login_nav li, .filter li, .job_filter li, .job_condit dl, .job_condit2 li {
+    -webkit-box-flex: 1;
+    width: 100%;
+    -webkit-flex: 1;
+    flex: 1;
+    text-align: center;
+}
+   .post_category dt:before, .b_pic .pictures i:before, .b_pic .mobile_photo i:before, .inp_Itembox .gx_radio:before, .inp_Itembox .sex:before, .inp_Itembox .qz_radio:before, .login li:before, .login_nav li a:before, .user_reg li.item2:before, .user_reg .reg_type i:before, .get_pw .item2:before, .cinfo_menu li i:before, .filter li:after, .info_list .count:before, .b_info .count:before, .share_fd li i:before, .tips i, .contact_info .email a:before, .contact_info .phone a:before, .contact_info .invite_interview a:before, .job_filter li:after, .job_list .more:after, .person_list .more:after, .person_list .woman, .person_list .man, .submit_resume a:before, .job_desc .more:after, .my_info li .opear i, .input_message:before, .submit_tg:before, .my_info li i {
+    display: inline-block;
+    vertical-align: middle;
+    content: '';
+}
+  .header .back, .header .search, .header .type, .header .my, .nav_job_bottom a:before, .guess_local dl, .gs_header .back, .nav_job_bottom li span, .post_category dd, .post_category dt:before, .b_pic .pictures i:before, .b_pic .mobile_photo i:before, .inp_Itembox .gx_radio.current:before, .inp_Itembox .gx_radio.checked:before, .inp_Itembox .sex.current:before, .inp_Itembox .qz_radio.current:before, .login li:before, .login_nav li a:before, .user_reg .item2:before, .user_reg .open, .get_pw .item2:before, .cinfo_menu li i:before, .filter li:after, .info_list .count:before, .b_info .count:before, .share_fd li i:before, .contact_info .email a:before, .contact_info .phone a:before, .contact_info .invite_interview a:before, .job_filter li:after, .job_search button, .job_list .more:after, .person_list .more:after, .person_list .woman, .person_list .man, .submit_resume a:before, .job_desc .more:after, .my_info li .opear i, .input_message:before, .submit_tg:before, .my_info li i, .person_list .nv, .person_list .nan, .icon_yiguoqi, .icon_yiguoqi2, .job_list .renzheng, .job_list .tui, .job_list .info em, .person_list2 .nv, .person_list2 .nan, .person_list2 .chrmark, .person_list2 .tel, .person_list2 .chrmark .s, .inp_Itembox .gx_radio:before, .inp_Itembox .sex:before, .inp_Itembox .qz_radio:before, .p_contact dt, .job_condit2 li:before, .job_detial_head .pin, .job_detial_head .hits:before, .job_detial_head .tags span, .job_detial_head .renzheng, .gaojiuser, .info_entry .quyu em {
+    background: url(http://www.nf.cn/template/wap/main/default/images/o_icons.png) no-repeat;
+    background-size: 150px auto;
+}
+ 
+</style>
+	<header class="top-fixed bg-yellow bg-inverse">
+		<div class="top-back">
+			<a class="top-addr" href="<{$backurl}>"><i class="iconfont icon-20151209tubiaolianxizhuanhuan19"></i></a>
+		</div>
+		<div class="top-title">
+			用户登录
+		</div>
+		<div class="top-share">
+			<a href="<{:U('passport/register')}>">注册</a>
+		</div>
+	</header>
+<div class="slogan"><img src="http://www.nf.cn/template/wap/main/default/images/login_slogan.png" width="100%" height="150px" alt="" /></div>
+
+	<div class="line">
+		
+		<form class="login-form" action="<{:U('passport/login')}>" method="post" target="x-frame">
+			<input type="hidden" name="backurl" value="<{$backurl}>">
+			<div class="login">
+	<ul>
+		<li class="item2 userName"><input id="account" name="account" type="text" autocomplete="off" placeholder="昵称/手机/邮箱" maxlength="32" /></li>
+		<li class="item2 pw"><input id="password" type="password" name="password" autocomplete="off" placeholder="密码" maxlength="32" /><a href="<{:U('passport/forget')}>" style="display:block; position:absolute; right:12px; top:12px; font-size:12px;">忘记?</a></li>
+
+
+			<div class="blank-10"></div>
+			<div class="container">
+				<div class="form-button"><button class="dl" type="submit">点击登录</button></div>
+			</div>
+		</form>
+       <div class="login_nav" style="padding-bottom:10px;">
+	<div class="title"><span>快捷登录/注册</span></div>
+	<ul>
+		<li class="qq" style="display;"><a href="<{:U('passport/qqlogin')}>">QQ登录</a></li>
+		<li class="wx display1"><a href="<{:U('passport/wblogin')}>">微博登录</a></li>
+		<li class="reg"><a href="<{:U('passport/register')}>">注册账号</a></li>
+	</ul>
+</div>
+
+<include file="public:footer"/>

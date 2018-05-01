@@ -1,0 +1,49 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">系统</li>
+        <li class="li2">管理员日志</li>
+        <li class="li2 li3">日志列表</li>
+    </ul>
+</div>
+<div class="main-jsgl">
+    <p class="attention"><span>注意：</span>这里主要是统计管理员登录日志的，没有其它功能需要积累操作日志联系q120585022</p>
+    <div class="jsglNr">
+        <br/>
+        <form target="baocms_frm" method="post">
+            <div class="tableBox">
+                <table bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;"  >
+                    <tr>
+                        <td class="w50">ID</td>
+                        <td>用户名</td>
+                        
+                        
+                        <td>登录时间</td>
+                        <td>登录IP</td>
+                       <td>登录返回状态</td>
+                         
+                    </tr>
+                    <foreach name="list" item="var">
+                        <tr>
+                            <td><{$var.id}></td>
+                            <td><{$var.username}> </td>
+                            
+                            
+                           <!-- <td><{$var.create_ip}>(<{$var.create_ip_area}>)</td>-->
+                            <td><{$var.last_time|date="Y-m-d H:i:s",###}></td>
+                           <td><{$var.last_ip}>(<{$var.last_ip_area}>)</td>
+                            <eq name="var.audit" value="1">
+                             <td><font color=green>登录成功</font></td>
+                              <else/>
+                              <td><font color=red>登录失败</font></td></eq>
+                        </tr>
+                    </foreach>
+
+                </table>
+                <{$page}>
+            </div>
+        </form>
+
+    </div>
+</div>
+<include  file='public:footer'/>       

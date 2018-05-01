@@ -29,7 +29,22 @@ class VillageModel extends CommonModel {
 			);
 		}
 
-    
-
+    //检测会员是不是在管理了
+	public function check_user_id_occupy($user_id){
+        if($this->where(array('user_id'=>$user_id))->find()){
+			return false;
+		}else{
+			return true;	
+	    }
+    }
+   //检测编辑的时候会员是否占用
+	public function check_user_id_neq_village($user_id,$village_id){
+		$detail = $this->where(array('user_id'=>$user_id,'village_id' => array('NEQ', $village_id)))->find();
+        if($detail){
+			return false;
+		}else{
+			return true;	
+	    }
+    }
 }
 

@@ -9,17 +9,10 @@ class EleModel extends CommonModel{
         return $this->execute("update " . $this->getTableName() . " set  month_num={$num} where shop_id={$shop_id}");
     }
     public function getEleCate(){
-        return array(
-			'1' => '快餐简餐', 
-			'2' => '正餐', 
-			'3' => '馋嘴小吃', 
-			'4' => '甜点饮料', 
-			'5' => '生活超市', 
-			'6' => '水果蔬菜'
-		);
+        return array('1' => '快餐简餐', '2' => '正餐', '3' => '馋嘴小吃', '4' => '甜点饮料', '5' => '生活超市', '6' => '水果蔬菜');
     }
-    public function get_file_Code($shop_id,$size){
-        $url = U('mobile/shop/ele', array('shop_id' => $shop_id, 't' => NOW_TIME, 'sign' => md5($shop_id . C('AUTH_KEY') . NOW_TIME)));
+	public function get_file_Code($shop_id,$size){
+        $url = U('wap/shop/ele', array('shop_id' => $shop_id, 't' => NOW_TIME, 'sign' => md5($shop_id . C('AUTH_KEY') . NOW_TIME)));
         $token = 'shop_id_' . $shop_id;
         $file = fengmiQrCode($token, $url,$size);
         return $file;

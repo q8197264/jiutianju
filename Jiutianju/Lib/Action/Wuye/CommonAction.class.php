@@ -37,6 +37,9 @@ class CommonAction extends Action{
         $this->assign('nowtime', NOW_TIME);
         $bg_time = strtotime(TODAY);
         $this->assign('msg_day', $counts['msg_day'] = (int) D('Msg')->where(array('cate_id' => 4, 'views' => 0, 'community_id' => $this->community_id, 'create_time' => array(array('ELT', NOW_TIME), array('EGT', $bg_time))))->count());
+		
+		$this->assign('color', $color = $this->_CONFIG['other']['color']);
+		
     }
     public function display($templateFile = '', $charset = '', $contentType = '', $content = '', $prefix = '')
     {
@@ -80,28 +83,6 @@ class CommonAction extends Action{
             }
         }
         return $theme ? $theme . '/' : '';
-    }
-    protected function baoSuccess($message, $jumpUrl = '', $time = 3000){
-        $str = '<script>';
-        $str .= 'parent.success("' . $message . '",' . $time . ',\'jumpUrl("' . $jumpUrl . '")\');';
-        $str .= '</script>';
-        exit($str);
-    }
-    protected function baoErrorJump($message, $jumpUrl = '', $time = 3000){
-        $str = '<script>';
-        $str .= 'parent.error("' . $message . '",' . $time . ',\'jumpUrl("' . $jumpUrl . '")\');';
-        $str .= '</script>';
-        exit($str);
-    }
-    protected function baoError($message, $time = 3000, $yzm = false){
-        $str = '<script>';
-        if ($yzm) {
-            $str .= 'parent.error("' . $message . '",' . $time . ',"yzmCode()");';
-        } else {
-            $str .= 'parent.error("' . $message . '",' . $time . ');';
-        }
-        $str .= '</script>';
-        exit($str);
     }
     protected function checkFields($data = array(), $fields = array()){
         foreach ($data as $k => $val) {

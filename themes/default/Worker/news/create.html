@@ -1,8 +1,9 @@
 <include  file='public:header'/>   
-
+<link rel="stylesheet" type="text/css" href="/static/default/webuploader/webuploader.css">
+<script src="/static/default/webuploader/webuploader.min.js"></script>
 <header class="top-fixed bg-yellow bg-inverse">
 	<div class="top-back">
-		<a class="top-addr" href="<{:U('worker/index/index')}>"><i class="icon-angle-left"></i></a>
+		<a class="top-addr" href="<{:U('worker/index/index')}>"><i class="iconfont icon-angle-left"></i></a>
 	</div>
 	<div class="top-title">
 		添加文章
@@ -96,7 +97,7 @@
                          <script>
                                 $(document).ready(function (e) {
                                     $("#parent_id").change(function () {
-                                        var url = '<{:U("store/news/child",array("parent_id"=>"0000"))}>';
+                                        var url = '<{:U("news/child",array("parent_id"=>"0000"))}>';
                                         if ($(this).val() > 0) {
                                             var url2 = url.replace('0000', $(this).val());
                                             $.get(url2, function (data) {

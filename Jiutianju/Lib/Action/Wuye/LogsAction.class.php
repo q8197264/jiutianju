@@ -1,14 +1,10 @@
 <?php
-
-
-
-class LogsAction extends CommonAction {
-
-    public function index() { //日志列表
+class LogsAction extends CommonAction{
+    public function index(){
         $logs = D('Communityorderlogs');
-        import('ORG.Util.Page'); // 导入分页类
+        import('ORG.Util.Page');
         $map = array('community_id' => $this->community_id);
-        if (($bg_date = $this->_param('bg_date', 'htmlspecialchars') ) && ($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
+        if (($bg_date = $this->_param('bg_date', 'htmlspecialchars')) && ($end_date = $this->_param('end_date', 'htmlspecialchars'))) {
             $bg_time = strtotime($bg_date);
             $end_time = strtotime($end_date);
             $map['create_time'] = array(array('ELT', $end_time), array('EGT', $bg_time));
@@ -30,41 +26,40 @@ class LogsAction extends CommonAction {
             if (!empty($number)) {
                 $owner = D('Communityowner')->where(array('number' => $number, 'community_id' => $this->community_id))->find();
                 $map['user_id'] = $owner['user_id'];
-                $this->assign('number',$number);
+                $this->assign('number', $number);
             }
         }
-        if($type = (int)$this->_param('type')){
-            if($type != 999){
+        if ($type = (int) $this->_param('type')) {
+            if ($type != 999) {
                 $map['type'] = $type;
-                $this->assign('type',$type);
-            }else{
-                $this->assign('type',999);
+                $this->assign('type', $type);
+            } else {
+                $this->assign('type', 999);
             }
         }
-        $count = $logs->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 16); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
+        $count = $logs->where($map)->count();
+        $Page = new Page($count, 16);
+        $show = $Page->show();
         $list = $logs->order(array('log_id' => 'desc'))->where($map)->select();
-        $user_ids =  array();
+        $user_ids = array();
         foreach ($list as $k => $val) {
             $user_ids[$val['user_id']] = $val['user_id'];
         }
         $sum = $logs->where($map)->sum('money');
-        $this->assign('sum',$sum);
+        $this->assign('sum', $sum);
         $this->assign('users', D('Users')->itemsByIds($user_ids));
-        $this->assign('types',D('Communityorder')->getType());
+        $this->assign('types', D('Communityorder')->getType());
         $this->assign('list', $list);
-        $this->assign('page', $show); // 赋值分页输出
+        $this->assign('page', $show);
         $this->display();
     }
-
-    public function create($user_id) {
+    public function create($user_id){
         $user_id = (int) $user_id;
         $obj = D('Communityorder');
         if (empty($user_id)) {
             $this->error('该用户不存在');
         }
-        if (!$detail = D('Communityowner')->where(array('user_id' => $user_id, 'community_id' => $this->community_id))->find()) {
+        if (!($detail = D('Communityowner')->where(array('user_id' => $user_id, 'community_id' => $this->community_id))->find())) {
             $this->error('该业主不存在');
         }
         if ($detail['audit'] != 1 || empty($detail['number'])) {
@@ -77,7 +72,7 @@ class LogsAction extends CommonAction {
             $data['create_time'] = NOW_TIME;
             $data['create_ip'] = get_client_ip();
             $datas = $this->_post('data', false);
-            if (!$res = $obj->where(array('user_id' => $user_id, 'order_date' => $data['order_date']))->find()) {
+            if (!($res = $obj->where(array('user_id' => $user_id, 'order_date' => $data['order_date']))->find())) {
                 if ($order_id = $obj->add($data)) {
                     foreach ($datas as $k => $val) {
                         if (!empty($val['money']) && !empty($val['bg_date']) && !empty($val['end_date'])) {
@@ -96,14 +91,13 @@ class LogsAction extends CommonAction {
             $this->display();
         }
     }
-
-    public function edit($order_id) {
+    public function edit($order_id){
         $order_id = (int) $order_id;
         $obj = D('Communityorder');
         if (empty($order_id)) {
             $this->error('该账单不存在');
         }
-        if (!$detail = D('Communityorder')->find($order_id)) {
+        if (!($detail = D('Communityorder')->find($order_id))) {
             $this->error('该账单不存在');
         }
         if ($detail['community_id'] != $this->community_id) {
@@ -128,15 +122,14 @@ class LogsAction extends CommonAction {
             $this->display();
         }
     }
-
-    public function edpay($owner_id, $pay_id) {
+    public function edpay($owner_id, $pay_id){
         $owner_id = (int) $owner_id;
         $pay_id = (int) $pay_id;
         $obj = D('Communitypay');
         if (empty($owner_id)) {
             $this->error('该业主不存在');
         }
-        if (!$detail = D('Communityowner')->find($owner_id)) {
+        if (!($detail = D('Communityowner')->find($owner_id))) {
             $this->error('该业主不存在');
         }
         if ($detail['community_id'] != $this->community_id) {
@@ -148,7 +141,7 @@ class LogsAction extends CommonAction {
         if (empty($pay_id)) {
             $this->error('该账单不存在');
         }
-        if (!$result = $obj->find($pay_id)) {
+        if (!($result = $obj->find($pay_id))) {
             $this->error('该账单不存在');
         }
         if ($result['owner_id'] != $owner_id) {
@@ -172,5 +165,4 @@ class LogsAction extends CommonAction {
             $this->display();
         }
     }
-
 }

@@ -102,7 +102,7 @@ $(document).ready(function (e) {
     $(document).on("click", "a[mini='act']", function (e) {
         e.preventDefault();
         if (!lock) {
-            if (confirm("您确定要" + $(this).html())) {
+            if (confirm("您1确定要" + $(this).html())) {
                 loading();
                 $("#w-frame").attr('src', $(this).attr('href'));
             }

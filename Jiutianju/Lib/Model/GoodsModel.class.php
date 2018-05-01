@@ -1,4 +1,5 @@
 <?php
+
 class GoodsModel extends CommonModel{
     protected $pk   = 'goods_id';
     protected $tableName =  'goods';
@@ -7,71 +8,112 @@ class GoodsModel extends CommonModel{
         array( ),
         array( )
     );
+	
 	public function getError() {
         return $this->error;
     }
 
-   //万能检测库存接口
-    public function check_goods_id_mum($order_ids) {
-		
-        if (is_array($order_ids)) {
-            $order_ids = join(',', $order_ids);
-            $Order = D('Order')->where("order_id IN ({$order_ids})")->select();
-            foreach ($Order as $k => $v) {
-                if (false == $this->check_goods_stock($v['order_id'])) {
-					return false;
-				}else{
-					return TRUE;  
-				}
-            }
-        } else {
-            $order_ids = (int) $order_ids;
-            $Order = D('Order')->where('order_id =' . $order_ids)->select();
-            foreach ($Order as $k => $v) {
-			   if (false == $this->check_goods_stock($v['order_id'])) {
-					return false;
-				}else{
-					return TRUE;  
-				}
-
-            }
-        }
-       
-    }
-	
-
-    //付款前检测库存
-    public function check_goods_stock($order_id){
-		
-        $order_id = (int) $order_id;
-        $ordergoods_ids = D('Ordergoods')->where(array('order_id' => $order_id))->select();
-        foreach ($ordergoods_ids as $k => $v) {
-            $goods_num = D('Goods')->where(array('goods_id' => $v['goods_id']))->find();
-            if ($goods_num['num'] < $v['num']) {
-				$this->error = '商品名称【' . $goods_num['title'] . '】库存不足'.$v['num'].'/'.$goods_num['guige'].'无法付款，请重新下单';
-				return false;
-            }
-			return TRUE;
-        }
-		 return TRUE;
-    }
-
-
     public function _format($data){
         $data['save'] =  round(($data['price'] - $data['mall_price'])/100,2);
         $data['price'] = round($data['price']/100,2);
-		$data['is_agent_price'] = round($data['is_agent_price']/100,2);
-		$data['cost_price'] = round($data['cost_price']/100,2);
-		$data['factory_price'] = round($data['factory_price']/100,2);
-		$data['wholesale_price'] = round($data['wholesale_price']/100,2);
-		$data['market_price'] = round($data['market_price']/100,2);
-		$data['retail_price'] = round($data['retail_price']/100,2);
+		//多属性开始
 		$data['mobile_fan'] = round($data['mobile_fan']/100,2);
+		//多属性结束
         $data['mall_price'] = round($data['mall_price']/100,2); 
         $data['settlement_price'] = round($data['settlement_price']/100,2); 
         $data['commission'] = round($data['commission']/100,2); 
         $data['discount'] = round($data['mall_price'] * 10 / $data['price'],1);
         return $data;
+    }
+	
+	//计算用户下单返回多少积分传2个参数，商品id商品类型
+    public function get_forecast_integral_restore($id,$type){
+        $config = D('Setting')->fetchAll();
+		if($config['integral']['is_restore'] == 1){
+			if($type == 'goods'){
+				$Goods = D('Goods')->find($id);
+				if($config['integral']['is_goods_restore'] == 1){
+					if($config['integral']['restore_type'] == 1){
+						$integral = $Goods['mall_price'];
+					}elseif($config['integral']['restore_type'] == 2){
+						$integral = $Goods['settlement_price'];
+					}elseif($config['integral']['restore_type'] == 3){
+						$integral = $Goods['mall_price']- $Goods['settlement_price'];
+					}else{
+						$integral = 0;
+					}
+				}else{
+					return false;
+				}
+			}elseif($type == 'tuan'){
+				$Tuan = D('Tuan')->find($id);
+				if($config['integral']['is_tuan_restore'] == 1){
+					if($config['integral']['restore_type'] == 1){
+						$integral = $Tuan['tuan_price'];
+					}elseif($config['integral']['restore_type'] == 2){
+						$integral = $Tuan['settlement_price'];
+					}elseif($config['integral']['restore_type'] == 3){
+						$integral = $Tuan['tuan_price']- $Tuan['settlement_price'];
+					}else{
+						$integral = 0;
+					}
+				}else{
+					return false;
+				}
+			}
+			if($integral > 0){
+				if($config['integral']['restore_points'] > 100){
+					if($config['integral']['restore_points']){
+						$integral = $integral - (($integral * $config['integral']['restore_points'])/100);
+						return int($integral/100);
+					}else{
+						return false;
+					}
+				}else{
+					return false;
+				}
+			}
+		}else{
+			return false;
+		}
+		
+    }
+	
+	//这里暂时没有判断多属性的问题，后期再判断
+	public function check_add_use_integral($use_integral,$mall_price){
+        $config = D('Setting')->fetchAll();
+        $integral = $config['integral']['buy'];
+		if($integral == 0){
+			if ($use_integral % 100 != 0) {
+				$this->error = '积分必须为100的倍数';
+				return false;
+			}
+			if ($use_integral > $mall_price) {
+				$this->error = '积分兑换数量必须小于'.$mall_price.','.'并是100的倍数';
+				return false;
+			}
+		}elseif($integral == 10){
+			if ($use_integral % 10 != 0) {
+				$this->error = '积分必须为10的倍数';
+			}
+			if ($use_integral*10 > $mall_price) {
+				$this->error = '积分兑换数量必须小于'.($mall_price/10).','.'并是10的倍数';
+				return false;
+			}
+		}elseif($integral == 100){
+			if ($use_integral % 1 != 0) {
+				$this->error = '积分必须为1的倍数';
+				return false;
+			}
+			if ($use_integral*100 > $mall_price) {
+				$this->error = '积分兑换数量必须小于'.($mall_price/100).','.'并是1的倍数';
+				return false;
+			}	
+		}else{
+			$this->error = '后台设置的消费抵扣积分比例不合法';
+			return false;
+		}
+		return true;
     }
 
 }

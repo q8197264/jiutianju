@@ -1,0 +1,34 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">会员设置</li>
+        <li class="li2 ">等级配置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>以后会员上面需要配置的，都尽量在这里写！ </p>
+    <form  target="baocms_frm" action="<{:U('setting/rank')}>" method="post">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+             
+                <tr>
+                    <td class="lfTdBt">会员等级购买开关：</td>
+                    <td class="rgTdBt">
+                      <label><input type="radio" name="data[rank_kaiguan]" <eq name="CONFIG.rank.rank_kaiguan" value="1">checked="checked"</eq> value="1"  />开启</label>
+       <label><input type="radio" name="data[rank_kaiguan]"  <eq name="CONFIG.rank.rank_kaiguan" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+                        <code>点击开启后，会员可以在手机端购买相应的等级并时时生效。</code>
+                    </td>
+                </tr> 
+               
+                 
+               
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </form>
+</div>
+<include  file='public:footer'/>   

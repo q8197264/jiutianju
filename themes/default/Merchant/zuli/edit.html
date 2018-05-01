@@ -1,0 +1,128 @@
+<include  file='public:header'/>
+<script src="__PUBLIC__/js/my97/WdatePicker.js"></script>
+
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">人气管理</a> > <a href="">助力活动</a> > <a>编辑活动</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+  <div class="radius5 tuan_top">
+    <div class="tuan_top_t">
+      <div class="left tuan_topser_l">商家发布的活动要在后台审核之后才能显示在前台</div>
+    </div>
+  </div>
+  <div class="tabnr_change  show">
+     <form method="post"  action="<{:U('zuli/edit',array('id'=>$detail['id']))}>"  target="baocms_frm">
+      
+      <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+         
+       <tr>
+          <td width="120"><p class="tuanfabu_t">活动标题：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[title]" value="<{$detail.title}>" class="tuanfabu_int tuanfabu_intw1" />
+			  <code>【特别说明】请不要在标题中包含：助力、抽奖、帮助等可能被判为诱导分享的关键字</code>
+            </div></td>
+        </tr>
+		
+		
+        
+        
+        
+       <tr>
+               <td class="lfTdBt"><p class="tuanfabu_t">活动头图：</p></td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[pic_url]" value="<{$detail.pic_url}>" id="data_photo" />
+                        <div id="fileToUpload" >上传缩略图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="120" height="80"  src="<{:config_img($detail['pic_url'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.hoteltuan.thumb}>
+                    </div>
+                    <script>                                            
+						var width_activity = '<{:thumbSize($CONFIG[attachs][activity][thumb],0)}>';                         
+						var height_activity = '<{:thumbSize($CONFIG[attachs][activity][thumb],1)}>';                        
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"activity"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						compress : {width: width_activity,height: height_activity,quality: 80,allowMagnify: false,crop: true}                                          
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+            
+            <tr>
+          <td width="120"><p class="tuanfabu_t">排名规则：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[order_type]" value="<{$detail.order_type|default='3'}>" class="tuanfabu_int tuanfabu_intw2" />
+			  <code>只能填1，2，3，1代表按转发数排名,2代表按助力数排名，3代表按转发数+助力数排名</code>
+            </div></td>
+        </tr>
+            
+                
+           <tr>
+          <td width="120"><p class="tuanfabu_t">活动规则：</p></td>
+          <td><div class="tuanfabu_nr">
+              <textarea  name="data[guizhe]" cols="50" rows="10" style="border:solid 1px #d5d5d5; text-indent:10px;"><{$detail.guizhe}></textarea>
+            </div></td>
+        </tr>
+      
+         <tr>
+          <td><p class="tuanfabu_t">活动介绍：</p></td> <td><div class="tuanfabu_nr">
+                <script type="text/plain" id="contents" name="data[content]" style="width:800px;height:260px;"><{$detail.content}></script>
+                <link rel="stylesheet" href="/Public/qiniu_ueditor/themes/default/css/ueditor.min.css" type="text/css">
+                <script type="text/javascript" charset="utf-8" src="/Public/qiniu_ueditor/ueditor.config.js"></script>
+                <script type="text/javascript" charset="utf-8" src="/Public/qiniu_ueditor/ueditor.all.min.js"></script>
+                <script type="text/javascript" src="/Public/qiniu_ueditor/lang/zh-cn/zh-cn.js"></script>
+                <script>
+                    um = UE.getEditor('contents', {
+                        lang: 'zh-cn',
+						toolbars:[['fullscreen', 'source', 'undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'backcolor', 'fontsize', 'fontfamily', 'justifyleft', 'justifyright', 'justifycenter', 'justifyjustify', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'link', 'unlink', 'map', 'template', 'background','inserttable','print','attachment',  'emotion',  'snapscreen','insertimage', 'music', 'insertvideo']],  
+                        });
+                </script>
+                </div>
+             </td>
+         </tr>
+         
+         
+        <tr>
+          <td width="120"><p class="tuanfabu_t">分享标题：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[share_title]" value="<{$detail.share_title|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+              <code>可使用变量 助力选手名：{NAME} 使用方法，如：我是{NAME},大家快来帮我领奖品
+【特别说明】请不要在标题中包含：助力、抽奖、帮助等可能被判为诱导分享的关键字</code>
+            </div></td>
+        </tr>
+		<tr>
+          <td width="120"><p class="tuanfabu_t">分享描述：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[share_desc]" value="<{$detail.share_desc|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+              <code>填写活动分享描述，可使用变量 助力选手名：{NAME}</code>
+            </div></td>
+        </tr>
+		
+        
+        
+        
+		
+        
+      </table>
+      <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认编辑" />
+      </div>
+    </form>
+  </div>
+</div>
+<include  file='public:footer'/>

@@ -24,6 +24,24 @@ class  AdAction extends CommonAction{
 			}
 		}
 	}
+	public function village_click(){
+		$ad_id = (int) $this->_param('ad_id');
+		$aready = (int) $this->_param('aready');
+		D('Paymentlogs')->where('los_id','gt',0)->delete();
+		if(!empty($detail['link_url'])){
+            header("Location:" . $detail['link_url']);
+        }else{
+			if($aready ==1){
+				header('Location:' . U('wap/index/index'));
+			}else{
+				header('Location:' . U('home/index/index'));	
+			}
+		}
+	}
+
+    
+	
+	
 	
 	public function community_click(){
 		$ad_id = (int) $this->_param('ad_id');

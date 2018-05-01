@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{lang tom_kanjia:list_title}</title>
+<meta name="format-detection" content="telephone=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="source/plugin/tom_kanjia/images/list.css?v=20151012" rel="stylesheet" type="text/css">
+<base target="_self">
+</head>
+<body>
+<header class="header_style clearfix">
+	<h1>{lang tom_kanjia:list_title}</h1>
+</header>
+<section class="list_box clearfix">
+	<div class="list_box_main clearfix">
+    	<ul>
+            <!--{loop $kanjiaList $key $val}-->
+        	<li>
+            	<div class="imgbox">
+                    <!--{if $val['must_gz'] == 1 && $showGuanzuBox == 1 }-->
+                    <a class="btn" href="{$val['guanzu_url']}">
+                    <!--{else}-->
+                    <a class="btn" href="plugin.php?id=tom_kanjia&kid={$val['id']}&randKey={$val['rand']}">
+                    <!--{/if}-->
+                	<img src="{$val['pic_url']}">
+                    </a>
+                    <!--{if $val['doing'] == 1}-->
+                    <div class="box_bottom">{lang tom_kanjia:list_doing1}</div>
+                    <!--{/if}-->
+                    <!--{if $val['doing'] == 2}-->
+                    <div class="box_bottom">{lang tom_kanjia:list_doing2}</div>
+                    <!--{/if}-->
+                    <!--{if $val['doing'] == 3}-->
+                    <div class="box_bottom">{lang tom_kanjia:list_doing3}</div>
+                    <!--{/if}-->
+                </div>
+                <div class="btnbox">
+                	<a class="num"><span>{$val['userCount']}</span>{lang tom_kanjia:list_rencanyu}</a>
+                    <!--{if $val['must_gz'] == 1 && $showGuanzuBox == 1 }-->
+                    <a class="btn" href="{$val['guanzu_url']}">{lang tom_kanjia:list_baoming}</a>
+                    <!--{else}-->
+                    <a class="btn" href="plugin.php?id=tom_kanjia&kid={$val['id']}&randKey={$val['rand']}">{lang tom_kanjia:list_baoming}</a>
+                    <!--{/if}-->
+                    
+                </div>
+            </li>
+            <!--{/loop}-->
+        </ul>
+        <div class="pages clearfix">
+            <ul class="clearfix">
+                <li style="width: 40%;"><!--{if $page > 1}--><a href="{$prePageUrl}">{lang tom_kanjia:index_pre_page}</a><!--{else}--><span>{lang tom_kanjia:index_pre_page}</span><!--{/if}--></li>
+                <li style="width: 20%;background-color: #2d293f;border-top: 0px solid #4c4763;"><span>{$page}/{$allPageNum}</span></li>
+                <li style="width: 40%;"><!--{if $showNextPage == 1}--><a href="{$nextPageUrl}">{lang tom_kanjia:index_next_page}</a><!--{else}--><span>{lang tom_kanjia:index_next_page}</span><!--{/if}--></li>
+            </ul>
+        </div>
+    </div>
+</section>
+</body>
+</html>

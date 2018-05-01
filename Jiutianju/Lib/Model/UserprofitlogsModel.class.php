@@ -1,88 +1,201 @@
 <?php
-/**
- * By Dicky QQ:25941/8511978
- * Website: dz.25941.cn
- */
 class UserprofitlogsModel extends CommonModel {
     protected $pk = 'log_id';
     protected $tableName = 'user_profit_logs';
 	
-		
-  //分销
-	public function profitFusers($order_type = 0, $uid = 0, $order_id = 0) {
-		if ($order_type === 0) {
-			$model = D('Tuan');
-			$map['o.order_id'] = $order_id;
-			$join = ' INNER JOIN ' . C('DB_PREFIX') . 'tuan_order o ON o.tuan_id = t.tuan_id INNER JOIN ' . C('DB_PREFIX') . 'users u ON o.user_id = u.user_id';
-			$goods = $model->alias('t')->field('t.*, o.total_price, u.fuid1, u.fuid2, u.fuid3, o.is_separate')->join($join)->where($map)->limit(0, 1)->select();
-		}
-		else {
-			$model = D('Goods');
-			$map['og.order_id'] = $order_id;
+	protected $Type = array(
+        'goods' => '商城',
+		'appoint' => '家政',
+		'tuan' => '抢购',
+		'ele' => '外卖',
+		'booking'  => '订座',
+		'breaks'=>'优惠买单',
+		'hotel' =>'酒店',
+		'farm'=>'农家乐', 
+    );
+	
+	protected $separate = array(
+        1 => '已分成',
+        2 => '已取消',
+    );
 
-			$join = ' INNER JOIN ' . C('DB_PREFIX') . 'order_goods og ON g.goods_id = og.goods_id INNER JOIN ' . C('DB_PREFIX') . 'order o ON o.order_id = og.order_id INNER JOIN ' . C('DB_PREFIX') . 'users u ON o.user_id = u.user_id';
-			$goods = $model->alias('g')->field('g.*, og.total_price, u.fuid1, u.fuid2, u.fuid3, o.is_separate')->join($join)->where($map)->limit(0, 1)->select();
-		}
-		$goods = $goods[0];
-		if ($goods) {
-			$userModel = D('Users');
-			if ($goods['profit_rank_id']) {
-				$rank = D('Userrank')->find($goods['profit_rank_id']);
-				if ($rank) {
-					$userModel->save(array('user_id' => $uid, 'rank_id' => $rank['rank_id'], 'prestige' => $rank['prestige']));
-				}
-			}
-			if ($goods['profit_enable']  && !$goods['is_separate']) {
-				if ($order_type === 0) {
-					$modelOrder = D('Tuanorder');
-					$orderTypeName = '团购';
-				}
-				else {
-					$modelOrder = D('Order');
-					$orderTypeName = '商城';
-				}
-				$profit_rate1 = (int)$goods['profit_rate1'];
-				if ($goods['fuid1']) {
-					$money1 = round($profit_rate1 * $goods['total_price'] / 100);
-					if ($money1 > 0) {
-						$info1 = $orderTypeName . '订单ID:' . $order_id . ', 分成: ' . round($money1 / 100, 2);
-						$fuser1 = $userModel->find($goods['fuid1']);
-						if ($fuser1) {
-							$userModel->addMoney($goods['fuid1'], $money1, $info1);
-							$userModel->addProfit($goods['fuid1'], $order_type, $order_id, $money1, 1);
-						}
-					}
-				}
-				$profit_rate2 = (int)$goods['profit_rate2'];
-				if ($goods['fuid2']) {
-					$money2 = round($profit_rate2 * $goods['total_price'] / 100);
-					if ($money2 > 0) {
-						$info2 = $orderTypeName . '订单ID:' . $order_id . ', 分成: ' . round($money2 / 100, 2);
-						$fuser2 = $userModel->find($goods['fuid2']);
-						if ($fuser2) {
-							$userModel->addMoney($goods['fuid2'], $money2, $info2);
-							$userModel->addProfit($goods['fuid2'], $order_type, $order_id, $money2, 1);
-						}
+    public function getType() {
+        return $this->Type;
+    }
 
-					}
-
-				}
-				$profit_rate3 = (int)$goods['profit_rate3'];
-				if ($goods['fuid3']) {
-					$money3 = round($profit_rate3 * $goods['total_price'] / 100);
-					if ($money3 > 0) {
-						$info3 = $orderTypeName . '订单ID:' . $order_id . ', 分成: ' . round($money3 / 100, 2);
-						$fuser3 = $userModel->find($goods['fuid3']);
-						if ($fuser3) {
-							$userModel->addMoney($goods['fuid3'], $money3, $info3);
-							$userModel->addProfit($goods['fuid3'], $order_type, $order_id, $money3, 1);
-						}
-					}
-				}
-				$modelOrder->save(array('order_id' => $order_id, 'is_separate' => 0, 'is_profit' => 1));
-			}
+    public function getSeparate() {
+        return $this->separate;
+    }
+	
+	//反转数组
+	public function get_money_type($type) {
+		$types = $this->getType();
+		$result = array_flip($types);//反转数组
+		$types = array_search($type, $result);
+		if(!empty($types)){
+			return $types;
+		}else{
+			return false;
 		}
+        return false;
 	}
-   //三级分销结束
+	
+	
+	protected $_type = array(
+		'tuan' => '抢购', 
+		'farm' => '农家乐', 
+		'goods' => '商城', 
+		'booking' => '订座', 
+		'hotel' => '酒店',
+		'Appoint' => '家政',
+	);
+	
+	 //新版N级分销，二开QQ  120+585+022
+	public function profitUsers($order_id,$id,$shop_id, $jiesuan_price, $type){
+		//p($order_id.'----'.$id.'----'.$shop_id.'----'.$jiesuan_price.'----'. $type);die;
+		$config = D('Setting')->fetchAll();
+		$Shop = D('Shop')->where(array('shop_id'=>$shop_id))->find();
+		if($Shop['is_profit']){
+			list($user_id,$money)= $this->getModelMoneyUser($order_id,$id,$jiesuan_price, $type);
+			$obj = D('Users');
+			$Users = $obj->find($user_id);
+			if($money > 0){
+				if($Users['fuid1']){
+					$money1 = round($config['profit']['profit_rate1'] * $money / 100);
+					if($money1 > 0){
+						$info1 = $this->_type[$type]. '订单ID:' . $order_id . ', 一级分成: ' . round($money1 / 100, 2);
+						$fuser1 = $obj->find($goods['fuid1']);
+						if ($fuser1){
+							$obj->addMoney($Users['fuid1'], $money1, $info1);
+							$obj->addProfit($Users['fuid1'], $order_type = 0, $type, $order_id, $shop_id,$money1, 1);
+						}
+					}
+				}
+				
+				if($Users['fuid2']){
+					$money2 = round($config['profit']['profit_rate2'] * $money / 100);
+					if($money2 > 0){
+						$info2 = $this->_type[$type]. '订单ID:' . $order_id . ', 二级分成: ' . round($money2 / 100, 2);
+						$fuser2 = $obj->find($goods['fuid2']);
+						if ($fuser2){
+							$obj->addMoney($Users['fuid2'], $money2, $info2);
+							$obj->addProfit($Users['fuid2'], $order_type = 0,$type, $order_id,$shop_id, $money2, 1);
+						}
+					}
+				}
+				
+				if($Users['fuid3']){
+					$money3 = round($config['profit']['profit_rate3'] * $money / 100);
+						if($money2 > 0){
+						$info3 = $this->_type[$type]. '订单ID:' . $order_id . ', 三级分成: ' . round($money3 / 100, 2);
+						$fuser3 = $obj->find($goods['fuid3']);
+						if ($fuser3){
+							$obj->addMoney($Users['fuid3'], $money3, $info3);
+							$obj->addProfit($Users['fuid3'], $order_type = 0,$type, $order_id,$shop_id, $money3, 1);
+						}
+					}
+				}
+				
+			}
+		}
+		
+	}
+   //获取会员ID，金额，模型
+   public function getModelMoneyUser($order_id,$id,$jiesuan_price, $type){
+	    $config = D('Setting')->fetchAll();
+		if($type == 'ele'){
+			if($config['profit']['profit_is_ele']){
+				$order = D('Eleorder')->find($order_id);
+				if($config['profit']['profit_price_type'] == 1){
+					$money = $order['need_pay'];
+				}elseif($config['profit']['profit_price_type'] == 2){
+					$money = $order['settlement_price'];
+				}elseif($config['profit']['profit_price_type'] == 3){
+					$money = $order['need_pay'] - $order['settlement_price'];
+				}else{
+					$money = 0;
+				}
+				D('Eleorder')->save(array('order_id' => $order_id, 'is_profit' => 1));	
+				return array($order['user_id'],$money);
+			}
+		}elseif($type == 'farm'){
+			if($config['profit']['profit_is_farm']){
+				$order = D('FarmOrder')->find($order_id);
+				if($config['profit']['profit_price_type'] == 1){
+					$money = $order['amount']*100;
+				}elseif($config['profit']['profit_price_type'] == 2){
+					$money = $order['jiesuan_amount']*100;
+				}elseif($config['profit']['profit_price_type'] == 3){
+					$money = ($order['amount'] - $order['jiesuan_amount'])*100;
+				}else{
+					$money = 0;
+				}
+				D('FarmOrder')->save(array('order_id' => $order_id, 'is_profit' => 1));	
+				return array($order['user_id'],$money);
+			 }
+		}elseif($type == 'goods'){
+			if($config['profit']['profit_is_goods']){
+				$Order = D('Order')->find($order_id);
+				if($config['profit']['profit_price_type'] == 1){
+					$money = $Order['need_pay'];
+				}elseif($config['profit']['profit_price_type'] == 2){
+					$money = $jiesuan_price;
+				}elseif($config['profit']['profit_price_type'] == 3){
+					$money = $Order['need_pay']- $jiesuan_price;
+				}else{
+					$money = 0;
+				}
+				return array($Order['user_id'],$money);
+			}
+		}elseif($type == 'tuan'){
+			if($config['profit']['profit_is_tuan']){
+				$Tuancode = D('Tuancode')->find($id);
+				if($config['profit']['profit_price_type'] == 1){
+					$money = $Tuancode['real_money'];
+				}elseif($config['profit']['profit_price_type'] == 2){
+					$money = $Tuancode['settlement_price'];
+				}elseif($config['profit']['profit_price_type'] == 3){
+					$money = $Tuancode['real_money']-$Tuancode['settlement_price'];
+				}else{
+					$money = 0;
+				}
+				D('Tuancode')->save(array('code_id' => $id, 'is_profit' => 1));	
+				return array($Tuancode['user_id'],$money);
+			}
+		}elseif($type == 'booking'){
+			if($config['profit']['profit_is_booking']){
+				$order = D('Bookingorder')->find($order_id);
+				if($config['profit']['profit_price_type'] == 1){
+					$money = $order['amount'];
+				}elseif($config['profit']['profit_price_type'] == 2){
+					$money = $order['amount'];
+				}elseif($config['profit']['profit_price_type'] == 3){
+					$money = $order['amount'];
+				}else{
+					$money = 0;
+				}
+				D('Bookingorder')->save(array('order_id' => $order_id, 'is_profit' => 1));	
+				return array($order['user_id'],$money);
+			}
+		}elseif($type == 'hotel'){
+			if($config['profit']['profit_is_hotel']){
+				$order = D('Hotelorder')->find($order_id);
+				if($config['profit']['profit_price_type'] == 1){
+					$money = $order['amount']*100;
+				}elseif($config['profit']['profit_price_type'] == 2){
+					$money = $order['jiesuan_amount']*100;
+				}elseif($config['profit']['profit_price_type'] == 3){
+					$money = ($order['amount'] - $order['jiesuan_amount'])*100;
+				}else{
+					$money = 0;
+				}
+				D('Hotelorder')->save(array('order_id' => $order_id, 'is_profit' => 1));	
+				return array($order['user_id'],$money);
+			 }
+		}
+		
+	
+   }
+   
 
 }

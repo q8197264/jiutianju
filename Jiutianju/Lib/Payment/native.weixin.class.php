@@ -105,7 +105,7 @@
             $input->SetTime_expire( date( "YmdHis" , time() + 600 ) );// 否 注意：最短失效时间间隔必须大于5分钟
             $input->SetGoods_tag( $logs['subject'] ); // 否 商品标记，代金券或立减优惠功能的参数
 
-            $input->SetNotify_url( __HOST__ . U( 'pchome/payment/respond' , array( 'code' => 'native' ) ) );
+            $input->SetNotify_url( __HOST__ . U( '/Home/payment/respond' , array( 'code' => 'native' ) ) );
 //            $input->SetNotify_url( __HOST__ . '/WxPay/notify.php' );//支付回调一般有个不成文的规定：传递给支付服务商的回调地址不允许带有任何参数
             $input->SetTrade_type( "NATIVE" );
             $input->SetProduct_id( $logs['logs_id'] );//trade_type=NATIVE，此参数必传。此id为二维码中包含的商品ID，商户自行定义

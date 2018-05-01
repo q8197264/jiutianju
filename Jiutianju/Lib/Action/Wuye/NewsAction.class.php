@@ -1,29 +1,23 @@
 <?php
-
-
-
-class NewsAction extends CommonAction {
-
-    public function index() {
+class NewsAction extends CommonAction{
+    public function index(){
         $news = D('Communitynews');
-        import('ORG.Util.Page'); // 导入分页类
-        $map = array('closed' =>0,'community_id' => $this->community_id);
+        import('ORG.Util.Page');
+        $map = array('closed' => 0, 'community_id' => $this->community_id);
         if ($keyword = $this->_param('keyword', 'htmlspecialchars')) {
             $map['title|intro'] = array('LIKE', '%' . $keyword . '%');
         }
-        $count = $news->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
+        $count = $news->where($map)->count();
+        $Page = new Page($count, 10);
+        $show = $Page->show();
         $list = $news->order(array('news_id' => 'desc'))->where($map)->limit($Page->firstRow . ',' . $Page->listRows)->select();
-        $this->assign('list', $list); // 赋值数据集www.hatudou.com  二开开发qq  120585022
-        $this->assign('page', $show); // 赋值分页输出
-        $this->display(); // 输出模板   
+        $this->assign('list', $list);
+        $this->assign('page', $show);
+        $this->display();
     }
-
-    public function create() {
+    public function create(){
         if ($this->isPost()) {
             $data = $this->checkCreate();
-
             $obj = D('Communitynews');
             if ($obj->add($data)) {
                 $this->fengmiMsg('物业通知发布成功', U('news/index'));
@@ -33,12 +27,11 @@ class NewsAction extends CommonAction {
             $this->display();
         }
     }
-
-    public function checkCreate() {
+    public function checkCreate(){
         $data = $this->checkFields($this->_post('data', false), array('title', 'intro', 'details'));
         $data['community_id'] = $this->community_id;
         $data['title'] = htmlspecialchars($data['title']);
-        if (empty($data['title'])){
+        if (empty($data['title'])) {
             $this->fengmiMsg('标题不能为空');
         }
         if ($words = D('Sensitive')->checkWords($data['title'])) {
@@ -61,14 +54,13 @@ class NewsAction extends CommonAction {
         $data['create_time'] = NOW_TIME;
         $data['create_ip'] = get_client_ip();
         $data['closed'] = 0;
-        $data['audit'] = $this->_CONFIG['site']['xiaoqu_news_audit'];//回帖是否免审核
+        $data['audit'] = $this->_CONFIG['site']['xiaoqu_news_audit'];
         return $data;
     }
-
-    public function edit($news_id) {
+    public function edit($news_id){
         $news_id = (int) $news_id;
         $obj = D('Communitynews');
-        if (!$detail = $obj->find($news_id)) {
+        if (!($detail = $obj->find($news_id))) {
             $this->error('该通知不存在');
         }
         if ($detail['closed'] != 0) {
@@ -89,55 +81,55 @@ class NewsAction extends CommonAction {
             $this->display();
         }
     }
-
-    public function editCheck($news_id) {
+    public function editCheck($news_id){
         $data = $this->checkFields($this->_post('data', false), array('title', 'intro', 'details'));
         $data['community_id'] = $this->community_id;
         $data['title'] = htmlspecialchars($data['title']);
         if (empty($data['title'])) {
             $this->fengmiMsg('标题不能为空');
-        }$data['intro'] = htmlspecialchars($data['intro']);
+        }
+        $data['intro'] = htmlspecialchars($data['intro']);
         if (empty($data['intro'])) {
             $this->fengmiMsg('简介不能为空');
-        }if ($words = D('Sensitive')->checkWords($data['intro'])) {
+        }
+        if ($words = D('Sensitive')->checkWords($data['intro'])) {
             $this->fengmiMsg('简介含有敏感词：' . $words);
-        }$data['details'] = htmlspecialchars($data['details']);
+        }
+        $data['details'] = htmlspecialchars($data['details']);
+
         if (empty($data['details'])) {
             $this->fengmiMsg('详情不能为空');
-        }if ($words = D('Sensitive')->checkWords($data['details'])) {
+        }
+        if ($words = D('Sensitive')->checkWords($data['details'])) {
             $this->fengmiMsg('详情含有敏感词：' . $words);
         }
-		$data['audit'] = 0;//编辑后重审
+        $data['audit'] = 0;
         return $data;
     }
-
-    public function delete($news_id = 0) {
+    public function delete($news_id = 0){
         if (is_numeric($news_id) && ($news_id = (int) $news_id)) {
             $obj = D('Communitynews');
-			$news = $obj->find($news_id);
-			if (empty($news)) {
-				$this->ajaxReturn(array('status'=>'error','msg'=>'访问错误！'));
-			}
-			if ($news['community_id'] != $this->community_id ) {
-				$this->ajaxReturn(array('status'=>'error','msg'=>'您没有权限访问！'));
-			}
+            $news = $obj->find($news_id);
+            if (empty($news)) {
+                $this->ajaxReturn(array('status' => 'error', 'msg' => '访问错误！'));
+            }
+            if ($news['community_id'] != $this->community_id) {
+                $this->ajaxReturn(array('status' => 'error', 'msg' => '您没有权限访问！'));
+            }
             $obj->save(array('news_id' => $news_id, 'closed' => 1));
-			
-			$this->ajaxReturn(array('status' => 'success', 'msg' => '删除成功', U('news/index')));
+            $this->ajaxReturn(array('status' => 'success', 'msg' => '删除成功', U('news/index')));
         }
     }
-	
-	 public function detail() {
-        $news_id = (int)$this->_param('news_id');
+    public function detail(){
+        $news_id = (int) $this->_param('news_id');
         $news = D('Communitynews');
-        if(!$detail = $news->find($news_id)){
+        if (!($detail = $news->find($news_id))) {
             $this->error('该通知不存在');
         }
-        if($detail['closed'] != 0){
+        if ($detail['closed'] != 0) {
             $this->error('该通知已被删除');
         }
-        $this->assign('detail',$detail);
+        $this->assign('detail', $detail);
         $this->display();
     }
-    
 }

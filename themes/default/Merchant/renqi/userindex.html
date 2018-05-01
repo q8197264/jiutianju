@@ -1,0 +1,52 @@
+<include  file='public:header'/>
+
+<style>
+ .money_tixian{ margin:20px 50px;}
+.money_tixian canvas{width:100px; height100px}
+</style>
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">商家管理</a> > <a href="">人气活动</a> > <a>参与用户</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+<div class="tuan_top_t">
+<div class="left tuan_topser_l"><font color=red>请注意：封号操作权限太大，如果有需要，可以联系管理员！</font></div>
+ <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('renqi/index')}>">返回</a></div></div>
+  <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr style="background-color:#eee;">
+	 <td width="5%">ID</td>
+      <td width="5%">微信呢称</td>
+      
+      <td width="10%">姓名</td>
+      
+      <td width="6%">电话</td>
+      <td width="6%">人气数</td>
+      
+      <td width="5%">状态</td>
+      
+      
+      
+    </tr>
+    <foreach name="list" item="var">
+      <tr>
+	  <td><{$var.id}></td>
+        <td><{$var.user_name}></td>
+        
+        <td><{$var.user_xm}></td>
+        
+        <td><{$var.user_tel}></td>
+        <td><{$var.user_rq_num}></td>
+        <td><eq name='var.status' value="0">正常<else/>已封号</eq></td>
+        
+
+        
+         
+        
+            
+      </tr>
+    </foreach>
+  </table>
+  <div class="paging"> <{$page}> </div>
+</div>
+<include  file='public:footer'/>

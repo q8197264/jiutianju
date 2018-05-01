@@ -1,0 +1,63 @@
+<include  file='public:header'/>
+
+<style>
+ .money_tixian{ margin:20px 50px;}
+.money_tixian canvas{width:100px; height100px}
+</style>
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">商家管理</a> > <a href="">人气活动</a> > <a>砍价活动管理</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+<div class="tuan_top_t">
+ <div class="right tuan_topfb_r"><a class="radius3 sjgl_an tuan_topbt" target="main_frm" href="<{:U('kanjia/create')}>">发布活动+</a></div></div>
+  <table class="tuan_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr style="background-color:#eee;">
+      <td width="5%">砍价活动ID</td>
+      
+      <td width="10%">活动标题</td>
+      
+      <td width="6%">开始时间</td>
+      <td width="6%">结束时间</td>
+      
+      <td width="5%">是否审核</td>
+      <td width="10%">二维码</td>
+      
+      <td width="10%">操作</td>
+    </tr>
+    <foreach name="list" item="var">
+      <tr>
+        <td><{$var.id}></td>
+        
+        <td><{$var.title}></td>
+        
+        <td><{$var.start_time|date='Y-m-d-H:i',###}></td>
+        <td><{$var.end_time|date='Y-m-d-H:i',###}></td>
+        
+
+        <td><eq name="var.audit" value="0"><font  color=red>待审核</font>
+            <else/>
+            <font size=5 color=green>已审核</font></eq></td>
+         <td>
+		 <script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script>
+		<eq name="var.audit" value="0">待审核未生成二维码 <else/>	<div class="money_tixian"  id="money_tixian_<{$var.id}>"></eq></div></td>
+<script type="text/javascript">
+          $(function () {
+             var str = "<{$CONFIG.site.host}>/bbs/plugin.php?id=tom_kanjia&kid=<{$var.id}>";
+             $("#money_tixian_<{$var.id}>").empty();
+             $('#money_tixian_<{$var.id}>').qrcode(str);
+           })
+     </script>
+        
+        <td>
+		<a href="<{:U('kanjia/gifeindex',array('id'=>$var['id']))}>"><font  color=red>砍价价格规则</font></a>&nbsp;&nbsp;|&nbsp;&nbsp; 
+            <a href="<{:U('kanjia/userindex',array('id'=>$var['id']))}>"><font  color=green>查看报名</font></a>&nbsp;&nbsp; |&nbsp;&nbsp;
+            <a href="<{:U('kanjia/edit',array('id'=>$var['id']))}>"><font  color=blue>编辑</font></a> 
+            
+      </tr>
+    </foreach>
+  </table>
+  <div class="paging"> <{$page}> </div>
+</div>
+<include  file='public:footer'/>

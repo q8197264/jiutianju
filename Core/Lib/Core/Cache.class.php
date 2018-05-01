@@ -40,7 +40,9 @@ class Cache {
      * @return object
      */
     public function connect($type='',$options=array()) {
-        if(empty($type))  $type = C('DATA_CACHE_TYPE');
+        if(empty($type)) {
+            $type = C('DATA_CACHE_TYPE');
+        }
         $type  = strtolower(trim($type));
         $class = 'Cache'.ucwords($type);
         if(class_exists($class))

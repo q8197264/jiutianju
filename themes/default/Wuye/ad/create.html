@@ -1,8 +1,9 @@
 <include  file='public:header'/>   
-
+<link rel="stylesheet" type="text/css" href="/static/default/webuploader/webuploader.css">
+<script src="/static/default/webuploader/webuploader.min.js"></script>
 <header class="top-fixed bg-yellow bg-inverse">
 	<div class="top-back">
-		<a class="top-addr" href="<{:U('wuye/ad/index')}>"><i class="icon-angle-left"></i></a>
+		<a class="top-addr" href="<{:U('ad/index')}>"><i class="iconfont icon-angle-left"></i></a>
 	</div>
 	<div class="top-title">
 		添加广告
@@ -18,45 +19,50 @@
 
 <div class="blank-10"></div>
 <div class="Upload-img-box">
-   <div class="Upload-btn"><input type="file" id="fileToUpload" name="fileToUpload" data-role="none">上传广告</div>
+   <div  id="fileToUpload">上传图片</div>
    <div class="Upload-img">
    <div class="list-img loading" style="display:none;"><img src=""></div>
    <div class="list-img jq_photo" style="display:none;"></div>
   </div>
 </div>
+    <script>
+    	var width_ad = '<{:thumbSize($CONFIG[attachs][ad][thumb],0)}>';                     
+		var height_ad = '<{:thumbSize($CONFIG[attachs][ad][thumb],1)}>';  
+        var uploader = WebUploader.create({                 
+			auto: true,                             
+			swf: '/static/default/webuploader/Uploader.swf',                             
+			server: '<{:U("app/upload/uploadify",array("model"=>"ad"))}>',                             
+			pick: '#fileToUpload',                             
+			resize: true,    
+			compress : {width:width_ad,height:height_ad,quality:60,allowMagnify: false,crop: true}//裁剪       
+        });
+        //监听文件处理
+        uploader.on( 'beforeFileQueued', function( file ) {
+            $(".loading").show();
+            if(file.size > 1024000){
+                uploader.option( 'compress', {
+                    width:width_ad,//这里裁剪长度
+                    quality:60
+                });
+            }
+        });
+        //上传成功替换页面图片
+        uploader.on( 'uploadSuccess', function( file,resporse) {
+            $(".loading").hide();
+            var str = '<img src="'+resporse.url+'"><input type="hidden" name="data[photo]" value="' + resporse.url + '" />';
+            $(".jq_photo").show().html(str);
+        });
+        //上传失败提醒
+        uploader.on( 'uploadError', function( file ) {
+            alert('上传出错');
+        });
 
- <script type="text/javascript" src="/static/default/wap/js/ajaxfileupload.js"></script>
-                    <script>
-                        function ajaxupload() {
-                            $(".loading").show();
-                            $.ajaxFileUpload({
-                                url: '<{:U("app/upload/upload",array("model"=>"life"))}>',
-                                type: 'post',
-                                fileElementId: 'fileToUpload',
-                                dataType: 'text',
-                                secureuri: false, //一般设置为false
-                                success: function (data, status) {
-                                    $(".loading").hide();
-                                    var str = '<img src="__ROOT__/attachs/' + data + '"><input type="hidden" name="photo" value="' + data + '" />';
-                                    $(".jq_photo").show().html(str);
-                                    $("#fileToUpload").unbind('change');
-                                    $("#fileToUpload").change(function () {
-                                        ajaxupload();
-                                    });
-                                }
-                            });
-                        }
-                        $(document).ready(function () {
-                            $("#fileToUpload").change(function () {
-                                ajaxupload();
-                            });
-                            $(document).on("click", ".photo img", function () {
-                                $(this).parent().remove();
-                            });
-                        });
-                    </script>
-                    
-
+        $(document).ready(function () {
+            $(document).on("click", ".photo img", function () {
+                $(this).parent().remove();
+            });
+        });
+    </script>
 
 
 <div class="blank-10 bg border-top"></div>

@@ -1,45 +1,60 @@
-/* 
- * 
- * 作者：尤哥
- * 官网：www.jiutianju.com
- * 邮件: 376621340@qq.com
- */
 var lock = 0;
-function loading() {
-    var boxHtml = '<div class="baomsgbox"></div>';
 
-    $(".baomsgbox").css('top', '300px');
-    if ($(".baomsgbox").length == 0) {
-        $("body").append(boxHtml);
-    }
-    $(".baomsgbox").html('<img src="' + BAO_PUBLIC + '/images/loading.gif" /><span  style=" color: blue;">正在加载中...</span>');
-    $(".baomsgbox").show();
-    lock = 1;
+
+
+/* get执行并返回结果，执行后带跳转 */
+$(function () {
+	$('body').on('click','.rst-url-btn',function () {
+        var $url = this.href;
+        $.get($url, function (data) {
+            if (data.code==1) {
+                layer.alert(data.msg, {icon: 6}, function (index) {
+                    layer.close(index);
+                    window.location.href = data.url;
+                });
+            } else {
+                layer.alert(data.msg, {icon: 5}, function (index) {
+                    layer.close(index);
+                });
+            }
+        }, "json");
+        return false;
+    });
+});
+
+
+/* post执行并返回结果，执行后不带跳转 */
+$(function () {
+	$('body').on('click','.confirm-rst-btn',function () {
+        var $url = this.href,
+            $info = $(this).data('info');
+        layer.confirm($info, {icon: 3}, function (index) {
+            layer.close(index);
+            $.post($url, {}, function (data) {
+                layer.msg(data.msg);
+            }, "json");
+        });
+        return false;
+    });
+});
+
+
+function loading() {
+    //layer.msg('正在加载中...');
+    //lock = 1;
 }
 
-
-
 function success(msg, timeout, callback) {
-    var boxHtml = '<div class="baomsgbox"></div>';
-    if ($(".baomsgbox").length == 0) {
-        $("body").append(boxHtml);
-    }
-    $(".baomsgbox").html('<img src="' + BAO_PUBLIC + '/images/right.gif" /><span  style=" color: green;">' + msg + '</span>');
+    parent.layer.msg(msg);
     setTimeout(function () {
-        lock = 0;
-        $(".baomsgbox").hide();
         eval(callback);
     }, timeout ? timeout : 3000);
 }
+
+
 function error(msg, timeout, callback) {
-    var boxHtml = '<div class="baomsgbox"></div>';
-    if ($(".baomsgbox").length == 0) {
-        $("body").append(boxHtml);
-    }
-    $(".baomsgbox").html('<img src="' + BAO_PUBLIC + '/images/wrong.gif" /><span  style=" color: red;">' + msg + '</span>');
+    parent.layer.msg(msg);
     setTimeout(function () {
-        lock = 0;
-        $(".baomsgbox").hide();
         eval(callback);
     }, timeout ? timeout : 3000);
 }
@@ -70,6 +85,8 @@ function dialog(title, content, width, height) {
     $(".dialogBox").attr('title', title);
     $(".dialogBox").html(content);
     $(".dialogBox").dialog({
+		show: true,
+		hide: true,
         zIndex: 1000,
         width: width ? width : 300,
         height: height ? height : 200,
@@ -104,11 +121,18 @@ $(document).ready(function (e) {
 
     $(document).on("click", "a[mini='act']", function (e) {
         e.preventDefault();
+		var url = $(this).attr('href');
         if (!lock) {
-            if (confirm("您确定要" + $(this).html())) {
+			
+			parent.layer.confirm("您确定要" + $(this).html() + "吗？", {area: '150px', btn: ['是的', '不'], shade: false}, function () {
+                $("#baocms_frm").attr('src', url);
+            })
+			
+			
+           /*if (confirm("您确定要" + $(this).html())) {
                 loading();
-                $("#baocms_frm").attr('src', $(this).attr('href'));
-            }
+                $("#boluo_frm").attr('src', $(this).attr('href'));
+            }*/
         }
     });
 
@@ -122,6 +146,7 @@ $(document).ready(function (e) {
     $(document).on('click', "a[mini='list']", function (e) {
         e.preventDefault();
         if (!lock) {
+			
             if (confirm("您确定要" + $(this).html())) {
                 loading();
                 $(this).parents('form').attr('action', $(this).attr('href')).submit();
@@ -138,7 +163,6 @@ $(document).ready(function (e) {
             $.get(obj.attr('href'), function (data) {
                 if (data) {
                     dialog(obj.text(), data, obj.attr('w'), obj.attr('h'));
-
                 }
                 hidde();
             }, 'html');

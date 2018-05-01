@@ -1,0 +1,366 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<link rel="stylesheet" href="/themes/default/Home/statics/css/index2.css" type="text/css"/>
+<link href="/themes/default/Home/statics/css/base2.css?v=2"rel="stylesheet" type="text/css"/>
+
+<script src="/themes/default/Home/statics/js1/jquery.js"type="text/javascript"></script>
+    <script src="/themes/default/Home/statics/js1/base.js?v=5"type="text/javascript"></script>
+
+<script src="/themes/default/Home/statics/js1/jquery.lazyload.js"></script>
+    <script type="text/javascript">
+      
+        $(function () {
+            if ($(".ch").find("a").length > 8) {
+                $(".ch").mouseenter(function () {
+                    $(this).addClass("hover");
+                }).mouseleave(function () {
+                    $(this).removeClass("hover");
+                })
+            }
+
+
+            setInterval("countdown()", 1000);
+
+            $(".box .img img").lazyload({
+                effect: "fadeIn",
+                skip_invisible: false
+            });
+
+
+        })
+
+
+        function countdown() {
+            $(".box .countdown").each(function(){
+               new countDown($(this));
+            })
+            
+        }
+    </script>
+
+<script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script><!--二维码-->
+<style>
+.goods_sjcpDwBox {height: 225px;}
+.sy_sjcpwx canvas{width: 102px;height: 102px;margin: 0px auto;padding: 10px;background: #fff;}
+#slide .pic {
+    width: auto;
+    height: 330px; 
+    overflow: hidden;
+}
+.box .t .seck {
+    background: #f61d4b;
+    position: absolute;
+    top: 170px;
+    right: 0px;
+    color: #fff;
+    font-size: 14px;
+    height: 31px;
+    line-height: 30px;
+    opacity: 0.9;
+    width: 100%;
+    z-index: 10;
+}
+.box .t .seck1 {
+    background: #009688;
+    position: absolute;
+    top: 170px;
+    right: 0px;
+    color: #fff;
+    font-size: 14px;
+    height: 31px;
+    line-height: 30px;
+    opacity: 0.9;
+    width: 100%;
+    z-index: 10;
+	    text-align: center;
+}
+.nearbuy_cpList {
+    overflow: hidden;
+    height: auto;
+    background-color: rgba(255, 0, 0, 0.07);}
+	.sy_sjcpLi {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.sk {margin-bottom:25px }
+.sk .t { height: 55px;line-height:55px; background: url(http://www.anhuatong.com/template/1/images/seckill_hd.png) no-repeat;color:#fff;padding-left:80px;}
+.sk .t em { font-size: 26px; }
+.sk .t i { font-size: 14px; padding-left: 15px; }
+.sk .list { background: rgba(247, 236, 236, 0.68); overflow:hidden;height:auto;padding:15px 0}
+.sk ul { width: 1220px; }
+.sk li { width: 255px; border-right:1px dashed #e7e7e7; padding:0 15px 0 15px;float:left}
+.sk li .img img { width: 100%; }
+
+.sk li label {color: #f10214; }
+.sk li em { font-size: 18px; color: #f10214;font-weight:700 }
+.sk li i { text-decoration: line-through; font-size: 12px;padding-left:8px }
+.sk li .a { color: #ff2c41; border: 1px solid #ff2c41; width: 250px; text-align: center; padding: 8px 0px; border-right-width: 3px;border-left-width: 3px;margin-top:10px;border-radius:3px }
+.sk li p {
+    color: #F44336;
+    font-size: 16px;
+    line-height: 1.6em;
+    height: 35px;
+    margin: 10px 0 5px 0;
+    overflow: hidden;
+    text-align: center;
+}
+.box li {
+    background: #fff;
+    width: 270px;
+    border-right: 1px solid #e5e5e5;
+    height: 320px;
+    float: left;
+    padding: 15px;
+    position: relative;
+
+
+
+}
+.kk .sy_sjcpLiDw {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    left: -400px;
+    top: 0;
+    transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
+    -moztransition: all .2s ease-in-out;
+}
+.kk .sy_sjcpwx canvas{width: 102px; height: 102px;margin: 0px auto;padding: 10px; background: #fff; }
+.kk .sy_sjcpwx1 {text-align: center;}
+.kk .sy_sjcpwx1 canvas{ width: 102px;height: 102px;margin: 0px auto;padding: 10px;background: #fff;}
+.box li:hover { -webkit-box-shadow: 0px 0px 8px #999;box-shadow: 0px 0px 8px #999;-moz-box-shadow: 0px 0px 8px #999;width:266px;height:318px;margin:0 2px 2px 0}
+.box li { -webkit-box-shadow: 0px 0px 8px #999;box-shadow: 0px 0px 8px #999;width:266px;height:320px;}
+.kk {
+    display: block;
+    /* float: left; */
+    /* width: 284px; */
+    padding-right: 16px;
+    padding-bottom: 20px;
+    margin-top: -7px;
+}
+</style>
+<div class="nav">
+    <div class="navList">
+        <ul>
+            
+
+               <volist name="navigations" id="var" key="index" >
+<if condition="($var.parent_id eq 0)"> 
+
+<li class="navLi"><a <if condition="$var.target eq 1">target="_blank"</if> <if condition="$ctl eq $var['title']"> class="navA  on"<else/>class="navA"</if> title="<{$var['nav_name']}>" href="<{$var['url']}>" ><{$var['nav_name']}>  <if condition="$var['is_new'] eq 1"><em class="hot"></em></if> </a></li>
+</if>
+</volist>
+
+        </ul>
+
+    </div>
+
+</div>
+
+
+    <div class="wrap clearfix page-main">
+        <div class="container">
+        
+
+ 
+<div class="clearfix" id="index">
+
+
+    <div class="clearfix row1">
+        <div class="ch">
+		<foreach name="goodscate" item="item">
+ 
+                                           
+ <eq name="item.parent_id" value="0">
+ <a class="ch1" >
+   <i class="kk">   <img src="<{:config_img($goodscate[$item['cate_id']]['photo'])}>" height="30px" margin-bottom="20px"/></i></a>
+           <p>   <a href="<{:LinkTo('mall/index',$linkArr,array('cat'=>$item['cate_id']))}>"><{$goodscate[$item['cate_id']]['cate_name']}></a></p></eq>
+</foreach>
+	 </div>
+
+                <div id="slide" class="slide">
+                    <div class="pic">
+                        <ul>
+                         <calldata mdl="Ad" where=" closed=0 AND site_id=5 " limit="0,5" cache="21600" order="orderby asc">
+                     <li class="list"><a target="_blank" href="<{$item.link_url}>"><img src="<{:config_img($item['photo'])}>" width="368" height="336" /></a></li>
+					 </calldata>
+                        </ul>
+                    </div>
+                    
+                    <script type="text/javascript">
+                        $(function () {
+                            $(".slide").each(function () {
+                                $(this).slide({ speed: 3000, fadeSpeed: 300 });
+                            })
+                        })
+                    </script>
+                </div>
+        <div class="sr">
+
+              <calldata mdl="Ad" where=" closed=0 AND site_id=6 " limit="0,1" cache="21600" order="orderby asc">
+                     <li class="list"><a target="_blank" href="<{$item.link_url}>"><img src="<{:config_img($item['photo'])}>" width="368" height="336" /></a></li>
+					 </calldata>
+              <calldata mdl="Ad" where=" closed=0 AND site_id=7 " limit="0,1" cache="21600" order="orderby asc">
+                     <li class="list"><a target="_blank" href="<{$item.link_url}>"><img src="<{:config_img($item['photo'])}>" width="368" height="336" /></a></li>
+					 </calldata>
+        </div>
+        </div>
+
+		<div class="sk">
+       <div class="t"><em>微信全民砍价</em><i>最低只要0.01元 快点参与吧！</i></div>
+
+       
+    <div class="nearbuy_cpList">
+            <ul>
+                <calldata mdl="Tom_kanjia" where="audit=1" cache="60" order="id desc" limit="0,6">
+                    <li class="nearbuy_cpLi">
+                        <div class="sy_sjcpLi nearbuy_cpLik">
+                            <a><img src="<{:config_img($item['pic_url'])}>" width="245" height="225" /></a>
+
+                            <p class="sy_hottjbt"><{$item.title}></p>
+                            
+                            
+                            <hr style=" border:none 0px; border-bottom: 1px dashed #e0e0e0; margin-top:6px;" />
+                            <p class="nearbuy_cpLiPf"><span style="cursor: pointer;" " class="left"><em></em>原价￥<{:round($item['goods_price']/1,2)}>-->底价:<font color=red>￥<{:round($item['base_price']/1,2)}></font></span>
+                            <span class="right">
+                            	<a class="sy_hottjJd" target="_blank">扫码参加</a>
+                            </span>
+                            </p>
+                         
+                           <div class="sy_sjcpBq">
+                           
+                            <div class="sy_sjcpLiDw">
+                                <div class="sy_sjcpDwBox goods_sjcpDwBox">
+                               <script type="text/javascript">
+                                $(function () {
+                                    var str = "<{$CONFIG.site.host}>/bbs/plugin.php?id=tom_kanjia&kid=<{$item.id}>";
+                                    $("#code_<{$item.id}>").empty();
+                                    $('#code_<{$item.id}>').qrcode(str);
+                                })
+                               </script>
+                          <div class="sy_sjcpDwNr" style="padding-top:15px;">
+                          <p>扫描二维码参加</p>
+                  <a "><div class="sy_sjcpwx"  id="code_<{$item.id}>"></div></a>
+                                    </div>
+                                    <div class="sy_sjcpDwBg">&nbsp;</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </calldata>
+            </ul>
+        </div>
+  </div></div>
+
+
+<div class="nearbuy_sxk">
+
+
+
+            <ul>
+
+
+
+                <li class="nearbuy_sxkLi <if condition='empty($order) or $order eq d'>on</if> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('mall/index',$linkArr,array('order'=>'d'))}>">默认排序</a></li>
+
+
+
+                <li class="nearbuy_sxkLi <eq name='order' value='s'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('mall/index',$linkArr,array('order'=>'s'))}>">销量排序<em class="em_up"></em></a></li>
+
+
+
+                <li class="nearbuy_sxkLi <eq name='order' value='p'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('mall/index',$linkArr,array('order'=>'p'))}>">价格排序<em></em></a></li>
+
+
+
+                <li class="nearbuy_sxkLi <eq name='order' value='v'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('mall/index',$linkArr,array('order'=>'v'))}>">人气排序<em class="em_up"></em></a></li>
+
+
+
+            </ul>
+
+
+
+        </div>
+
+
+        <script>
+
+            $(document).ready(function () {
+
+                $(".nearbuy_sxkLi input").click(function () {
+
+                    if ($(this).prop('checked') == true) {
+
+                        location.href = $(this).attr('rel');
+
+                    } else {
+
+                        location.href = $(this).attr('data');
+
+                    }
+
+                });
+
+            });
+
+        </script>
+           <div class="clearfix box">
+           
+                  <div class="box-b g-b">
+                    
+           <ul>      <foreach name="list" item="item">
+             
+		   <li class="t"><a href="<{:U('mall/detail',array('goods_id'=>$item['goods_id']))}>" target="_blank">
+		   <php>$show_time = strtotime($item['fail_date']);</php>
+		   <php>$show_time1 = strtotime($item['bg_date']);</php>
+		   
+                <div class="img">
+                    <img src="<{:config_img($item['photo'])}> " width="270" height="180" src="http://www.anhuatong.com/images/grey.gif"/>
+                </div>
+				
+                <h3><{$item.title}></h3>
+                <p class="depict"><{:bao_msubstr($item['intro'],0,37,false)}></p>
+				
+                <p class="price">
+                    <span class="big-p">¥<strong><{$item['mall_price']}></strong><em>¥<{$item['price']}></em></span>
+                   <if condition="$item['bg_date'] elt $today"> <span class="left num">已售<strong><{$item.sold_num}></strong>份</span><else /><span class="left num">已售<strong>0</strong>份</span></if>
+                </p>
+				
+			<div class="sy_sjcpBq">
+
+                            <if condition="$item['is_vs4'] eq 1"><span class="sy_sjcpBq1">速达</span></if>
+
+                            <if condition="$item['is_vs5'] eq 1"><span class="sy_sjcpBq2">包邮</span></if>
+
+                            <if condition="$item['is_vs2'] eq 1"><span class="sy_sjcpBq3">正品</span></if>
+
+                            <if condition="$item['is_vs6'] eq 1"><span class="sy_sjcpBq4">到付</span></if>
+
+                            </div>
+
+				</a>
+            </li>
+			
+            </foreach>
+               </ul>
+             
+               </div>
+               </div>
+			   <div class="x">
+
+            <{$page}>
+
+        </div>
+           
+</div>
+        </div>
+    </div>
+
+
+
+
+<include file="public:footer"/>

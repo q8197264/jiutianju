@@ -24,6 +24,8 @@ class BookingorderModel extends CommonModel{
             if($detail['order_status'] ==1||$detail['order_status'] ==0){
                 if(false !== $this->save(array('order_id'=>$order_id,'order_status'=>-1,'update_time'=>NOW_TIME))){
                     if($detail['order_status'] == 1){
+						D('Weixinmsg')->weixinTmplOrderMessage($order_id,$cate = 1,$type = 7,$status = 11);
+						D('Weixinmsg')->weixinTmplOrderMessage($order_id,$cate = 2,$type = 7,$status = 11);
                         D('Users')->addMoney($detail['user_id'],(int)$detail['amount'],'订座订单取消,ID:'.$order_id.'，返还定金');
                     }
                     return true;
@@ -49,29 +51,19 @@ class BookingorderModel extends CommonModel{
             return false;
         }
     }
-    
+    //新版订座结算
     public function complete($order_id){
         if(!$order_id = (int)$order_id){
             return false;
         }elseif(!$detail = $this->find($order_id)){
             return false;
         }else{
-            $shop = D('Shop')->find($detail['shop_id']);
-			$info = '订座结算，订单号：'.$order_id;
             if($detail['order_status'] == 1){
                 if(false !== $this->save(array('order_id'=>$order_id,'order_status'=>2,'update_time'=>NOW_TIME))){
-                    D('Users')->Money($shop['user_id'], $detail['amount'], '订座订单完成,ID:'.$order_id.'，结算定金'); //结算金额如需设置改这里
-					D('Shopmoney')->add(array(
-						'shop_id' => $shop['shop_id'], 
-						'city_id' => $shop['city_id'], 
-						'area_id' => $shop['area_id'], 
-						'money' => $detail['amount'], 
-						'create_time' => NOW_TIME, 
-						'create_ip' => get_client_ip(),
-						'type' => 'booking', 
-						'order_id' => $order_id, 
-						'intro' => $info
-					 ));
+					 $info = '订座结算，订单号：'.$order_id;
+					 D('Shopmoney')->insertData($order_id,$id ='0',$detail['shop_id'],$detail['amount'],$type ='booking',$intro);//结算给商家
+					 D('Weixinmsg')->weixinTmplOrderMessage($order_id,$cate = 1,$type = 7,$status = 8);
+					 D('Weixinmsg')->weixinTmplOrderMessage($order_id,$cate = 2,$type = 7,$status = 8);
                     return true;
                 }else{
                     return false;

@@ -1,6 +1,6 @@
 <?php
-
 class ShopyouhuiModel extends CommonModel {
+
     protected $pk = 'yh_id';
     protected $tableName = 'shop_youhui';
 
@@ -14,17 +14,12 @@ class ShopyouhuiModel extends CommonModel {
             $result = $need - $t*$youhui['amount'] + $exception;
         }
         return $result;
-
     }
-
-     public function get_file_Code($shop_id,$size){
-        $url = U('mobile/shop/ele', array('shop_id' => $shop_id, 't' => NOW_TIME, 'sign' => md5($shop_id . C('AUTH_KEY') . NOW_TIME)));
+   public function get_file_Code($shop_id,$size){
+        $url = U('wap/shop/breaks', array('shop_id' => $shop_id, 't' => NOW_TIME, 'sign' => md5($shop_id . C('AUTH_KEY') . NOW_TIME)));
         $token = 'shop_id_' . $shop_id;
         $file = fengmiQrCode($token, $url,$size);
         return $file;
-    }
-
+    } 
     
-
 }
-

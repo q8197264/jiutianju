@@ -1,0 +1,95 @@
+<include  file='public:header'/>
+
+
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">人气管理</a> > <a href="">人气活动</a> > <a>发布奖品</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+  <div class="radius5 tuan_top">
+    <div class="tuan_top_t">
+      <div class="left tuan_topser_l">这个是发布人气奖品用的</div>
+    </div>
+  </div>
+  <div class="tabnr_change  show">
+    <form method="post"  action="<{:U('renqi/creategife')}>"  target="baocms_frm">
+	
+      
+      <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+         
+        
+        <tr>
+          <td width="120"><p class="tuanfabu_t">活动标题：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[prize_name]" value="<{$detail.prize_name}>" class="tuanfabu_int tuanfabu_intw1" />
+            </div></td>
+        </tr>
+		<tr>
+               <td class="lfTdBt"><p class="tuanfabu_t">奖品图：</p></td>
+                 <td class="rgTdBt">
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <input type="hidden" name="data[prize_pic_url]" value="<{$detail.prize_pic_url}>" id="data_photo" />
+                        <div id="fileToUpload" >上传缩略图</div>
+                    </div>
+                    <div style="width: 300px;height: 100px; float: left;">
+                        <img id="photo_img" width="120" height="80"  src="<{:config_img($detail['prize_pic_url'])}>" />
+                        <a href="<{:U('setting/attachs')}>">缩略图设置</a>
+                        建议尺寸<{$CONFIG.attachs.hoteltuan.thumb}>
+                    </div>
+                    <script>                                            
+						var width_activity = '<{:thumbSize($CONFIG[attachs][activity][thumb],0)}>';                         
+						var height_activity = '<{:thumbSize($CONFIG[attachs][activity][thumb],1)}>';                        
+						var uploader = WebUploader.create({                             
+						auto: true,                             
+						swf: '/static/default/webuploader/Uploader.swf',                             
+						server: '<{:U("app/upload/uploadify",array("model"=>"activity"))}>',                             
+						pick: '#fileToUpload',                             
+						resize: true,  
+						compress : {width: width_activity,height: height_activity,quality: 80,allowMagnify: false,crop: true}                                          
+					});                                                 
+					uploader.on( 'uploadSuccess', function( file,resporse) {                             
+						$("#data_photo").val(resporse.url);                             
+						$("#photo_img").attr('src',resporse.url).show();                         
+					});                                                
+					uploader.on( 'uploadError', function( file ) {                             
+						alert('上传出错');                         
+					});                     
+                    </script>
+                </td>
+            </tr>
+			  <tr>
+          <td width="120"><p class="tuanfabu_t">奖品描述：</p></td>
+          <td><div class="tuanfabu_nr">
+              <textarea  name="data[prize_desc]" cols="50" rows="10" style="border:solid 1px #d5d5d5; text-indent:10px;"><{$detail.prize_desc}></textarea>
+            </div></td>
+        </tr>
+            <tr>
+          <td width="120"><p class="tuanfabu_t">兑奖密码：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[prize_pwd]" value="<{$detail.prize_pwd|default='123456'}>" class="tuanfabu_int tuanfabu_intw2" />
+            </div></td>
+        </tr>
+		 <tr>
+          <td width="120"><p class="tuanfabu_t">所需人气值：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[prize_rq_num]" value="<{$detail.prize_rq_num|default='100'}>" class="tuanfabu_int tuanfabu_intw2" />
+            </div></td>
+        </tr>
+		<tr>
+          <td width="120"><p class="tuanfabu_t">奖品数量：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[prize_num]" value="<{$detail.prize_num|default=''}>" class="tuanfabu_int tuanfabu_intw2" />
+            </div></td>
+        </tr>
+		
+        
+      </table>
+      <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认发布" />
+		
+      </div>
+    </form>
+  </div>
+</div>
+<include  file='public:footer'/>

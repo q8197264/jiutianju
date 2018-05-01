@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0 , maximum-scale=1.0, user-scalable=0">
+<title>{$jyConfig['plugin_name']}</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="source/plugin/tom_love/images/style.css?v={$cssJsVersion}" rel="stylesheet" type="text/css">
+<script src="source/plugin/tom_love/images/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_love/images';
+</script>
+<script src="source/plugin/tom_love/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<base target="_self">
+</head>
+<body>
+<header class="header_style2 clearfix">
+	<a href="plugin.php?id=tom_love&mod=my"></a>
+	<h1>{lang tom_love:renzheng_title}</h1>
+</header>
+<section class="renzheng_box clearfix">
+	<div class="renzheng_msg_box clearfix">{$renzhengString}</div>
+	<div class="renzheng_form_box from_class clearfix">
+    	<form id="renzheng_form">
+        <table>
+          <colgroup><col width="25%"><col><col width="75%"><col></colgroup>
+          <tbody>
+          <tr>
+              <td>{lang tom_love:renzheng_xm}</td>
+              <td><input type="text" name="xm" id="xm" value="{$renzhengInfo['xm']}" placeholder="{lang tom_love:renzheng_xm_place}" class="input_text"></td>
+          </tr>
+          <tr>
+              <td>{lang tom_love:renzheng_tel}</td>
+              <td><input type="text" name="tel" id="tel" value="{$renzhengInfo['tel']}" placeholder="{lang tom_love:renzheng_tel_place}" class="input_text"></td>
+          </tr>
+          <tr>
+              <td>{lang tom_love:renzheng_sfzh}</td>
+              <td><input type="text" name="sfzh" id="sfzh" value="{$renzhengInfo['sfzh']}" placeholder="{lang tom_love:renzheng_sfzh_place}" class="input_text"></td>
+          </tr>
+          <tr>
+              <td>{lang tom_love:renzheng_pic_z1}<br/>{lang tom_love:renzheng_pic_z2}</td>
+              <td>
+              	<ul>
+                	<li><input type="file" name="Filedata1" id="filedata1" style="width:170px;"></li>
+                    <li id="renzheng1"><img src="{$renzhengInfo['pic_z']}" /></li>
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td>{lang tom_love:renzheng_pic_f1}<br/>{lang tom_love:renzheng_pic_f2}</td>
+              <td>
+              	<ul>
+                	<li><input type="file" name="Filedata2" id="filedata2" style="width:170px;"></li>
+                    <li id="renzheng2"><img src="{$renzhengInfo['pic_f']}" /></li>
+                </ul>
+              </td>
+          </tr>
+          <tr>
+              <td>{lang tom_love:renzheng_content}</td>
+              <td>
+                  <textarea name="content" id="content" rows="4" placeholder="{lang tom_love:renzheng_content_place}">{$renzhengInfo['content']}</textarea>
+                  <input type="hidden" name="rid" value="{$renzhengInfo['id']}">
+                  <input type="hidden" name="act" value="save">
+                  <input type="hidden" name="formhash" value="{$formhash}">
+                  <input type="hidden" name="pic_z" id="pic_z" value="{$renzhengInfo['pic_z']}">
+                  <input type="hidden" name="pic_f" id="pic_f" value="{$renzhengInfo['pic_f']}">
+              </td>
+          </tr>
+          </tbody>
+      </table>
+      </form>
+    </div>
+    <!--{if $renzhengInfo['renzheng_status'] == 1}-->
+    <div class="renzheng_form_btn clearfix">
+    	<a href="javascript:void(0);">{lang tom_love:renzheng_status1}</a>
+    </div>
+    <!--{elseif $renzhengInfo['renzheng_status'] == 2}-->
+    <div class="id_renzheng_form_btn renzheng_form_btn clearfix">
+    	<a href="javascript:void(0);">{lang tom_love:renzheng_status2}</a>
+    </div>
+    <!--{elseif $renzhengInfo['renzheng_status'] == 3}-->
+    <div class="id_renzheng_form_btn renzheng_form_btn clearfix">
+    	<a href="javascript:void(0);">{lang tom_love:renzheng_status3}</a>
+    </div>
+    <!--{else}-->
+    <div class="id_renzheng_form_btn renzheng_form_btn clearfix">
+    	<a href="javascript:void(0);">{lang tom_love:renzheng_status}</a>
+    </div>
+    <!--{/if}-->
+</section>
+<script src="source/plugin/tom_love/images/ajaxfileupload.js" type="text/javascript"></script>
+<script src="source/plugin/tom_love/images/buildfileupload.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+var submintStatus = 0;
+
+$(".id_renzheng_form_btn").click( function () { 
+    var xm = $("#xm").val();
+    var tel = $("#tel").val();
+    var sfzh = $("#sfzh").val();
+    var pic_z = $("#pic_z").val();
+    var pic_f = $("#pic_f").val();
+    if(submintStatus == 1){
+        return false;
+    }
+    if(xm == ""){
+        tusi("{lang tom_love:renzheng_must_xm}");
+        return false;
+    }
+    if(tel == ""){
+        tusi("{lang tom_love:renzheng_must_tel}");
+        return false;
+    }
+    if(sfzh == ""){
+        tusi("{lang tom_love:renzheng_must_sfzh}");
+        return false;
+    }
+    <!--{if $jyConfig['renzheng_sfz'] == 1}-->
+    if(pic_z == "source/plugin/tom_love/images/pic_z.png"){
+        tusi("{lang tom_love:renzheng_must_pic_z}");
+        return false;
+    }
+    if(pic_f == "source/plugin/tom_love/images/pic_f.png"){
+        tusi("{lang tom_love:renzheng_must_pic_f}");
+        return false;
+    }
+    <!--{/if}-->
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$renzhengUrl}",
+        data: $('#renzheng_form').serialize(),
+        success: function(msg){
+            submintStatus = 0;
+            var data = eval('('+msg+')');
+            if(data.status==101){
+                tusi("{$jyConfig['score_name']}{lang tom_love:no_gb_score}");
+                return false;
+            }else{
+                tusi("{lang tom_love:renzheng_sub_success}");
+                setTimeout(function(){document.location.reload();},1888);
+            }
+        }
+    });
+});
+    
+    
+$(document).on('change', '#filedata1', function() {
+    loading('{lang tom_love:upload_doing}');
+    uploadsuccess = function(data) {
+        if(data == '') {
+            loading(false);
+            tusi('{lang tom_love:upload_error}');
+        }
+        var dataarr = data.split('|');
+        dataarr[0] = $.trim(dataarr[0]);
+        if(dataarr[0] == 'OK') {
+            loading(false);
+            $("#pic_z").val(dataarr[2]);
+            $("#renzheng1").html('<img src="'+dataarr[1]+'">');
+        }else if(dataarr[0] == 'SIZE'){
+            loading(false);
+            tusi('{lang tom_love:upload_size_error}');
+        } else {
+            loading(false);
+            tusi('{lang tom_love:upload_error}');
+        }
+    };
+
+    <!--{if $jyConfig['open_llq_yasu'] == 1}-->
+    $.buildfileupload({
+        uploadurl:'{$uploadUrl1}',
+        files:this.files,
+        uploadformdata:{uid:'1'},
+        uploadinputname:'Filedata1',
+        maxfilesize:"2000",
+        success:uploadsuccess,
+        error:function(){
+            loading(false);
+            tusi('{lang tom_love:upload_error}');
+        }
+    })
+    <!--{else}-->
+    $.ajaxfileupload({
+        url:'{$uploadUrl1}',
+        data:{uid:'1'},
+        dataType:'text',
+        fileElementId:'filedata1',
+        success:uploadsuccess,
+        error:function(){
+            loading(false);
+            tusi('{lang tom_love:upload_error}');
+        }
+    })
+    <!--{/if}-->
+
+});
+$(document).on('change', '#filedata2', function() {
+    loading('{lang tom_love:upload_doing}');
+    uploadsuccess = function(data) {
+        if(data == '') {
+            loading(false);
+            tusi('{lang tom_love:upload_error}');
+        }
+        var dataarr = data.split('|');
+        dataarr[0] = $.trim(dataarr[0]);
+        if(dataarr[0] == 'OK') {
+            loading(false);
+            $("#pic_f").val(dataarr[2]);
+            $("#renzheng2").html('<img src="'+dataarr[1]+'">');
+        }else if(dataarr[0] == 'SIZE'){
+            loading(false);
+            tusi('{lang tom_love:upload_size_error}');
+        } else {
+            loading(false);
+            tusi('{lang tom_love:upload_error}');
+        }
+    };
+
+    <!--{if $jyConfig['open_llq_yasu'] == 1}-->
+    $.buildfileupload({
+        uploadurl:'{$uploadUrl2}',
+        files:this.files,
+        uploadformdata:{uid:'1'},
+        uploadinputname:'Filedata2',
+        maxfilesize:"2000",
+        success:uploadsuccess,
+        error:function(){
+            loading(false);
+            tusi('{lang tom_love:upload_error}');
+        }
+    })
+    <!--{else}-->
+    $.ajaxfileupload({
+        url:'{$uploadUrl2}',
+        data:{uid:'1'},
+        dataType:'text',
+        fileElementId:'filedata2',
+        success:uploadsuccess,
+        error:function(){
+            loading(false);
+            tusi('{lang tom_love:upload_error}');
+        }
+    })
+    <!--{/if}-->
+
+});
+$(document).ready(function(){
+  $.get("{$ajaxClicksUrl}");
+});
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideToolbar');
+});
+
+
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+            $.get("{$shareAjaxUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

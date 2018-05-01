@@ -1,0 +1,168 @@
+<include  file='public:header'/>   
+<header class="top-fixed bg-yellow bg-inverse">
+	<div class="top-back">
+		<a class="top-addr" href="<{:U('member/index')}>"><i class="iconfont icon-angle-left"></i></a>
+	</div>
+		<div class="top-title">积分返利记录</div>
+	<div class="top-signed">
+		<include file="public:message"/>
+	</div>
+</header>
+
+<!-- 筛选TAB -->
+<style>
+ul{ padding-left:0px;}
+.list-media-x li dd.zhong, .list-media-x li { border-bottom: 0px solid #eee;}
+/*新手专享*/
+.novice_zs_f{ width:100%;height:120px;overflow:hidden;margin-top:12px;}
+.novice_zs_f_in{ width:94%;height:140px;margin:0 auto;overflow:hidden;background:#fff;border-radius:6px;}
+.novice_zs_f_in_l{ width:100%;height:140px;float:left;background: #f3efef;;}
+.novice_zs_f_in_r{ width:12%;height:120px;float:left;}
+.novice_zs_f_in_l_top{ width:100%;height:20px;overflow:hidden; margin-top:10px;}
+.novice_zs_f_in_l_top img{display:block; width:20px;height:20px;float:left; margin-left:12px}
+.novice_zs_f_in_l_top span{display:block; min-width:232px;float:left;height:20px;line-height:20px;font-size:16px; text-indent:6px;}
+/*新手专享的bottom*/
+.novice_zs_f_in_l_bottom ul{ width:100%;height:80px;overflow:hidden;}
+.novice_zs_f_in_l_bottom ul li{ width:25%;height:80px;float:left;}
+.mark1_f em{display:block;width:100%;height:35px; font-size:16px; text-align:center; font-style:normal; line-height:42px;color:#3DB1FA;}
+.mark4_f em{display:block;width:100%;height:35px; font-size:16px; text-align:center; font-style:normal; line-height:42px;color:#ff0000;}
+.mark1_f p,.mark2_f p,.mark3_f p{display:block;width:100%;height:45px;font-size:12px; text-align:center; line-height:45px;color:#959595;}
+.mark1_f p,.mark2_f p,.mark4_f p,.mark3_f p{display:block;width:100%;height:45px;font-size:12px; text-align:center; line-height:45px;color:#959595;}
+.mark2_f em{display:block;width:100%;height:35px; font-size:16px; text-align:center; font-style:normal; line-height:42px;color:#2f2f2f;}
+.mark2_f em font{ font-size:12px; color:#959595;}
+.mark3_f em{display:block;width:100%;height:35px; font-size:16px; text-align:center; font-style:normal; line-height:42px;color:#2f2f2f;}
+
+.mark3_f em font{ font-size:12px; color:#959595;}
+.mark4_f span{display:block; width:48px;height:48px; background:#e1e1e1; margin:0 auto;position:relative; margin-top:15px; border-radius:50%;border:2px solid #3DB1FA;overflow:hidden;}
+.mark4_f span img{display:block; width:48px; height:48px; position:absolute; left:0; bottom:0}
+.mark4_f span p{ font-size:12px; text-align:center; position:absolute; top:50%; left:0%; height:20px; line-height:20px;display:block; width:48px; margin-top:-10px;color:#333;}
+.novice_zs_f_in_r{background:#FF5722;overflow:hidden;}
+.novice_zs_f_in_r span{ display:block;width:20px;height:120px; margin:0 auto;}
+.circle-svg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -60px;
+    margin-top: -60px;
+}
+.progress_bar .pro-bar {
+		background: hsl(0, 0%, 97%);
+		box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.1) inset;
+		height:4px;
+		margin-bottom: 12px;
+		margin-top: 120px;
+		position: relative;
+		width:95%;
+		margin-left: 10px;
+        
+	}
+	.progress_bar .progress_bar_title{
+		/*color: hsl(218, 4%, 50%);*/
+		color: #D5D6E2;
+		font-size: 15px;
+		font-weight: 300;
+		position: relative;
+		top: -60px;
+		z-index: 1;
+	}
+	.progress_bar .progress_number{
+		float: right;
+		margin-top: -24px;
+	}
+	.progress_bar .progress-bar-inner {
+		background-color: hsl(0, 0%, 88%);
+		display: block;
+		width: 0;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		transition: width 1s linear 0s;
+		animation: animate-positive 2s;
+	}
+	.progress_bar .progress-bar-inner:before {
+		content: "";
+		background-color: hsl(0, 0%, 100%);
+		border-radius: 50%;
+		width: 4px;
+		height: 4px;
+		position: absolute;
+		right: 1px;
+		top: 0;
+		z-index: 1;
+	}
+	.progress_bar .progress-bar-inner:after {
+		content: "";
+		width: 14px;
+		height: 14px;
+		background-color: inherit;
+		border-radius: 50%;
+		position: absolute;
+		right: -4px;
+		top: -5px;
+	}
+</style>
+<include file="integral:nav"/>
+<div class="list-media-x" id="list-media">
+	<div class="blank-10 "></div>
+    <ul>
+        <foreach name="list" item="item">
+           
+
+			<div class="novice_zs_f_in" style="margin-bottom:6px;">
+    			<!--left-->
+        		<div class="novice_zs_f_in_l">
+        		<!--top-->
+                    <div class="novice_zs_f_in_l_top">
+                        <img src="/themes/default/Home/statics/images/biao.png"/>
+                        <span><{$item['intro']}></span>
+                    </div>
+            	<!--bottom-->
+            		<div class="novice_zs_f_in_l_bottom">
+            	<ul>
+                	<li class="mark1_f">
+                    	<em><{$item.integral_library}></em>
+                        <p>总返还积分</p>
+                    </li>
+					<li class="mark4_f">
+                    	<em><{$item.integral_library}></em>
+                        <p>总返还天数</p>
+                    </li>
+                    <li class="mark2_f">
+                    	<em><{$item.integral_library_total_success}><font>天</font></em>
+                        <p>已返天数</p>
+                    </li>
+                    <li class="mark3_f">
+                    	<em><{$item.integral_library_success}><font>分</font></em>
+                        <p>已返还</p>
+                    </li>
+					
+                    
+                </ul>
+            </div>
+        		</div>
+    			
+<div class="progress_bar">
+					<div class="pro-bar">
+						
+						<span class="progress-bar-inner" style="background-color: #F44336; width:<{$item['integral_library_success']/$item['integral_library']*100|ceil}>%;" data-value="<{$item['integral_library_success']/($item['integral_library'])*100|ceil}>" data-percentage-value="<{$item['integral_library_success']/($item['integral_library'])*100|ceil}>"></span>
+					</div>
+				</div>
+
+
+
+    		</div>
+        </foreach>
+       </ul>
+</div>
+<div class="container login-open">
+	<h5 style="text-align:center"><{$page}><!--分页代码不要忘记加--> </h5>
+</div>
+<script src="/themes/default/Home/mall/js/jquery.circliful.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.indicatorContainer').circliful();
+	});
+</script>
+
+<include file='public:footer'/>   

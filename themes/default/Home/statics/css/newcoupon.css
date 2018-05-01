@@ -1,0 +1,235 @@
+.coupon_coup_box{
+        overflow: hidden;
+		width: 100%;
+		height: auto;
+	}
+	.coupon_coup{
+		width: 380px;
+		height: 170px;
+		border-radius: 5px;
+		background: #f7f7f7;
+		overflow: hidden;
+		float: left;
+		margin: 15px 11px 15px 11px;
+	}
+	.coupon_coubl{
+		width: 188px;
+		height: 100%;
+		background: url(http://www.zhue.cn/themes/zhue/images/coupon_blue.png);
+		background-size: 100% auto;
+		padding-top: 40px;
+		float: left;
+		box-sizing:border-box;
+	}
+	.coupon_coubl h4{
+		font-size: 44px;
+		color: #fff;
+		text-align: center;
+	}
+	.coupon_coubl span{
+		font-size: 18px;
+	}
+	.coupon_coubl>p{
+		font-size: 14px;
+		color: #fff;
+		text-align: center;
+		margin-top: 14px;
+	}
+	.coupon_coubl>div{
+		width: 160px;
+		height: 18px;
+		background: #fff;
+		position: relative;
+		border-radius: 9px;
+		margin-left: 10px;
+		margin-top: 24px;
+	}
+	.coupon_coubl div div{
+		position: absolute;
+		top:0;
+		left: 0;
+		width: 70%;
+		height: 18px;
+		border-radius: 9px;
+		background: #ffc600;
+		color: #000;
+	}
+	.coupon_coubl div p{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 160px;
+		height: 18px;
+		text-align:center;
+	}
+
+	
+	.coupon_cougl{
+		width: 188px;
+		height: 100%;
+		background: url(../images/coupon_grey.png);
+		background-size: 100% auto;
+		padding-top: 60px;
+		float: left;
+		box-sizing:border-box;
+	}
+	.coupon_cougl h4{
+		font-size: 44px;
+		color: #fff;
+		text-align: center;
+	}
+	.coupon_cougl span{
+		font-size: 18px;
+	}
+	.coupon_cougl>p{
+		font-size: 14px;
+		color: #fff;
+		text-align: center;
+		margin-top: 14px;
+	}
+	.coupon_cougl>div{
+		width: 160px;
+		height: 18px;
+		background: #fff;
+		position: relative;
+		border-radius: 9px;
+		margin-left: 10px;
+		margin-top: 24px;
+	}
+	.coupon_cougl div div{
+		position: absolute;
+		top:0;
+		left: 0;
+		width: 70%;
+		height: 18px;
+		border-radius: 9px;
+		background: #ffc600;
+		color: #000;
+	}
+	.coupon_cougl div p{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 160px;
+		height: 18px;
+		text-align:center;
+	}
+
+
+	
+	
+	.coupon_coupl{
+		width: 188px;
+		height: 100%;
+		background: url(../images/coupon_pink.png);
+		background-size: 100% auto;
+		padding-top: 40px;
+		float: left;
+		box-sizing:border-box;
+	}
+	.coupon_coupl h4{
+		font-size: 44px;
+		color: #fff;
+		text-align: center;
+	}
+	.coupon_coupl span{
+		font-size: 18px;
+	}
+	.coupon_coupl>p{
+		font-size: 14px;
+		color: #fff;
+		text-align: center;
+		margin-top: 14px;
+	}
+	.coupon_coupl>div{
+		width: 160px;
+		height: 18px;
+		background: #fff;
+		position: relative;
+		border-radius: 9px;
+		margin-left: 10px;
+		margin-top: 24px;
+	}
+	.coupon_coupl div div{
+		position: absolute;
+		top:0;
+		left: 0;
+		width: 70%;
+		height: 18px;
+		border-radius: 9px;
+		background: #ffc600;
+		color: #000;
+	}
+	.coupon_coupl div p{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 160px;
+		height: 18px;
+		text-align:center;
+	}
+
+
+	.coupon_coubr{
+		width: 192px;
+		height: 100%;
+		float: left;
+	}
+	.coupon_coubr div{
+		width: 100%;
+		font-size: 16px;
+		color: #000;
+		padding-top: 33px;
+		text-align: center;
+	}
+	.coupon_coubr p{
+		font-size: 12px;
+		color: #000;
+		padding-top: 16px;
+		text-align: center;
+	}
+	.coupon_coubr a{
+		margin: 0 auto;
+		margin-top: 15px;
+		width: 124px;
+		height: 36px;
+		border-radius: 36px;
+		border:1px solid #47b0da;
+		display: block;
+		text-align: center;
+		line-height: 36px;
+		font-size: 14px;
+		color: #47b0da;
+		text-decoration: none;
+	}
+	.coupon_coubr span{
+		margin: 0 auto;
+		margin-top: 25px;
+		width: 124px;
+		height: 36px;
+		border-radius: 36px;
+		border:1px solid #e0dedf;
+		display: block;
+		text-align: center;
+		line-height: 36px;
+		font-size: 14px;
+		color: #d2d2d2;
+	}
+	.coupon_coubr img{
+		margin: 4px 0 0 62px;
+	}
+	.fixed {
+    display: block;
+    min-height: 1%;
+}
+.yhsy_syLi {
+    
+    width: 380px;}
+.sy_partOne row-2 { height:420px;margin-bottom: 10px;}
+.sy_partOne row-2 .col-2 {width:390px;float:left }
+.sy_partOne row-2 .f-l { float: left; border-right: 1px solid #dedede; width: 390px; }
+.sy_partOne row-2 .weather { height: 50px;line-height:50px;text-align:center;padding:0 5px;overflow:hidden }
+.sy_partOne row-2 .weather .date { float: left;max-width:205px;overflow:hidden;height:50px }
+.sy_partOne row-2 .weather .w { float: right; max-width:170px;height:40px;overflow:hidden}
+.sy_partOne row-2 .weather .w div { float: left; padding:0 4px;vertical-align:middle}
+.sy_partOne row-2 .weather .w div:last-child { padding-right: 0px; }

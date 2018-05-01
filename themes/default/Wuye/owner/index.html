@@ -1,7 +1,7 @@
 <include file="public:header"/>
 <header class="top-fixed bg-yellow bg-inverse">
 	<div class="top-back">
-		<a class="top-addr" href="<{:U('wuye/index/index')}>"><i class="icon-angle-left"></i></a>
+		<a class="top-addr" href="<{:U('wuye/index/index')}>"><i class="iconfont icon-angle-left"></i></a>
 	</div>
 		<div class="top-title">
 			小区业主管理
@@ -19,7 +19,7 @@
 			<div class="form-group">
 				<div class="field">
 					<div class="input-group">
-						<span class="addbtn"><button type="button" class="button icon-search"></button></span>
+						<span class="addbtn"><button type="button" class="button iconfont icon-search"></button></span>
 						<input type="text" class="input" name="keyword" size="50" value="<{$keyword}>" placeholder="请输入关键字"  />
 						<span class="addbtn"><button type="submit" class="button">搜索</button></span>
 					</div>
@@ -45,12 +45,7 @@
           <dt><a class="x3">业主编号：<{$var.owner_id}></a><a class="x9 text-right text-gray">户号：<{$var.number}></a></dt>
           <dd class="zhong">
             <div class="x3">
-            
-             <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
-            <img style="width:90%;"   src="<{$users[$var['user_id']]['face']}>"/>
-            <?php }else{ ?>
-            <img style="width:90%;"  src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>"/>
-            <?php }?>
+            <img  style="width:90%;" src="<{:config_img($users[$var['user_id']]['face'])}>" />
     
                    </div>
              <div class="9">

@@ -1,9 +1,5 @@
 <?php
-
-
-
 class PassportModel {
-
     private $CONFIG = array();
     private $charset = 0;
     private $isuc = false;
@@ -14,14 +10,12 @@ class PassportModel {
     private $_CONFIG = array();
 
     public function __construct() {
-
         $config = D('Setting')->fetchAll();
         $this->_CONFIG = $config;
         if ($config['site']['ucenter']) {
             $this->isuc = true;
         }
         $this->CONFIG = $config['ucenter'];
-
         $this->charset = $this->CONFIG['charset'];
         if ($this->isuc) {
             $this->ucinit();
@@ -80,8 +74,14 @@ class PassportModel {
             }
         }
         $user = D('Users')->getUserByAccount($account);
-        return D('Users')->save(array('user_id' => $user['user_id'], 'password' => md5($newpwd)));
+        return D('Users')->save(array('user_id' => $user['user_id'], 'password' => md5($newpwd),'is_lock'=>0,'lock_num'=>0,'is_lock_time'=>''));
     }
+	//设置支付密码
+	public function set_pay_password($account, $pay_password) {
+        $user = D('Users')->getUserByAccount($account);
+        return D('Users')->save(array('user_id' => $user['user_id'], 'pay_password' => md5(md5($pay_password)),'is_lock'=>0,'lock_num'=>0,'is_lock_time'=>''));
+    }
+
 
     //UC用邮件登录
     public function login($account, $password) {
@@ -174,10 +174,17 @@ class PassportModel {
                 $this->error = '用户不存在或被删除！';
                 return false;
             }
+			
+			$db_user = D('Users');
+			
+			
             if ($user['password'] != md5($password)) {
-                $this->error = '账号或密码不正确！';
+				
+				$this->error = '账号或密码不正确！';
                 return false;
+				
             }
+						
             if (date('Y-m-d', $user['last_time']) < TODAY) {
                 D('Users')->prestige($user['user_id'], 'login');
             }
@@ -187,7 +194,8 @@ class PassportModel {
                 'user_id' => $user['user_id'],
                 'token' => $this->token['token'],
             );
-            D('Users')->save($data);
+            $db_user->save($data);//登陆成功
+			$db_user->save(array('user_id' => $is_lock['user_id'],'is_lock'=>0,'lock_num'=>0,'is_lock_time'=>''));//登陆成功后
             setUid($user['user_id']);
         }
         $connect = session('connect');
@@ -198,27 +206,20 @@ class PassportModel {
         $this->token['uid'] = $user['user_id'];
         return true;
     }
-
-    public function register($data = array()) {
+	//新版自动V注册
+    public function register($data = array(),$fid = '',$type = '0') {
         $this->token = array(
             'token' => md5(uniqid())
         );
         $data['reg_time'] = NOW_TIME;
         $data['reg_ip'] = get_client_ip();
-        $invite_id = (int)cookie('invite_id');
         $obj = D('Users');
-        if(!empty($invite_id)){
-            $userinvite = $obj->find($invite_id);
-            if(!empty($userinvite)){ //讲新的 推广员身份给创建账号的
-                $data['invite6'] = $invite_id;
-                $data['invite5'] = $userinvite['invite6'];
-                $data['invite4'] = $userinvite['invite5'];
-                $data['invite3'] = $userinvite['invite4'];
-                $data['invite2'] = $userinvite['invite3'];
-                $data['invite1'] = $userinvite['invite2'];
-            }
-        }
-        $fuid = (int)cookie('fuid');
+		//重新获取FID的方式
+        if($fid){
+		 	$fuid = $fid;	
+		}else{
+         	$fuid = (int)cookie('fuid');
+		}
         $fuser = $obj->find($fuid);
         if ($fuser) {
             $data['fuid1'] = $fuser['user_id'];
@@ -227,7 +228,11 @@ class PassportModel {
             $profit_integral1 = (int)$this->_CONFIG['profit']['profit_integral1'];
             $profit_integral2 = (int)$this->_CONFIG['profit']['profit_integral2'];
             $profit_integral3 = (int)$this->_CONFIG['profit']['profit_integral3'];
+			$profit_prestige1 = (int)$this->_CONFIG['profit']['profit_prestige1'];
+			$profit_prestige2 = (int)$this->_CONFIG['profit']['profit_prestige2'];
+			$profit_prestige3 = (int)$this->_CONFIG['profit']['profit_prestige3'];
             $intro = '推荐用户注册奖励积分';
+			$intro_prestige = '推荐用户注册奖励'.$this->_CONFIG['prestige']['name'];
 			$flag = false;
             if ($profit_integral1) {
 				$profit_min_rank_id = (int)$this->_CONFIG['profit']['profit_min_rank_id'];				
@@ -252,6 +257,7 @@ class PassportModel {
 				}
 				if ($flag) {
 					$obj->addIntegral($data['fuid1'], $profit_integral1, $intro);
+					$obj->reward_prestige($data['fuid1'], $profit_prestige1,$intro_prestige);
 				}
             }
             if ($profit_integral2 && $flag) {
@@ -259,6 +265,7 @@ class PassportModel {
                     $fuser2 = $obj->find($data['fuid2']);
                     if ($fuser2) {
                         $obj->addIntegral($data['fuid2'], $profit_integral2, $intro);
+						$obj->reward_prestige($data['fuid2'], $profit_prestige2,$intro_prestige);
                     }
                 }
             }
@@ -267,6 +274,7 @@ class PassportModel {
                     $fuser3 = $obj->find($data['fuid3']);
                     if ($fuser3) {
                         $obj->addIntegral($data['fuid3'], $profit_integral3, $intro);
+						$obj->reward_prestige($data['fuid3'], $profit_prestige3,$intro_prestige);
                     }
                 }
             }
@@ -330,98 +338,19 @@ class PassportModel {
 			}
             $data['user_id'] = $obj->add($data);
         }
+		$obj->integral($data['user_id'], 'register');//首次注册送接口
         $this->token['uid'] = $data['user_id'];
         $connect = session('connect');
         if (!empty($connect)) {
             D('Connect')->save(array('connect_id' => $connect, 'uid' => $data['user_id']));
         }
-		$integral_register = (int)$this->_CONFIG['integral']['register'];
-		if(!empty($integral_register)){
-			D('Users')->addIntegral($data['user_id'],$integral_register,'用户首次注册赠送积分');     	
+		if($type == 1){
+			return $data['user_id'];
+		}else{
+			setUid($data['user_id']);
+			return true;
 		}
-        setUid($data['user_id']);
-        return true;
+        
     }
-	//增加微信应用注册
 	
-	public function register2($data = array()) {
-        $this->token = array(
-            'token' => md5(uniqid())
-        );
-        $data['reg_time'] = NOW_TIME;
-        $data['reg_ip'] = get_client_ip();
-        $invite_id = (int)cookie('invite_id');
-        if(!empty($invite_id)){
-            $userinvite = D('Users')->find($invite_id);
-            if(!empty($userinvite)){ //讲新的 推广员身份给创建账号的
-                $data['invite6'] = $invite_id;
-                $data['invite5'] = $userinvite['invite6'];
-                $data['invite4'] = $userinvite['invite5'];
-                $data['invite3'] = $userinvite['invite4'];
-                $data['invite2'] = $userinvite['invite3'];
-                $data['invite1'] = $userinvite['invite2'];
-            }
-        }
-        if (empty($data))
-            return false;
-        if ($this->isuc) { //开启了UC
-            if (isMobile($data['account'])) {
-                $uid = uc_user_register($data['ext0'], $data['password'], $data['account'] . $this->domain); //这个@QQ.COM 可以自己更换
-            } else {
-                $uid = uc_user_register($data['ext0'], $data['password'], $data['account']);
-            }
-
-            if ($uid <= 0) {
-                switch ($uid) {
-                    case -1:
-                        $this->error = '用户名不合法';
-                        break;
-                    case -2:
-                        $this->error = '用户名包含不允许注册的词语';
-                        break;
-                    case -3:
-                        $this->error = '用户名已经存在';
-                        break;
-                    case -4:
-                        $this->error = 'Email 格式有误';
-                        break;
-                    case -5:
-                        $this->error = 'Email 不允许注册';
-                        break;
-                    case -6:
-                        $this->error = '该 Email 已经被注册';
-                        break;
-                }
-                return false;
-            }
-            $data['uc_id'] = $uid;
-            $data['password'] = md5($data['password']);
-            $obj = D('Users');
-            $user = $obj->getUserByAccount($data['account']);
-            $data['token'] = $this->token['token'];
-            if ($user) {
-                $data['user_id'] = $user['user_id'];
-                $obj->save($data);
-            } else {
-                $data['user_id'] = $obj->add($data);
-            }
-        } else {
-            $obj = D('Users');
-            $data['password'] = md5($data['password']);
-            $user = $obj->getUserByAccount($data['account']);
-            if ($user) {
-                $this->error = '该账户已经存在';
-                return false;
-            }
-            $data['user_id'] = $obj->add($data);
-        }
-        $this->token['uid'] = $data['user_id'];
-        $connect = session('connect');
-        if (!empty($connect)) {
-            D('Connect')->save(array('connect_id' => $connect, 'uid' => $data['user_id']));
-        }
-        setUid($data['user_id']);
-        return true;
-    }
-
 }

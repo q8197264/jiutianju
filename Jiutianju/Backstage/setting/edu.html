@@ -1,0 +1,38 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">课程配置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是课程相关的信息</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('setting/edu')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                
+				<tr>
+                    <td class="lfTdBt" >发布课程是否需要审核：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[edu_audit]" <eq name="CONFIG.edu.edu_audit" value="0">checked="checked"</eq> value="0"  />开启审核</label>
+       <label><input type="radio" name="data[edu_audit]"  <eq name="CONFIG.edu.edu_audit" value="1">checked="checked"</eq>  value="1"  />关闭审核</label>
+                        <code>开启审核后，商户后台增加，需要管理员到后台去审核才会显示出来，反之，商户可以直接发布</code>
+                    </td>
+                </tr>
+				<tr>
+                    <td class="lfTdBt" >编辑课程是否需要审核：</td>
+                    <td class="rgTdBt">
+                        <label><input type="radio" name="data[edu1_audit]" <eq name="CONFIG.edu.edu1_audit" value="0">checked="checked"</eq> value="0"  />开启审核</label>
+       <label><input type="radio" name="data[edu1_audit]"  <eq name="CONFIG.edu.edu1_audit" value="1">checked="checked"</eq>  value="1"  />关闭审核</label>
+                        <code>开启审核后，商户后台增加，需要管理员到后台去审核才会显示出来，反之，商户可以直接发布</code>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

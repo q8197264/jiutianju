@@ -1,0 +1,60 @@
+<include  file='public:header'/>
+
+
+<div class="sjgl_lead">
+  <ul>
+    <li><a href="#">人气管理</a> > <a href="">人气活动</a> > <a>发布奖品</a></li>
+  </ul>
+</div>
+<div class="tuan_content">
+  <div class="radius5 tuan_top">
+    <div class="tuan_top_t">
+      <div class="left tuan_topser_l">这个是发布助力奖品用的</div>
+    </div>
+  </div>
+  <div class="tabnr_change  show">
+    <form method="post"  action="<{:U('kanjia/creategife')}>"  target="baocms_frm">
+	
+      
+      <table class="tuanfabu_table" width="100%" border="0" cellspacing="0" cellpadding="0">
+         
+        
+        <tr>
+          <td width="120"><p class="tuanfabu_t">规则开始价格（小）：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[start_price]" value="<{$detail.start_price}>" class="tuanfabu_int tuanfabu_intw1" />
+			  <code>规则开始价格设置必须小于保底价格，不能等于</code>
+            </div></td>
+        </tr>
+		 <tr>
+          <td width="120"><p class="tuanfabu_t">规则开始价格（大）：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[end_price]" value="<{$detail.end_price}>" class="tuanfabu_int tuanfabu_intw1" />
+			  <code>规则结束价格设置，必须大于商品价格，不能等于</code>
+            </div></td>
+        </tr>
+		<tr>
+          <td width="120"><p class="tuanfabu_t">砍价随机最小价格：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[min_price]" value="<{$detail.min_price}>" class="tuanfabu_int tuanfabu_intw1" />
+            </div></td>
+        </tr>
+		<tr>
+          <td width="120"><p class="tuanfabu_t">砍价随机最大价格：</p></td>
+          <td><div class="tuanfabu_nr">
+              <input type="text" name="data[max_price]" value="<{$detail.max_price}>"  class="tuanfabu_int tuanfabu_intw1" />
+              
+            </div></td>
+        </tr>
+        
+		
+        
+      </table>
+      <div class="tuanfabu_an">
+        <input type="submit" class="radius3 sjgl_an tuan_topbt" value="确认发布" />
+		
+      </div>
+    </form>
+  </div>
+</div>
+<include  file='public:footer'/>

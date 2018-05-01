@@ -42,7 +42,7 @@ class JsApiPay
         //通过code获得openid
         $log_id = $_GET['log_id'] == NULL ? $logs['logs_id'] : $_GET['log_id'];
         if (!isset($_GET['code'])) {
-            $baseUrl = urlencode('http://' . $_SERVER['HTTP_HOST'] . '/index.php?g=mobile&m=payment&a=payment&log_id=' . $log_id);
+            $baseUrl = urlencode('http://' . $_SERVER['HTTP_HOST'] . '/index.php?g=wap&m=payment&a=payment&log_id=' . $log_id);
             $url = $this->__CreateOauthUrlForCode($baseUrl);
             Header("Location: {$url}");
             die;
@@ -61,12 +61,11 @@ class JsApiPay
      * 
      * @return json数据，可直接填入js函数作为参数
      */
-    public function GetJsApiParameters($UnifiedOrderResult)
-    {
+    public function GetJsApiParameters($UnifiedOrderResult){
         //p($UnifiedOrderResult); die;
         if (!array_key_exists('appid', $UnifiedOrderResult) || !array_key_exists('prepay_id', $UnifiedOrderResult) || $UnifiedOrderResult['prepay_id'] == '') {
-            D('Payment')->where(array('payment_id'=>3))->save(array('error_intro'=>$UnifiedOrderResult['return_msg']));
-            header("Location:".	U("mcenter/info/wxpayexception"));
+			D('Payment')->where(array('payment_id'=>3))->save(array('error_intro'=>$UnifiedOrderResult['return_msg']));
+            header("Location:".	U("user/info/wxpayexception"));
             exit();
         }
         $jsapi = new WxPayJsApiPay();
@@ -132,6 +131,7 @@ class JsApiPay
     }
     /**
      * 
+
      * 获取地址js参数
      * 
      * @return 获取共享收货地址js函数需要的参数，json格式可以直接做参数使用

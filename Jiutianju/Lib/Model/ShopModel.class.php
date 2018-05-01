@@ -57,6 +57,21 @@ class ShopModel extends CommonModel{
 	    }
     }
 	
+	//获取推荐人昵称
+	public function get_guide_name($user_id){
+        $Users = D('Users')->find($user_id);
+        if(!empty($Users['nickname'])){
+		   return $Users['nickname'];
+		}else{
+		   return $Users['account'];   
+	    }
+    }
+	//获取商家中结算金额，后期优化到月，年get_shop_sales
+	public function get_shop_sales($shop_id){
+        $sales = D('Shopmoney')->where(array('shop_id'=>$shop_id))->sum('money');
+		return $sales;
+    }
+	
     public function getshop($order, $city_id){
         $shop = $this->where('is_ding = 1 and city_id=  ' . $city_id)->order(array($order => 'desc'))->limit(0, 6)->select();
         $shop_ids = $cate_ids = $get_shop = array();
@@ -117,6 +132,26 @@ class ShopModel extends CommonModel{
         }
         return $return;
     }
+	//检测分站的城市ID是不是对的
+	public function fenzhan_check_city_id($shop_id,$city_id){
+		if(!empty($shop_id) && !empty($city_id)){
+            $detail = $this->find($shop_id);
+            if ($detail['city_id'] != $city_id) {
+                return false;
+            }else{
+				return true; 
+			}
+		}else{
+			return true; 
+		}
+    }
+	
+			
+           
+			
+			
+			
+			
     public function CallDataForMat($items) {
         if (empty($items)) {
             return array();

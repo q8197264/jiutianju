@@ -1927,11 +1927,9 @@ ul{list-style:none!important}
 .toper .level-5{background-position:-43px -4px!important}
 .toper .level-6{background-position:-3px -4px!important}
 .toper .cart-num{color:#ff318c;padding:0 5px}
-
-
-.navbar{height:44px;background-color: #06C1AE;line-height:43px;width:100%;    width: 1200px;margin: auto;}
+.navbar{height:44px;border-bottom:2px solid #33B095;line-height:43px;width:100%;background-color:#fff}
 .navbar .nav li{height:44px}
-.navbar .nav li a{height:44px;line-height:43px;color:#fff;padding:0 15px;font-size:16px}
+.navbar .nav li a{height:44px;line-height:43px;color:#333;padding:0 18px;font-size:16px}
 .navbar .nav li li a.on{color:#ff318c!important;text-decoration:none;background:url(../image/menu-active.png) no-repeat center 36px}
 .navA.on{color:#ff318c!important;text-decoration:none;background:url(../image/menu-active.png) no-repeat center 36px}
 .navbar .nav li.active,.navbar .nav li:hover{color:#ff318c!important;text-decoration:none;background:url(../image/menu-active.png) no-repeat center 36px}
@@ -1942,15 +1940,11 @@ ul{list-style:none!important}
 .navbar .nav ul.drop-menu a:hover{color:#1caf9a}
 .navbar .navbar-text a{display:block;height:44px;line-height:44px;font-size:13px;font-weight:700;color:#FFF;padding:0 25px}
 .navbar .navbar-text a:hover{background:#1caf9a}
-
-.navbar .nav li a em.hot {display: block;width: 27px;height: 18px;background: url(/themes/default/Pchome/statics/images/header-hot.gif) no-repeat center top;position: absolute;right: 0px; top: 2px;}
-
-
 .main-drop{width:230px;position:relative;background:#196;margin-right:10px;height:44px}
 .main-drop .main-drop-title{width:230px;color:#FFF;font-weight:700;font-size:16px;cursor:pointer;text-align:center;display:block;height:44px}
 .main-drop .main-drop-title .arrow{margin-left:30px}
 .main-drop:hover .main-drop-menu{display:block;height:auto;overflow:visible!important}
-.main-drop .main-drop-menu{background:#FFF;display:block;position:absolute;top:44px;border:2px solid #06C1AE;width:230px;padding:0;height:450px;overflow:hidden;z-index:9;background:#06C1AE}
+.main-drop .main-drop-menu{background:#FFF;display:block;position:absolute;top:44px;border:2px solid #ff318c;width:230px;padding:0;height:450px;overflow:hidden;z-index:9;background:#ff318c}
 .main-drop .main-drop-menu dl{padding:10px;position:relative;display:block;height:48px;border-bottom:1px solid #1caf9a}
 .main-drop .main-drop-menu dl .icon{position:absolute;right:10px;top:2px;color:#FFF}
 .main-drop .main-drop-menu dt{font-size:14px;font-weight:700;display:block;height:25px;line-height:25px;width:50px;float:left}
@@ -2047,28 +2041,21 @@ ul{list-style:none!important}
 .changeCity_name{font-size:18px;line-height:36px;color:#333;margin-bottom:0}
 .changeCity_link{display:inline-block;position:relative}
 .changeCity_link:after{position:absolute;z-index:7;right:-13px;top:50%;margin-top:-5px;content:'';width:6px;height:6px;border-bottom:2px solid #ff318c;border-right:2px solid #ff318c;transform:rotate(45deg);-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);-o-transform:rotate(45deg)}
-
-
-.topTwo .searchBox_r{margin-top:12px;margin-left: 100px; float:left}
-.topTwo .searchBox_r .searchBox{border:2px solid #06c1ae;width:484px;height:40px;position:relative}
-
+.topTwo .searchBox_r{margin-top:12px}
+.topTwo .searchBox_r .searchBox{ border: 1px solid #dfdfdf;width:484px;height:40px;position:relative}
 .selectBox{float:left;position:relative}
-.searchBox .select{height:36px;line-height:36px;font-size:16px;color:#333;width:74px;padding-right:15px;text-indent:10px;display:block;border-right:1px solid #e5e5e5;background:#f9f9f9;cursor:pointer;text-indent:12px;position:relative}
+.searchBox .select{height:38px;line-height:38px;font-size:16px;color:#333;width:74px;padding-right:15px;text-indent:10px;display:block;border-right:1px solid #e5e5e5;background:#f9f9f9;cursor:pointer;text-indent:12px;position:relative}
 .searchBox .select:after{position:absolute;right:8px;top:50%;margin-top:-5px;content:'';width:6px;height:6px;border-bottom:2px solid #ccc;border-right:2px solid #ccc;transform:rotate(45deg);-webkit-transform:rotate(45deg);-moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);-o-transform:rotate(45deg)}
-.selectList{position:absolute;z-index:3;top:36px;display:none;border:1px solid #eee;background-color:#fff;text-align:center;width:76px;margin-left:-2px}
-.selectList li{display:block;line-height:30px;border-bottom:1px solid #e5e5e5}
+.selectList{position:absolute;z-index:3;top:36px;display:none;border:1px solid #eee;background-color:#fff;text-align:center;width:76px;margin-left:-1px}
+.selectList li{display:block;line-height:38px;border-bottom:1px solid #e5e5e5}
 .selectList li:last-child{border-bottom:none 0}
 .selectList li a{color:#333;display:block}
 .selectList li a:hover{background:#e5e5e5}
 .searchBox .text{line-height:36px;color:#999;height:36px;background-image:none;border:none 0;text-indent:10px;width:190px;float:left;padding-right:20px;outline:0;font-size:14px}
-.searchBox .submit{background:#06c1ae url(../images/sear_ico_03.png) no-repeat 50px center;border:none 0;height:38px;font-size:16px;color:#FFF;padding-right:38px;padding-left:8px;float:right}
+.searchBox .submit{background:#2FBDAA url(../images/sear_ico_03.png) no-repeat 50px center;border:none 0;height:38px;font-size:16px;color:#FFF;padding-right:38px;padding-left:8px;float:right}
 .hotSearch a{display:inline-block;margin:0 6px;color:#999;line-height:32px;font-size:15px}
 .hotSearch a:hover{color:#333}
-.topTwo .menu {width: 18%; margin-top: 10px;float: right;color: #929292;font-size: 12px;text-align: center;}
-.topTwo .ment_left {float: left;width: 33%;}
-.topTwo .ment_left .ment_left_img img { width: 36px;height: 36px;}
-
-.nav{width:1200px;margin:0 auto;background-color:#06C1AE;}
+.nav{width:1200px;margin:0 auto;background-color:#ff318c}
 .nav .navList{width:1200px;margin:0 auto;height:44px;position:relative}
 .navLi{float:left;display:block;padding-right:8px}
 .navLi:last-child{margin-right:0}
@@ -2079,14 +2066,12 @@ ul{list-style:none!important}
 .navLi_pull li{display:inline-block;padding:0 15px;margin-bottom:5px}
 .navLi_pull li a{font-size:14px;line-height:24px;color:#333}
 .navLi:hover .navLi_pull{display:block}
-.navListAll{float:left;width:240px;height:44px;text-align:center;position:relative;background:#06c1ae;cursor:pointer;color:#fff;font-size:18px;line-height:44px}
+.navListAll{float:left;width:240px;height:44px;text-align:center;position:relative;background:#3ac9aa;cursor:pointer;color:#fff;font-size:18px;line-height:44px}
 .navListAllt{color:#fff;font-size:18px;line-height:44px;position:relative}
 .navListAllt:after{position:absolute;top:50%;margin-top:-2px;right:-20px;content:'';border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #fff}
 .navAll{display:none;position:absolute;z-index:2px;width:210px;top:44px;left:0;background-color:#fff;text-align:left;line-height:normal}
 .navListAll:hover .navAll{display:block}
 .navListAll:hover .navListAllt:after{transform:rotate(-180deg);-webkit-transform:rotate(-180deg);-moz-transform:rotate(-180deg);-webkit-transform:rotate(-180deg);-o-transform:rotate(-180deg)}
-
-
 .foot_security{overflow:hidden;margin:50px auto 0;margin-bottom:20px}
 .foot_security ul{display:block;padding:0 0 0 52px;overflow:hidden}
 .foot_security ul li{display:block;width:235px;margin-right:52px;float:left;font-size:20px;color:#333}
@@ -2134,18 +2119,3 @@ ul{list-style:none!important}
 .topUpWx:hover .topUpWxk{display:block;z-index:99}
 .topUpWxk{position:absolute;display:none;padding:15px;text-align:center;border:1px solid #dfdfdf;background-color:#f7f7f7;z-index:100;bottom:-1px;left:-180px}
 .topUpWxk p{line-height:24px;font-size:16px}
-
-/*头部购物车*/
-.topTwo_cart_box{ width:138px; height:46px; background:#f7f7f7; border:1px solid #e6e6e6; border-radius:3px; font-size:16px; line-height:46px; color:#333333; text-align:center; position:relative; margin-top:6px;}
-.topTwo_cart_box .ico{ width:16px; height:16px; display:inline-block; vertical-align:middle; background-image:url(../images/images/ico.png); background-position:left 0; margin-right:5px;}
-.topTwo_cart_box .num{ display:inline-block; width:26px; height:20px; border-radius:3px; background:#ff6600; font-size:16px; color:#ffffff; vertical-align:text-bottom; line-height:20px; margin-left:15px;}
-.topTwo_cart_box:hover .topTwo_cart_list_box{ display:block;}
-.topTwo_cart_list_box{ display:none; position:absolute; right:0; top:40px; z-index:10;}
-.topTwo_cart_list_box .box{ background:#ffffff; border:1px solid #e5e5e5; padding:10px; position:relative; margin-top:16px;}
-.topTwo_cart_list_box .box:after{ content:''; display:inline-table; width:10px; height:10px; background:#ffffff; border-left:1px solid #e5e5e5; border-bottom:1px solid #e5e5e5; transform:rotate(135deg);-webkit-transform:rotate(135deg);-moz-transform:rotate(135deg);-webkit-transform:rotate(135deg);-o-transform:rotate(135deg); position:absolute; top:-6px; right:64px;}
-.topTwo_cart_list{ display:block; width:300px; overflow:hidden; text-align:left; position:relative; margin-bottom:10px;}
-.topTwo_cart_list .pub_wz{ margin-left:90px; font-size:14px; line-height:24px; font-family:"宋体";}
-.topTwo_cart_list .del{ position:absolute; bottom:0px; right:0px; font-size:14px; line-height:20px; font-family:"宋体"; color:#999999;}
-.topTwo_cart_list_box .see_more{ text-align:right; border-top:1px solid #cccccc; padding:10px 0 0;}
-.topTwo_cart_list_box .see_more a{ display:inline-block; padding:0 6px; font-size:14px; color:#ffffff; line-height:24px; background:#ff6600; font-family:"宋体";}
-/**/

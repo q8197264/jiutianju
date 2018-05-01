@@ -47,4 +47,17 @@ class ShopcateModel extends CommonModel
 		}
         return true;
     }
+	//返回3个变量
+	public function return_column_value($cate_id){
+		$shopcates = D('Shopcate')->fetchAll();
+        if ($shopcates[$cate_id]['parent_id'] == 0) {
+            $catstr =  $shopcates[$cate_id]['cate_name'];
+			return array('catstr' => $catstr);
+        } else {
+            $catstr =  $shopcates[$shopcates[$cate_id]['parent_id']]['cate_name'];
+            $cat = $shopcates[$cate_id]['parent_id'];
+            $catestr = $shopcates[$cate_id]['cate_name'];
+			return array('catstr' => $catstr, 'cat' => $cat,'catestr' => $catestr);
+        }
+    }
 }

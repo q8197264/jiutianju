@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>交易大数据</title>
+    <link rel="stylesheet" type="text/css" href="__TMPL__transaction/css/jy_common.css"/>
+    <script type="text/javascript" src="__TMPL__transaction/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="__TMPL__transaction/js/jy_common.js"></script>
+
+    <!-- 仅大数据调用 -->
+    <link rel="stylesheet" type="text/css" href="__TMPL__transaction/css/bigData.css"/>
+    <script type="text/javascript" src="__TMPL__transaction/js/bigData.js"></script>
+    <script type="text/javascript" src="__TMPL__transaction/js/carouselPlugin.min.js"></script>
+    <script type="text/javascript" src="__TMPL__transaction/js/autoScroll.js"></script>
+
+</head>
+<body>
+
+    <div class="bigData">
+
+        <div class="inner">
+
+            <div class="caption">
+                <img class="gradientImg" src="__TMPL__transaction/images/linejianbian.png" alt="">
+                <div class="time">2017-11-01&nbsp;&nbsp;&nbsp;星期三</div>
+                <img class="titlePic" src="__TMPL__transaction/images/titlePic.png" alt="">
+                <a class="linkHome" href="/Index/index.html"><i class="iconfont">&#xe70e;</i><span>网站首页</span></a>
+            </div>
+
+            <div class="fourBox">
+                <ul>
+                    <li class="blue">
+                        <a href="javascript:void(0)">
+                            <div class="caption_">商家总数</div>
+                            <div class="detail"><{$shop_count}></div>
+                        </a>
+                    </li>
+                    <li class="red">
+                        <a href="javascript:void(0)">
+                            <div class="caption_">产品种类</div>
+                            <div class="detail"><{$goodscate_count}></div>
+                        </a>
+                    </li>
+                    <li class="green">
+                        <a href="javascript:void(0)">
+                            <div class="caption_">交易次数（2017）</div>
+                            <div class="detail"><{$order_count}></div>
+                        </a>
+                    </li>
+                    <li class="purple">
+                        <a href="javascript:void(0)">
+                            <div class="caption_">交易总量</div>
+                            <div class="detail"><label><{$order_price_count}></label><span>吨</span></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="threeBox">
+                <ul>
+                    <li>
+                        <div class="out">
+                            <div class="cpt"><span>商家列表</span></div>
+                            <div class="in">
+                                <div class="title">
+                                    <span class="nam">商家名称</span><label class="area">区域</label>
+                                </div>
+                                <div class="switchPond" id="fadeSwitch">
+                                
+                                
+                                   <volist name='nav' id='item'>
+                            <if condition="$i%10 eq 1">
+                                <li class="list">
+                                    <ul class="cate">
+                                        <li>
+                                            <a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>"><img src="<{:config_img($item['photo'])}>">
+                                                <p><{$item.nav_name}></p></a>
+                                        </li>
+                             <elseif condition="$i%10 eq 0"/>        
+
+                                        <li>
+                                            <a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>"><img src="<{:config_img($item['photo'])}>">
+                                                <p><{$item.nav_name}></p></a>
+                                        </li>
+                                    </ul>
+                                </li>
+                           <else/>
+                                <li>
+                                    <a href="<{:config_navigation_url($item['url'],2)}>?nav_id=<{$item['nav_id']}>"><img src="<{:config_img($item['photo'])}>">
+                                        <p><{$item.nav_name}></p></a>
+                                </li>
+                            </if>
+                        </volist>
+                        
+                        
+                        
+                                 <volist name='shop_list' id='item'>
+                                     <if condition="$i%12 eq 1">
+                                        <div class="item">
+                                            <a href="#"><span><{$item.shop_name}></span><label><{$item.area}></label></a>
+                                        </div>
+                                     <elseif condition="$i%12 eq 0"/>  
+                                        <div class="item">
+                                            <a href="#"><span><{$item.shop_name}></span><label><{$item.area}></label></a>
+                                        </div>
+                                     <else/> 
+                                       <div class="item">
+                                            <a href="#"><span><{$item.shop_name}></span><label><{$item.area}></label></a>
+                                        </div>
+                                     </if> 
+                                 </volist>  
+                                    
+                                  
+                                    
+                                    <!-- 这里的ul与li是隐藏的不用显示上面有多少个.item就循环多少个li -->
+                                    <ul class="changeBanner">
+                                        <li class="active"></li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="out">
+                            <div class="cpt"><span>交易分布（2017）</span></div>
+                            <div class="in" id="chars">
+
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="out">
+                            <div class="cpt"><span>农副产品交易排行榜</span></div>
+                            <div class="in">
+                                <div class="title">
+                                    <ul class="nam_">
+                                        <li>排行</li><li>商品类型</li><li>重量</li>
+                                    </ul>
+                                </div>
+                                <div class="switchPond" id="scroll">
+                                    <ul class="list">
+									                                        <li class="top"><a href="#"><span><label>1</label></span><span>四季豆</span><span>51.809吨</span></a></li>
+                                                                            <li class="top"><a href="#"><span><label>2</label></span><span>韭菜</span><span>45.949吨</span></a></li>
+                                                                            <li class="top"><a href="#"><span><label>3</label></span><span>西芹</span><span>21.376吨</span></a></li>
+                                    									                                        <li><a href="#"><span><label>4</label></span><span>扁豆</span><span>21吨</span></a></li>
+                                                                            <li><a href="#"><span><label>5</label></span><span>花菜</span><span>12吨</span></a></li>
+                                                                            <li><a href="#"><span><label>6</label></span><span>青椒</span><span>10.452吨</span></a></li>
+                                                                            <li><a href="#"><span><label>7</label></span><span>黄瓜</span><span>8.436吨</span></a></li>
+                                                                            <li><a href="#"><span><label>8</label></span><span>土豆</span><span>7.042吨</span></a></li>
+                                                                            <li><a href="#"><span><label>9</label></span><span>苦瓜</span><span>4吨</span></a></li>
+                                                                            <li><a href="#"><span><label>10</label></span><span>西红柿</span><span>3.998吨</span></a></li>
+                                                                            <li><a href="#"><span><label>11</label></span><span>萝卜</span><span>3.94吨</span></a></li>
+                                                                            <li><a href="#"><span><label>12</label></span><span>芋头</span><span>3.4吨</span></a></li>
+                                                                            <li><a href="#"><span><label>13</label></span><span>茄子</span><span>3.098吨</span></a></li>
+                                                                            <li><a href="#"><span><label>14</label></span><span>莴笋</span><span>3吨</span></a></li>
+                                                                            <li><a href="#"><span><label>15</label></span><span>丝瓜</span><span>2.21吨</span></a></li>
+                                                                            <li><a href="#"><span><label>16</label></span><span>白菜</span><span>2.003吨</span></a></li>
+                                                                            <li><a href="#"><span><label>17</label></span><span>小白菜</span><span>2吨</span></a></li>
+                                                                        </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+    <input type="hidden" value="四季豆" id="frist">
+	<input type="hidden" value="韭菜" id="second">
+	<input type="hidden" value="西芹" id="three">
+	<input type="hidden" value="扁豆" id="four">
+	<input type="hidden" value="花菜" id="five">
+	
+	<input type="hidden" value="51809" id="diyi">
+	<input type="hidden" value="45949" id="dier">
+	<input type="hidden" value="21376" id="disan">
+	<input type="hidden" value="21000" id="disi">
+	<input type="hidden" value="12000" id="diwu">
+    <script type="text/javascript" src="__TMPL__transaction/js/echarts-all.js"></script>
+    <script type="text/javascript">
+
+        var hh = document.body.scrollHeight;
+        var dom_ = document.getElementById('chars');
+        dom_.style.height = (hh - 400) + 'px';
+
+        var myChart = echarts.init(document.getElementById('chars'));
+		var one=$('#frist').val();
+		var two=$('#second').val();
+		var three=$('#three').val();
+		var four=$('#four').val();
+		var five=$('#five').val();
+		
+		var diyi=$('#diyi').val();
+		var dier=$('#dier').val();
+		var disan=$('#disan').val();
+		var disi=$('#disi').val();
+		var diwu=$('#diwu').val();
+        var option = {
+            legend: {
+                orient:'vertical',
+                x :'left',
+                textStyle:{color:'#FFF'},
+                data:[one,two,three,four,five]
+            },
+            calculable : false,
+            color:[
+                '#FE2D5F', '#FFB207', '#0169A9', '#18C2FF', '#6729E4',
+                '#1e90ff', '#ff6347', '#7b68ee', '#00fa9a', '#ffd700',
+                '#6b8e23', '#ff00ff', '#3cb371', '#b8860b', '#30e0e0'
+            ],
+            series : [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:diyi, name:one},
+                        {value:dier, name:two},
+                        {value:disan, name:three},
+                        {value:disi, name:four},
+                        {value:diwu, name:five}
+                    ]
+                }
+            ]
+        };
+        myChart.setOption(option);
+    </script>
+
+</body>
+</html>

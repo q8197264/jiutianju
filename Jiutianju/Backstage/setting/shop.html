@@ -1,0 +1,77 @@
+<include  file='public:header'/>
+
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">商户设置</li>
+        <li class="li2 ">点赞配置</li>
+    </ul>
+</div>
+<div class="main-jsgl main-sc">
+    <p class="attention"><span>注意：</span>以后商户上面需要配置的，都尽量在这里写！ </p>
+    <form  target="baocms_frm" action="<{:U('setting/shop')}>" method="post">
+        <div class="tableBox">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+            
+             
+                <tr>
+                    <td class="lfTdBt">点赞开关：</td>
+                    <td class="rgTdBt">
+                      <label><input type="radio" name="data[shop_kaiguan]" <eq name="CONFIG.shop.shop_kaiguan" value="1">checked="checked"</eq> value="1"  />开启</label>
+       <label><input type="radio" name="data[shop_kaiguan]"  <eq name="CONFIG.shop.shop_kaiguan" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+                        <code>点击开启后，wap商家详情页出现点赞按钮，会员可对商家进行点赞，关闭后不出现按钮。</code>
+                    </td>
+                </tr> 
+                 <tr>
+                    <td class="lfTdBt">点赞一次奖励积分：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[shop_jf]" value="<{$CONFIG.shop.shop_jf}>" class="scAddTextName " />
+                        <code>会员每天可总点赞多少次，建议填写3-5，留空不限制，建议不要留空，不然会出现刷积分的情况</code>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="lfTdBt">同一商户每天可以点几次：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[shop_dayshop]" value="<{$CONFIG.shop.shop_dayshop}>" class="scAddTextName " />
+                        <code>会员每天可对同一个商家点赞多少次，建议填写1-2，留空不限制，0为禁止对所有商户点赞。</code>
+                    </td>
+                </tr> 
+				<tr>
+                    <td class="lfTdBt">会员每天可点赞次数：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[shop_day]" value="<{$CONFIG.shop.shop_day}>" class="scAddTextName " />
+                        <code>会员对所有商户共可点赞的次数，每天统计。留空不限制，0为禁止对所有商户点赞。</code>
+                    </td>
+                </tr> 
+				<tr>
+                    <td class="lfTdBt">商城保证金开关：</td>
+                    <td class="rgTdBt">
+                      <label><input type="radio" name="data[shop_baozhengjing]" <eq name="CONFIG.shop.shop_baozhengjing" value="1">checked="checked"</eq> value="1"  />开启</label>
+       <label><input type="radio" name="data[shop_baozhengjing]"  <eq name="CONFIG.shop.shop_baozhengjing" value="0">checked="checked"</eq>  value="0"  />关闭</label>
+                        <code>点击开启后，商家入驻页会出现提示，并会在提交后自动扣费。</code>
+                    </td>
+                </tr> 
+                <tr>
+                    <td class="lfTdBt">商城入驻保证金：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[shop_pay_bzj]" value="<{$CONFIG.shop.shop_pay_bzj}>" class="scAddTextName " />
+                        <code>会员入驻所需要交的保证金。</code>
+                    </td>
+                </tr> 
+				<tr>
+                    <td class="lfTdBt">商城入驻默认等级：</td>
+                    <td class="rgTdBt">
+                       <input type="text" name="data[shop_dj]" value="<{$CONFIG.shop.shop_dj}>" class="scAddTextName " />
+                        <code>这个要注意，只需要填写等级ID，不要写错了，查询等级ID:[商家=》商家等级管理=》商家等级列表，看最前面的ID]。</code>
+                    </td>
+                </tr>
+                 
+               
+
+            </table>
+        </div>
+        <div class="smtQr"><input type="submit" value="确认保存" class="smtQrIpt" /></div>
+    </form>
+</div>
+<include  file='public:footer'/>       

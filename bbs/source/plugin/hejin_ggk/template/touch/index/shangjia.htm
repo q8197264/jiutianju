@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=$charset" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="format-detection" content="email=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/allimg/global.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/allimg/iconfont.css" media="all" />
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/allimg/foot.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/allimg/Popupbox.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/allimg/gmu.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{HEJIN_PATH}public/allimg/dgshow.css" media="screen" />
+<script type="text/javascript" src="{HEJIN_PATH}public/allimg/zepto.min.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/allimg/gmu.min.js"></script>
+<script type="text/javascript" src="{HEJIN_PATH}public/allimg/touch.js"></script>
+<title><!--{eval echo stripslashes($jpinfo['sjname']);}--></title>
+</head>
+<body>
+<header>
+  <div class="titlebt"><!--{eval echo stripslashes($jpinfo['sjname']);}--> </div>
+</header>
+<div class="main">
+{if $jpinfo['sjpic']}
+  <div id="slider">
+    <div><a href="#"><img src="{HEJIN_PATH}{$jpinfo['sjpic']}" width="100%"></a></div>
+  </div>
+  {/if}
+{if $jpinfo['wxurl']}
+  <div class="box-list">
+    <ul>
+    
+      <li class="gzh"><a href="<!--{eval echo stripslashes($jpinfo['wxurl']);}-->">
+        <p><i class="iconfont icon-063"></i></p>
+        <p>{lang hejin_ggk:gzsjgzh}</p>
+        <p><i class="iconfont icon-049"></i></p>
+        </a> </li>
+      
+    </ul>
+  </div>
+ {/if}
+  <div class="cont">
+    <div>
+    {if $jpinfo['address']}
+      <p class="add">{lang hejin_ggk:address}{lang hejin_ggk:maohao}<!--{eval echo stripslashes($jpinfo['address']);}--></p>
+     {/if}
+    {if $jpinfo['telphone']}
+      <p class="tel">{lang hejin_ggk:dianhua}{lang hejin_ggk:maohao} <span><!--{eval echo stripslashes($jpinfo['telphone']);}--></span><a href="tel:<!--{eval echo stripslashes($jpinfo['telphone']);}-->" class="bohaoa"> <i class="iconfont icon-011"></i>{lang hejin_ggk:yijianbh} </a> </p>
+     {/if}
+      <div style="clear: both"></div>
+    </div>
+  </div>
+  <div class="info">
+    <div>
+		<!--{eval echo stripslashes($jpinfo['descrip']);}-->
+    </div>
+  </div>
+  
+</div>
+
+<div id="gotop"></div>
+<div class="fixshowed"></div>
+
+
+
+</body>
+</html>

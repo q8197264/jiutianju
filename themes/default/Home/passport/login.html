@@ -1,0 +1,332 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<style>
+#login_frm { overflow: initial;}
+.tb-categories .tb-cat li.maintainHover { height:95px; color:#fff;border-bottom:1px dotted #E3E3E3; padding-left:10px; border-left:1px solid #E3E3E3;border-right:1px solid #E3E3E3; background:;  border-top:0;}
+.register_b{ width:250px; height:45px; border:0; color:#FFFFFF; cursor:pointer; font-size:16px; background:; }
+
+.home-tab li.current .home-tab-super{height:43px;line-height:42px;background:#FFF;color:;cursor:default; width:155px;border-top:3px solid ;  }
+.home-tab .home-tab-super:hover{height:42px;line-height:40px;background:#FFF;color:;cursor:pointer; border-top:3px solid ; }
+
+.gwzx .vipduo2{display:block;width:273px;height:43px; padding-left:15px;border-top:3px solid ;font-size:16px;line-height:43px;text-align:left;color:#444;cursor:pointer;border-bottom:0;font-family:'Hiragino Sans GB','Microsoft YaHei','SimSun',sans-serif;}
+
+.dddefault .daohang{margin:0 auto;padding:0;text-align:left;height:46px;clear:both;font-family:"微软雅黑"; border-bottom: 2px solid ; background:#FFFFFF}
+.daohang1000 li.linav1{position:relative;z-index:999;margin-top:0px;float:left;width:220px;height:46px; background:;border-radius:5px 5px 0 0}
+
+#fontt a {color:;}
+.dddefault .sbutton{LINE-HEIGHT:40px;*LINE-HEIGHT:37px;background:;BORDER-RIGHT-WIDTH:0px;WIDTH:110px;FLOAT:right;BORDER-TOP-WIDTH:0px;BORDER-BOTTOM-WIDTH:0px;HEIGHT:40px;BORDER-LEFT-WIDTH:0px;CURSOR:pointer;color:#fff;cursor:pointer;font-size:16px;padding-left: 6px;font-family:'微软雅黑';}
+
+.dddefault .sbutton:hover{LINE-HEIGHT:40px;*LINE-HEIGHT:37px;background:;BORDER-RIGHT-WIDTH:0px;WIDTH:110px;FLOAT:right;BORDER-TOP-WIDTH:0px;BORDER-BOTTOM-WIDTH:0px;HEIGHT:40px;BORDER-LEFT-WIDTH:0px;CURSOR:pointer;color:#fff;cursor:pointer;font-size:16px;padding-left: 6px;font-family:'微软雅黑';}
+
+.searchbox .box-middle {WIDTH: 520px; DISPLAY: block; FLOAT: left;line-HEIGHT: 40px; HEIGHT: 40px;border:1px solid ;}
+
+.gm .tejia{background:;color:#fff;}
+
+.unlogged a.register2{display:inline-block;background:; margin-top:15px;width:80px;height:30px;line-height:2.2;margin-right:20px;text-decoration:none;border-radius:4px;}
+.unlogged a.login1{display:inline-block; margin-top:15px;width:80px;height:30px;border:1px solid #ddd;background-color:#fff;line-height:2.2;margin-right:20px;text-decoration:none;border-radius:4px;color:;}
+.n-h-list li a:hover{color:;}
+.item-info .orange-wrap {height:92px;background-color:;position:relative}
+.contact .dian_ico{ position:absolute;color:; height:29px; width:180px;display:block; top:35px; left:2px;font-size: 24px; font-weight: bold; }
+
+.goods-list li .good-price .price-current {font-size:40px;font-family:Arial;color:;  font-weight:500}
+.goods-list li .good-price .price-current em {font-size: 14px; font-family:"微软雅黑"; color:; vertical-align:1px; margin-left:1px;}
+
+
+.daohang1000 li a.anav:hover{font-size:16px;color:;text-decoration:none;position:relative;width:120px;height:46px;DISPLAY:block}
+#daohangse{;}
+.dddefault .daohang1000 li.linav a.anav:hover em{border-color: transparent transparent;}
+#loading{ position: fixed; left:0; top: 0; right: 0; bottom: 0; background:rgba(255,255,255,1) ; margin-left:-2.5rem;  margin-top:-1rem;z-index:9999999999;}
+#loading img{ position:absolute; width:5rem; height: auto; left:50%; top: 50%; margin-left:-2rem; margin-top:-3rem;}
+
+.btn-small{padding:3px 20px;font-size:12px}
+.loginBox {padding-top: 20px;}
+.loginR {width: 530px;float: left;margin: 20px 0 0 30px !important; }
+.btn{background-color:<{$color}>!important;background-size:100%;background-image:-webkit-linear-gradient(top,<{$color}>!important,<{$color}>!important);background-image:linear-gradient(to bottom,<{$color}>!important,<{$color}>!important)}
+.btn,.btn-hot,.btn-normal{display:inline-block;vertical-align:middle;padding:8px 20px;font-size:14px;font-weight:700;-webkit-font-smoothing:antialiased;line-height:1.5;letter-spacing:.1em;text-align:center;text-decoration:none;border-width:0 0 1px;border-style:solid;background-repeat:repeat-x;border-radius:2px;-moz-user-select:-moz-none;-ms-user-select:none;-webkit-user-select:none;user-select:none;cursor:pointer}
+.btn,.btn.hover,.btn:focus,.btn:hover{border-color:#0B8074;color:#fff;zoom:1}
+.footer--mini{border-top:1px solid #EEE;padding-top:20px;text-align:center;margin-top: 20px;}
+.footer--mini p span{ font-size:12px;}
+.footer--mini .copyright{font-size:12px;font-family:initial}
+.footer--mini .copyright a,.footer--mini .copyright span{color:#999}
+.loginInput2016{width: 270px;}
+.loginInput2017{width:120px;float: left;}
+.loginInput2016, .loginInput2017{height:38px; line-height:38px;color: #888;font-size: 15px;padding-left: 10px;border: 1px solid #aaa;}
+.qqlink .qqlink_wz{width:120px;}
+.login {
+	background: url(__TMPL__statics/images/login/login.png) no-repeat center top;
+}
+
+.loginindex {
+	width: 1200px;
+	margin: 0 auto
+}
+
+.loginindex2 {
+	height: 550px;
+	overflow: hidden;
+	position: relative
+}
+
+.p10 {
+	height: 10px;
+	clear: both
+}
+
+.login-box {
+	position: absolute;
+	top: 94px;
+	right: 34px;
+	width: 354px;
+	background-color: #fff
+}
+
+.login-box .login-title {
+	padding: 15px 0;
+	background-color: #f4f4f4;
+	font-size: 18px;
+	color: #4f4f4f;
+	text-align: center
+}
+
+.login-box .error-msg {
+	margin: 10px 34px 0;
+	padding: 5px 0 5px 28px;
+	background: url(__TMPL__statics/images/login/icon.jpg) no-repeat 6px -1176px;
+	border: 1px solid #ffd393;
+	line-height: 16px;
+	color: #ff5e5e;
+	font-size: 12px;
+	display: none
+}
+
+.login-box .login-from {
+	padding: 12px 34px 15px;
+	width: 286px
+}
+
+.login-box .login-from .label-icon {
+	_margin-left: 4px;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	width: 34px;
+	height: 40px;
+	border: 1px solid #e3e3e3;
+	border-right: 0;
+	float: left
+}
+
+.login-box .login-from .label-username {
+	background: url(__TMPL__statics/images/login/icon.jpg) no-repeat 9px -845px #fff
+}
+
+.login-box .login-from .label-password {
+	background: url(__TMPL__statics/images/login/icon.jpg) no-repeat 9px -911px #fff
+}
+
+.login-box .login-from .form-input {
+	*margin-top: -1px;
+	margin-left: -2px;
+	display: block;
+	width: 248px;
+	_width: 230px;
+	height: 40px;
+	*height: 40px;
+	line-height: 40px;
+	border: 1px solid #e3e3e3;
+	border-left: 0;
+	color: #b5b5b5;
+	font-family: Arial,Tahoma,Helvetica;
+	padding-left: 0
+}
+
+.login-box .login-from .caplogin {
+	float: left;
+	width: 90px;
+	height: 34px;
+	line-height: 34px;
+	border: 1px solid #e3e3e3;
+	padding-left: 10px
+}
+
+.login-box .login-from .img-code {
+	height: 40px;
+	width: 80px;
+	margin-left: 12px;
+	cursor: pointer
+}
+
+.login-box .login-from .remember {
+	padding-top: 6px;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	float: left;
+	color: #666;
+	font-size: 12px;
+	font-family: 宋体
+}
+
+.login-box .login-from .forget-pwd {
+	padding-top: 6px;
+	float: right
+}
+
+.login-box .login-from .g-common-btn {
+	margin-top: 8px;
+	width: 280px;
+	height: 44px;
+	line-height: 44px
+}
+
+.login-box .login-from .free-reg {
+	color: #127ff5
+}
+
+.login-box .login-from .free-reg:hover {
+	text-decoration: underline
+}
+
+.login-box .login-from .login-form-links {
+	margin-top: 18px;
+	border-top: 1px solid #e3e3e3;
+	text-align: center
+}
+
+.login-box .login-from .login-form-links p {
+	text-align: center;
+	width: 128px;
+	margin: -10px auto 6px auto;
+	color: #9b9b9b;
+	background-color: #fff
+}
+
+.login-box .login-from .login-form-links .link-icon {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	width: 30px;
+	height: 17px;
+	background-image: url(__TMPL__statics/images/login/ico.png);
+	background-repeat: no-repeat
+}
+
+.login-box .login-from .login-form-links .tb-icon {
+	background-position: 0 -306px
+}
+
+.login-box .login-from .login-form-links .qq-icon {
+	background-position: 0 -323px
+}
+
+.login-box .login-from .login-form-links .sina-icon {
+	background-position: 0 -289px
+}
+  .g-blue-btn {
+    width: 285px;
+    height: 45px;
+    background-color: #2086ee;
+    color: #fff;
+    border: 0px;
+    font-size: 16px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+  .login-box .login-from .remember {
+    padding-top: 6px;
+    display: inline-block;
+    float: left;
+    color: #666;
+    font-size: 12px;
+    font-family: 宋体;
+}
+  .g-blue-btn:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+  .p10 {
+    height: 10px;
+    clear: both;
+}
+  .cl {
+    margin: 0px;
+    padding: 0px;
+    clear: both; */
+    /* height: 0; */
+    /* line-height: 0; */
+    /* overflow: hidden; */
+    /* width: 0; */
+}
+</style>
+
+<div class="login">
+<div class="loginindex">
+<div class="loginindex2">
+
+ <div class="login-box">
+
+                <div class="login-title">
+                    用户登录
+                </div>
+    <form id="login_frm"  action="<{:U('passport/login')}>" method="post" target="baocms_frm">
+                <div class="login-from">
+                    <div>
+                        <label  class="label-username label-icon"></label>
+                        <input class="fix-autofill-bg form-input" type="text" id="account"  name="account" placeholder="请输入您的用户名" autocomplete="off">
+                    </div>
+					<div class="p10"></div>
+                    <div class="pt-10">
+                        <label class="label-password label-icon"></label>
+                        <input   type="password" id="password"  name="password" class="fix-autofill-bg form-input" placeholder="请输入您的用户密码" autocomplete="off">
+                    </div>
+                    <div class="p10"></div>
+                    
+                    <div >
+					
+					<input type="submit" name="sub" value="会员登录"  class="g-blue-btn">
+                    </div>
+                    <div class="pt-10">
+                        还没有账号？
+                        <a class="free-reg" href="<{:U('passport/register')}>">免费注册</a>
+                       <a class="free-reg right" href="<{:U('passport/forget',array('way'=>2))}>">忘记密码</a>
+                    </div>
+                    <div class="login-form-links">
+                        <p>合作网站账号登录</p>
+                        
+						<if condition="!empty($CONFIG['connect']['qq_app_id'])">	<a href="<{:U('passport/qqlogin')}>" class="qq-icon link-icon" title="QQ登陆"></a></if>
+              			<if condition="!empty($CONFIG['connect']['wb_app_id'])"><a href="<{:U('passport/wblogin')}>" class="sina-icon link-icon" title="微博账号"></a></if>
+                        <if condition="!empty($CONFIG['weixin']['appid'])"><a href="<{:U('passport/wxlogin')}>" class="sina-icon link-icon" title="微信登录"></a></if>  
+						 
+                    </div>
+                </div>
+          </form>
+        </div>
+
+
+
+</div>
+</div>
+</div>
+
+    
+	<script>
+    $(document).ready(function()    {      
+        $("#account").focusout(function() {
+            if($(this).val() ==""){ 
+                $(this).val("请用您账户或者手机号码登录");
+            }
+        });
+        $("#yzm").focusout(function() {
+            if($(this).val() ==""){ 
+                $(this).val("请输入验证码");
+            }
+        });
+    });
+    </script>
+	
+<div class="footer--mini">
+    <p class="copyright">
+       <span>copyright 2013-2113 <{$Think.SERVER.HTTP_HOST}> All Rights Reserved <{$CONFIG.site.sitename}>版权所有 - <{$CONFIG.site.tongji}></span>
+        <span class="f1"><{$CONFIG.site.icp}> </span>
+    </p>
+</div>

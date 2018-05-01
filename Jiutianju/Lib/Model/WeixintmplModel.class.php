@@ -3,34 +3,99 @@ class WeixintmplModel extends CommonModel{
 	protected $pk   = 'tmpl_id';
     protected $tableName =  'weixin_tmpl';
 	protected $_validate = array(
-		array('title','2,10','模板标题2至10个字符！',Model::MUST_VALIDATE, 'length', Model::MODEL_BOTH),
+		array('title','2,20','模板标题2至10个字符！',Model::MUST_VALIDATE, 'length', Model::MODEL_BOTH),
 		array('serial','/^\w{3,}$/','请输入正确的模板库编号！',Model::MUST_VALIDATE, 'regex', Model::MODEL_BOTH),
 		array('status','0,1','状态值不合法,必须0或1！',Model::MUST_VALIDATE, 'in', Model::MODEL_BOTH),
 		array('sort','/^\d{1,4}$/','排序值不合法！',Model::MUST_VALIDATE, 'regex', Model::MODEL_BOTH),
 	);
-    public function weixin_notice_pao_user($order_id,$user_id,$type){
-			if($type == 0){
-				$pay_type = '货到付款' ;
-			}else{
-				$pay_type = '在线支付' ;
-			}
-			$pao_records = D("PaoRecords");
-            $detail = $pao_records->field("record_id,record_title,record_price")->where("record_id='".$order_id."'")->find();
-            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
-            $notice_data = array(
-                'url'       =>  "http://".$_SERVER['HTTP_HOST']."/member/pao/viewpao/record_id/".$order_id.".html",
-                'first'   => '亲,您的订单创建成功!',
-                'remark'  => '详情请登录-http://'.$_SERVER['HTTP_HOST'],
-				'order_id' => $order_id, 
-				'title' => $detail['record_title'], 
-				'num' => '1',
-				'price' => $detail['record_price'] . '元', 
-				'pay_type' => $pay_type 
-            );
-            $notice_data = Wxmesg::place_an_order($notice_data);
-            Wxmesg::net($user_id, 'OPENTM202297555', $notice_data);
-			return true;
+	
+	//抢单配送批量发送微信模板消息
+	public function delivery_tz_user($order_id,$type){
+		$order_id = array($order_id);
+		$type = (int) $type;//0是商城，1是外卖，2是快递
+		if($type == 0){
+			$obj = D('Order');
+			$info = '有新的商城订单啦~';
+		}elseif($type == 1){
+			$obj = D('Eleorder');
+			$info = '有新的外卖订单啦~';
+		}else{
+			$obj = D('Express');
+			$info = '有新的快递订单啦~';
+		}
+		$detail = $obj->find($order_id);
+		$time = date("Y-m-d H:i:s",$detail['create_time']); //订单时间
+		$delivery  = D('Delivery')->where(array('is_weixin'=>1))->select();
+		
+		$config = D('Setting')->fetchAll();
+		
+        foreach ($delivery as $v=>$val)  { 
+            include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
+            $_delivery_tz_user = array(//整体变更
+                'url'       =>  $config['site']['host']."/delivery/lists/scraped.html",
+                'topcolor'  =>  '#F55555',
+                'first'     =>  $val['name'].'订单生成日期：'.$time .'',
+                'remark'    =>  '更多信息,请登录'.$config['site']['sitename'].',将为您提供更多信息服务！',
+                'nickname'  =>  $val['name'],
+                'title'     =>  $info
+
+         );
+         $delivery_tz_user_data = Wxmesg::delivery_tz_user($_delivery_tz_user);
+         $return = Wxmesg::net($val['user_id'], 'OPENTM207042342', $delivery_tz_user_data);//结束
+       } 
+        return true;
     }
+	
+	
+	
+	//配送员抢单通知用户
+	public function delivery_qiang_tz_user($order_id,$delivery_id,$type,$status){
+		$order_id = (int) ($order_id);
+		$type = (int) $type;//0是商城，1是外卖，2是快递
+		$status = (int) $status;//0是商城，1是外卖，2是快递
+		if($status == 0){
+			$status = '您的订单已被抢单了' ;
+		}else{
+			$status = '您的订单已被配送员设置为已完成' ;
+		}
+		$config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/user/';
+		$detail = D('DeliveryOrder')->where(array('order_id'=>$order_id))->find();//配送订单信息
+		$delivery = D('Delivery')->where(array('user_id'=>$delivery_id))->find();//筛选配送员信息
+		if($type == 0){
+			$url = $config_site_url.'goods/detail/order_id/'.$detail['type_order_id'].'/';
+			$order_name = D('Ordergoods')->get_mall_order_goods_name($detail['type_order_id']);
+			$order_id = $detail['type_order_id'];
+		}elseif($type == 1){
+			$url = $config_site_url.'eleorder/detail/order_id/'.$detail['type_order_id'].'/';
+			$order_name = D('Eleorder')->get_ele_order_product_name($detail['type_order_id']);
+			$order_id = $detail['type_order_id'];
+		}elseif($type == 3){
+			$url = $config_site_url.'market/detail/order_id/'.$detail['type_order_id'].'/';
+			$order_name = D('Marketorder')->get_market_order_product_name($detail['type_order_id']);
+			$order_id = $detail['type_order_id'];
+		}elseif($type == 4){
+			$url = $config_site_url.'store/detail/order_id/'.$detail['type_order_id'].'/';
+			$order_name = D('Storeorder')->get_store_order_product_name($detail['type_order_id']);
+			$order_id = $detail['type_order_id'];
+		}
+		
+		$config = D('Setting')->fetchAll();
+        include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
+        $_data = array(//整体变更
+                'url'       => $url,
+                'topcolor'  => '#F55555',
+                'first'     => $status,
+                'remark'    => '更多信息,请登录'.$config['site']['sitename'].',将为您提供更多信息服务！',
+                'order_name'=> $order_name, //商品名称
+				'order_id' => $order_id, //订单ID
+				'delivery_user_name' => $delivery['name'],//配送员姓名
+				'delivery_user_mobile' => $delivery['mobile'], //配送员电话
+         );
+         $data = Wxmesg::delivery_qiang_tz_user($_data);
+         $return = Wxmesg::net($detail['user_id'], 'OPENTM406590003',$data);//结束
+        return true;
+	}
+	
 	//抢购下单微信通知
     public function weixin_notice_tuan_user($order_id,$user_id,$type){
             $Tuanorder = D('Tuanorder')->find($order_id);
@@ -40,9 +105,9 @@ class WeixintmplModel extends CommonModel{
 			}else{
 				$pay_type = '在线支付' ;
 			}
-            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib/Net/Wxmesg.class.php';
             $notice_data = array(
-				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/tuan/detail/order_id/' . $order_id . '.html', 
+				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/user/tuan/detail/order_id/' . $order_id . '.html', 
 				'first' => '亲,您的订单创建成功!', 
 				'remark' => '详情请登录-http://' . $_SERVER['HTTP_HOST'], 
 				'order_id' => $order_id, 
@@ -67,9 +132,9 @@ class WeixintmplModel extends CommonModel{
 			$Order = D('Order')->find($order_id);
 			$num = D('Ordergoods')->where(array('order_id'=>$order_id))->sum('num');
 			$goods_name = $this->get_mall_order_goods_name($order_id);//获取商城订单名称
-            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib/Net/Wxmesg.class.php';
             $notice_data = array(
-				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/goods/index/aready/' . $order_id . '.html', 
+				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/user/goods/index/aready/' . $order_id . '.html', 
 				'first' => '亲,您的订单创建成功!', 
 				'remark' => '详情请登录-http://' . $_SERVER['HTTP_HOST'], 
 				'order_id' => $order_id, 
@@ -93,9 +158,9 @@ class WeixintmplModel extends CommonModel{
 			$Bookingorder = D('Bookingorder')->find($order_id);
 			$Booking = D('Booking')->find($Bookingorder['shop_id']);
 			
-            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
             $notice_data = array(
-                'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/booking/detail/order_id/".$order_id.".html",
+                'url'       =>  "http://".$_SERVER['HTTP_HOST']."/user/booking/detail/order_id/".$order_id.".html",
                 'first'   => '亲,您的订单创建成功!',
                 'remark'  => '详情请登录-http://'.$_SERVER['HTTP_HOST'],
 				'order_id' => $order_id, 
@@ -118,9 +183,9 @@ class WeixintmplModel extends CommonModel{
 			}
 			$Hotelorder = D('Hotelorder')->find($order_id);
 			$Hotel = D('Hotel')->find($Hotelorder['hotel_id']);
-            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
             $notice_data = array(
-                'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/hotel/detail/order_id/".$order_id.".html",
+                'url'       =>  "http://".$_SERVER['HTTP_HOST']."/user/hotel/detail/order_id/".$order_id.".html",
                 'first'   => '亲,您的订单创建成功!',
                 'remark'  => '详情请登录-http://'.$_SERVER['HTTP_HOST'],
 				'order_id' => $order_id, 
@@ -143,9 +208,9 @@ class WeixintmplModel extends CommonModel{
 			}
 			$Farmgorder = D('Farmorder')->find($order_id);
 			$Farm = D('Farm')->find($Farmorder['farm_id']);
-            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
             $notice_data = array(
-                'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/hotel/detail/order_id/".$order_id.".html",
+                'url'       =>  "http://".$_SERVER['HTTP_HOST']."/user/hotel/detail/order_id/".$order_id.".html",
                 'first'   => '亲,您的订单创建成功!',
                 'remark'  => '详情请登录-http://'.$_SERVER['HTTP_HOST'],
 				'order_id' => $order_id, 
@@ -168,9 +233,9 @@ class WeixintmplModel extends CommonModel{
 			}
 			$order = D('Eleorder')->find($order_id);
             $product_name = $this->get_ele_order_product_name($order_id);
-            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib/Net/Wxmesg.class.php';
             $notice_data = array(
-				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/eleorder/detail/order_id/' . $order_id . '.html', 
+				'url' => 'http://' . $_SERVER['HTTP_HOST'] . '/user/eleorder/detail/order_id/' . $order_id . '.html', 
 				'first' => '亲,您的订单创建成功!', 
 				'remark' => '详情请登录-http://' . $_SERVER['HTTP_HOST'], 
 				'order_id' => $order_id, 
@@ -183,10 +248,39 @@ class WeixintmplModel extends CommonModel{
             Wxmesg::net($user_id,'OPENTM202297555', $notice_data);
 			return true;
     }
+	 public function weixin_notice_pintuan_user($order_id,$user_id,$type){
+			D('Ptuan') -> save(array('id' => $tuan['tuan_id'], 'tuan_status' => 2));
+						D('Ptuanteam') -> where(array('order_id' => $logs['order_id'])) -> setField('tuan_status', '2');
+						if ($tuan['tstatus'] == 1) {
+							$num = $tuan['renshu'] - 1;
+							include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
+							$_data_kaituan = array(
+								'url' => "http://" . $_SERVER['HTTP_HOST'] . "/wap/pintuan/tuan/id/" . $tuan['tuan_id'] . ".html", 
+								'topcolor' => '#F55555', 'first' => '亲,您成功开启了一个新的拼团', 
+								'remark' => '还差' . $num . '人成团，快快邀请您的小伙伴们一起参团吧', 
+								'goodsName' => $tuan['goods_name'], 'orderno' => $logs_id, 
+								'pintuannum' => $tuan['renshu'],
+							 );
+							$kaituan_data = Wxmesg::kaituan($_data_kaituan);
+							$return = Wxmesg::net($uid, 'OPENTM407307456', $kaituan_data);
+						} elseif ($tuan['tstatus'] == 2) {
+							include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
+							$_data_cantuan = array(
+								'url' => "http://" . $_SERVER['HTTP_HOST'] . "/wap/pintuan/tuan/id/" . $tuan['tuan_id'] . ".html", 
+								'topcolor' => '#F55555', 'first' => '您已参团成功，请等待成团', 
+								'payprice' => round($logs['need_pay'] / 100, 2) . '元', 
+								'goodsName' => $tuan['goods_name'], 
+								'dizhi' => $tuan['address'], 
+								'remark' => '更多详情可点击查看',
+							 );
+							$cantuan_data = Wxmesg::cantuan($_data_cantuan);
+							$return = Wxmesg::net($uid, 'OPENTM400890529', $cantuan_data);
+						}
+					}
 	
 	//买家申请退款通知商家1外卖，2商城，3家政，4团购
     public function weixin_user_refund_shop($order_id,$type){
-		    $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/store/';
+		    $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/distributors/';
 			if($type == 1){
 				$type_refund_name = '外卖退款' ;
 				$url = $config_site_url.'ele/detail/order_id/'.$logs['order_id'].'/';
@@ -215,7 +309,7 @@ class WeixintmplModel extends CommonModel{
 				$refund_titie = $Appoint['title'];
 				$refund_num = '1';
 				$refund_price = round($Appointorder['need_pay']/100,2).'元';
-			}elseif($type == 3){
+			}elseif($type == 4){
 				$type_refund_name = '团购退款' ;
 				$url = $config_site_url.'tuan/detail/order_id/'.$logs['order_id'].'/';
 				$Tuancode = D('Tuancode')->find($code_id);
@@ -225,7 +319,7 @@ class WeixintmplModel extends CommonModel{
 				$refund_num = '1';
 				$refund_price = round($Tuancode['real_money']/100,2).'元';
 			}
-            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib/Net/Wxmesg.class.php';
             $_order_refund_data = array(
 				'url' => $url, 
 				'first' => $type_refund_name.'通知提醒', 
@@ -243,7 +337,7 @@ class WeixintmplModel extends CommonModel{
 	
 	//商家确认退款微信通知买家1外卖，2商城，3家政，4团购
     public function weixin_shop_confirm_refund_user($order_id,$type){
-		    $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/';
+		    $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/user/';
 			if($type == 1){
 				$type_confirm_refund_name = '外卖' ;
 				$url = $config_site_url.'eleorder/detail/order_id/'.$logs['order_id'].'/'; 
@@ -270,7 +364,7 @@ class WeixintmplModel extends CommonModel{
 				$confirm_refund_price = round($Tuancode['real_money']/100,2).'元';
 			}
 		   $config = D('Setting')->fetchAll();
-           include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
+           include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
            $_confirm_refund_data_balance = array(
 				'url' => $url, 
 				'topcolor' => '#F55555', 
@@ -289,7 +383,7 @@ class WeixintmplModel extends CommonModel{
 	
 	//商家发货通知买家万能接口1外卖，2商城，3家政，4团购
     public function weixin_shop_delivery_user($order_id,$user_id,$type){
-		    $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/';
+		    $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/user/';
 			if($type == 1){
 				$type_delivery_name = '外卖发货' ;
 				$url = $config_site_url.'eleorder/detail/order_id/'.$logs['order_id'].'/'; 
@@ -328,7 +422,7 @@ class WeixintmplModel extends CommonModel{
 				$pay_type = '在线支付';
 			}
 		
-            include_once 'Jiutianju/Lib//Net/Wxmesg.class.php';
+            include_once 'Jiutianju/Lib/Net/Wxmesg.class.php';
             $_order_delivery_data = array(
 				'url' => $url, 
 				'first' => $type_delivery_name.'发货通知提醒', 
@@ -370,7 +464,7 @@ class WeixintmplModel extends CommonModel{
 	//支付成功余额变化通知
     public function weixin_pay_balance_user($log_id){
 		   $logs = D('Paymentlogs')->find($log_id);
-		   $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/mcenter/';
+		   $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/user/';
 		   if($logs['type'] == 'tuan'){
 			  $type_name = '抢购'; 
 			  $url = $config_site_url.'tuan/detail/order_id/'.$logs['order_id'].'/';
@@ -412,7 +506,7 @@ class WeixintmplModel extends CommonModel{
 		   $users = D('Users')->find($logs['user_id']);
            $price = round($logs['need_pay'] / 100, 2);
            $balance = round($users['money'] / 100, 2);
-           include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
+           include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
            $_data_balance = array(
 				'url' => $url, 
 				'topcolor' => '#F55555', 
@@ -437,7 +531,7 @@ class WeixintmplModel extends CommonModel{
 				$order_ways = '在线支付' ;
 			}
 		   $logs = D('Paymentlogs')->find($log_id);
-		   $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/store/';
+		   $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/distributors/';
 		   if($logs['type'] == 'tuan'){
 			  $Tuanorder = D('Tuanorder')->find($logs['order_id']);
 			  $Tuan = D('Tuan')->find($Tuanorder['tuan_id']);
@@ -474,7 +568,7 @@ class WeixintmplModel extends CommonModel{
 		   }elseif($logs['type'] == 'goods'){
 			  $Order = D('Order')->find($logs['order_id']);
 			  $Shop = D('Shop')->find($Order['shop_id']); 
-			  $Useraddr = D('Useraddr')->find($Order['addr_id']);
+			  $Paddress = D('Paddress')->find($Order['address_id']); 
 			  $goods_name = $this->get_mall_order_goods_name($logs['order_id']);//获取商城订单名称
 			  $num = D('Ordergoods')->where(array('order_id'=>$order_id))->sum('num');
 			  $type_name = '商城';  
@@ -482,7 +576,8 @@ class WeixintmplModel extends CommonModel{
 			  $shop_name = $Shop['shop_name'];
 			  $order_goods = $goods_name;
 			  $order_price = '实付：'.round($Order['need_pay']/100,2).'元';
-			  $order_user_information = $Useraddr['name'].'---'.$Useraddr['mobile'].'---'.$Useraddr['addr'];
+			  $order_user_information = '购买人地址：'.$Paddress['xm'].'--'.$Paddress['tel'].'--'.$Paddress['area_str'].'--'.$Paddress['info'];
+			  
 		   }elseif($logs['type'] == 'breaks'){
 			  $Breaksorder = D('Breaksorder')->find($logs['order_id']);
 			  $Shop = D('Shop')->find($Breaksorder['shop_id']); 
@@ -549,7 +644,7 @@ class WeixintmplModel extends CommonModel{
 			  $order_user_information = '购买人信息：'.$Users['nickname'].'-'.$Users ['mobile'];
 		   }
 		   $config = D('Setting')->fetchAll();
-           include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
+           include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
            $_data_order_notice = array(
 				'url' => $url, 
 				'topcolor' => '#F55555', 
@@ -568,7 +663,7 @@ class WeixintmplModel extends CommonModel{
 	
 	//买家取消【删除】订单通知商家：1外卖，2商城，3家政，4团购
     public function weixin_delete_order_shop($order_id,$user_id,$type){
-		    $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/store/';
+		    $config_site_url = 'http://' . $_SERVER['HTTP_HOST'] . '/distributors/';
 			if($type == 1){
 				$type_delete_order_name = '外卖' ;
 				$url = $config_site_url.'eleorder/detail/order_id/'.$logs['order_id'].'/'; 
@@ -588,7 +683,7 @@ class WeixintmplModel extends CommonModel{
 				$type_delete_order_name = '商城' ;
 				$url = $config_site_url.'goods/detail/order_id/'.$logs['order_id'].'/'; 
 				$Order = D('Order')->find($order_id);
-				$Useraddr = D('Useraddr')->find($Order['addr_id']);
+				$Paddress = D('Paddress')->find($Order['address_id']); 
 				$goods_name = $this->get_mall_order_goods_name($order_id);//获取商城订单名称
 				
 				$delete_order_title = $goods_name ;
@@ -599,7 +694,7 @@ class WeixintmplModel extends CommonModel{
 				}else{
 					$delete_order_pay_type = '货到付款';
 				}
-				$delete_order_user_information = $Useraddr['name'].'---'.$Useraddr['mobile'].'---'.$Useraddr['addr'];
+				$delete_order_user_information = '购买人地址：'.$Paddress['xm'].'--'.$Paddress['tel'].'--'.$Paddress['area_str'].'--'.$Paddress['info'];
 			}elseif($type == 3){
 				$type_delete_order_name = '家政' ;
 				$url = $config_site_url;
@@ -623,7 +718,7 @@ class WeixintmplModel extends CommonModel{
 				$delete_order_user_information = $Users['nickname'];;
 			}
 		    $config = D('Setting')->fetchAll();
-            include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
+            include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
             $_data_delete_order_notice = array(
 				'url' => $url, 
 				'topcolor' => '#F55555', 
@@ -639,9 +734,9 @@ class WeixintmplModel extends CommonModel{
              $return = Wxmesg::net($user_id, 'OPENTM401973756', $data_delete_order_notice);
 			 return true;
     }
-
-//会员提现，审核，拒绝，通知会员自己
-  public function weixin_cash_user($user_id,$tpye){
+	
+	//会员提现，审核，拒绝，通知会员自己
+ 	 public function weixin_cash_user($user_id,$tpye){
 		if($tpye ==1){
 			$tpye_name = '您已经成功申请提现'; 
 		}elseif($tpye ==2){
@@ -651,9 +746,9 @@ class WeixintmplModel extends CommonModel{
 		}
 		$Users = D('Users')->find($user_id);
 		$t = time(); 
-        include_once "Jiutianju/Lib//Net/Wxmesg.class.php";
+        include_once "Jiutianju/Lib/Net/Wxmesg.class.php";
         $_cash_data = array(
-             'url'       =>  "http://".$_SERVER['HTTP_HOST']."/mcenter/",
+             'url'       =>  "http://".$_SERVER['HTTP_HOST']."/user/",
              'first'   => $tpye_name,
              'remark'  => '详情请登录-http://'.$_SERVER['HTTP_HOST'],
              'balance'  => '您的余额：'.round($Users['money']/100,2).'元',
@@ -663,6 +758,8 @@ class WeixintmplModel extends CommonModel{
 	      Wxmesg::net($user_id, 'OPENTM206909003', $cash_data);
 		
 	}
+
+
 
 
 }

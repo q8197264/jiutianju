@@ -1203,8 +1203,7 @@ a.fixopt_share{background-color:#777;border-radius:3px;display:block;height:42px
 .groups_line{width:100%;height:17px;background:#f1f1f1;border:solid 1px #eee}
 #shareit{-webkit-user-select:none;display:none;position:fixed;width:100%;height:100%;background:rgba(0,0,0,.85);text-align:center;top:0;left:0;z-index:105}
 #shareit img{max-width:100%}
-.arrow{position:absolute;right:5px;top:5%;width: inherit;
-    height: initial;}
+.arrow{position:absolute;right:5px;top:5%}
 #share-text{margin-top:400px}
 .mt_nogroups{padding:25px 10px 10px;text-align:center}
 .my{background:url(my_bg_v2.jpg) no-repeat scroll center top/100% auto transparent;height:185px;position:relative;width:100%;z-index:1}

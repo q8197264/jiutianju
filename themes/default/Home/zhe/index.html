@@ -1,0 +1,334 @@
+<include file="public:header" /> 
+<include file="public:top"/>
+<script type="text/javascript" src="__TMPL__statics/js/jquery.qrcode.min.js"></script><!--二维码-->
+<style>
+/*CSS重写*/
+.zy_content {padding-top: 5px;}
+.qg-sp-listBox {padding: 0px;}
+.goods_sjcpDwBox {height: 230px;}
+.nearbuy_cpLi {width: 237px;padding-right: 10px;padding-bottom: 10px;}
+.qg-sp-liBox .img {width: 234px;height:234px;}
+.qg-sp-liBox1 .img {width:187px;height:187px;}
+.sy_sjcpwx canvas{width: 102px;height: 102px;margin: 0px auto;padding: 10px;background: #fff;}
+.sy_sjcpBq span { margin-right: 2px;}
+.sy_sjcpBq span{ width:100px}
+.buy_zhe{ width:100%;  display:block; overflow:hidden; border-bottom:1px #ccc dashed; margin-bottom:10px;}
+.buy_zhe input{ height: 26px!important; width:30px !important;}
+.buy_zhe_text{ float:right}
+.hotel_detl_soso .hotel_soso {
+    position: relative;
+    padding: 10px;
+    background: #9eb1bb;
+}
+.hotel_soso {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 18px 0 18px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);
+}
+.hotel_detl_soso .day {
+    margin: 0 20px;
+    color: #fff;
+    line-height: 44px;
+}
+#cart_waimai .btn{
+    height: 40px;
+    text-align: center;
+    background: #009688;
+    border-radius: 0px;
+}
+.buy_zhe {
+    width: 90%;
+    display: block;
+    overflow: hidden;
+    border-bottom: 1px #F44336 dashed;
+    margin-bottom: 20px;
+	    margin-top: 20px;
+}
+/*五折卡*/
+.card_bg {background: #f1f1f1 url(../image/mcenter/bk_top1_1.jpg) center 0 repeat-x;}
+.cardcenter{margin:22px auto 0;position:relative;width:300px;height:200px}
+#card .card{margin:0 auto;position:relative;height:159px;text-align:left;width:267px}
+.cardbg{height:159px;width:267px;position:absolute;border-radius:8px;-webkit-border-radius:8px;-moz-border-radius:8px;box-shadow:0 0 4px rgba(0,0,0,.6);-moz-box-shadow:0 0 4px rgba(0,0,0,.6);-webkit-box-shadow:0 0 8px rgba(0,0,0,.6);top:0;left:0;z-index:1}
+.card .logo{max-height:30px;position:absolute;top:3px;left:5px;z-index:2}
+#card .msk{display:inline-block;position:absolute;width:300px;height:115px;top:85px;left:0;z-index:3;background:url(/static/default/wap/image/mcenter/msk.png) no-repeat 0 0 transparent;-webkit-background-size:320px 128px;background-size:320px 128px}
+#card .card h1{position:absolute;right:10px;top:7px;text-shadow:0 1px rgba(255,255,255,.2);color:#000;font-size:11px;line-height:25px;text-align:right;font-weight:400;z-index:2}
+#card .card h2{position:absolute;top:3px;right:8px;font-size:9px;line-height:22px;text-align:right;color:#EDD3BA;text-shadow:1px 1px #A69079}
+#card .card .verify{display:inline-block;height:40px;top:65px;right:12px;text-align:right;line-height:24px;color:#000;font-size:14px;text-shadow:0 1px rgba(255,255,255,.2);z-index:2}
+#card .card .verify span{display:inline-block;text-align:left}
+#card .card .verify em{display:block;line-height:10px;font-size:10px;font-weight:400;font-style:normal;text-align:right}
+.pdo{position:absolute;top:0;left:0;display:inline-block}
+#card .explain{line-height:36px;text-align:center;width:320px;margin:0 auto;padding:0}
+#card .explain span{font-size:14px;color:#646464;text-shadow:0 1px #fff;padding-left:20px;display:inline-block;background:url(show1.jpg) no-repeat 0 50%;background-size:13px 14.5px}
+#card .explain2{line-height:22px;margin:30px auto 10px;padding:0 40px;text-align:center}
+#card .explain2 span{color:#888;display:inline-block;font-size:12px;margin-top:22px;text-shadow:0 1px #FFF}
+.receive{background-color:#F4F4F4;padding:6px 20px;position:relative;font-size:16px;text-decoration:none;border:1px solid #C6C6C6;background-image:linear-gradient(bottom,#E1E1E1 0,#fff 100%);background-image:-o-linear-gradient(bottom,#E1E1E1 0,#fff 100%);background-image:-moz-linear-gradient(bottom,#E1E1E1 0,#fff 100%);background-image:-webkit-linear-gradient(bottom,#E1E1E1 0,#fff 100%);background-image:-ms-linear-gradient(bottom,#E1E1E1 0,#fff 100%);background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,#E1E1E1),color-stop(1,#fff));-webkit-box-shadow:0 1px 0 #FFF inset,0 1px 0 #EEE;-moz-box-shadow:0 1px 0 #FFF inset,0 1px 0 #EEE;box-shadow:0 1px 0 #FFF inset,0 1px 0 #EEE;-webkit-border-radius:35px;-moz-border-radius:35px;-o-border-radius:35px;border-radius:35px;color:#666;display:block;text-align:center}
+.receive:before{background-image:linear-gradient(bottom,rgba(255,255,255,.41) 0,#E1E1E1 100%);background-image:-o-linear-gradient(bottom,rgba(255,255,255,.41) 0,#E1E1E1 100%);background-image:-moz-linear-gradient(bottom,rgba(255,255,255,.41) 0,#E1E1E1 100%);background-image:-webkit-linear-gradient(bottom,rgba(255,255,255,.41) 0,#E1E1E1 100%);background-image:-ms-linear-gradient(bottom,rgba(255,255,255,.41) 0,#E1E1E1 100%);background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,rgba(255,255,255,.41)),color-stop(1,#E1E1E1));content:"";display:block;position:absolute;width:100%;height:100%;padding:5px;left:-5px;top:-6px;z-index:-1;-webkit-border-radius:35px;-moz-border-radius:35px;-o-border-radius:35px;border-radius:35px;-webkit-box-shadow:0 1px 1px rgba(144,145,147,.21) inset,0 1px 0 rgba(255,255,255,.57);-moz-box-shadow:0 1px 1px rgba(144,145,147,.21) inset,0 1px 0 rgba(255,255,255,.57);-o-box-shadow:0 1px 1px rgba(144,145,147,.21) inset,0 1px 0 rgba(255,255,255,.57);box-shadow:0 1px 1px rgba(144,145,147,.21) inset,0 1px 0 rgba(255,255,255,.57)}
+.receive:active{padding-bottom:5px;padding-left:20px;padding-right:20px;padding-top:7px;top:0;background-image:linear-gradient(bottom,#fff 0,#E1E1E1 100%);background-image:-o-linear-gradient(bottom,#fff 0,#E1E1E1 100%);background-image:-moz-linear-gradient(bottom,#fff 0,#E1E1E1 100%);background-image:-webkit-linear-gradient(bottom,#fff 0,#E1E1E1 100%);background-image:-ms-linear-gradient(bottom,#fff 0,#E1E1E1 100%);background-image:-webkit-gradient(linear,left bottom,left top,color-stop(0,#fff),color-stop(1,#E1E1E1))}
+
+.top-fixed .top-share i{background-image: url(../image/mcenter/more_w.png);background-repeat: no-repeat;background-position: 50% 50%;background-size: 100%;opacity: 0.65;}
+</style>
+<div class="nav">
+    <div class="navList">
+        <ul>
+            <li class="navListAll"><span class="navListAllt">全部五折卡分类</span>
+                <div class="shadowy navAll">
+                    <include file="public:cate_zhe"/>
+                </div>
+            </li>
+    <li class="navLi"><a class="navA <if condition='$ctl eq zhe and $act eq index'>on</if> " href="<{:U('zhe/index')}>">首页</a></li>   
+    <php>$i=0;</php>     
+    <foreach name="shopcates" item="item">
+        <eq name="item.parent_id" value="0"> 
+            <php>$i++;if($i <= 6){</php>
+            <li class="navLi"><a class="navA <if condition="$cat eq $item['cate_id']">on</if> " href="<{:U('zhe/index',array('cat'=>$item['cate_id']))}>"><{$item.cate_name}></a></li>
+            <php>}</php>
+        </eq>
+    </foreach>
+        </ul>
+    </div>
+</div>
+
+<div class="content zy_content">
+    <div class="left zy_content_l">
+        <div class="goods_flBox">
+            <ul>
+                <if condition="!empty($selArr)">
+                    <li class="goods_flListLf">
+                        <ul>
+                            <li class="goods_flLi"><a class="goods_flLiA" href="<{:U('zhe/index')}>">全部</a></li>
+                            <li class="goods_flLi goods_flLix">&gt;</li>
+                            <script>
+                                $(function () {
+                                    $('.goods_flLiLf .goods_flLiA').hover(function () {
+                                        $(this).parent().find('.goods_flLiLfk').show();
+                                        $(this).addClass("on");
+                                    });
+                                    $('.goods_flLiLf').hover(function () {
+                                    }, function () {
+                                        $(this).find('.goods_flLiLfk').hide();
+                                        $(this).children(".goods_flLiA").removeClass("on");
+                                    });
+                                    $('.goods_flLiFl').hover(function () {
+                                        $(this).parent().find('.goods_flLiLfk').hide();
+                                        $(this).parent().find(".goods_flLiA").removeClass("on");
+                                    });
+                                });
+                            </script>
+                            <if condition="!empty($cat)">
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$cat))}>"><{$cates[$cat]['cate_name']}><em></em></a><a href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>0))}>" class="goods_flLiFl">ｘ</a>
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>0))}>">全部</a>
+                                        <foreach name="cates" item="item">
+                                            <eq name="item.parent_id" value="0">
+                                            |<a <eq name="item.cate_id" value="$cat">class="on"</eq>  href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$item['cate_id'],'cate_id'=>0))}>"><{$cates[$item['cate_id']]['cate_name']}></a>
+                                            </eq>
+                                        </foreach>
+                                    </div>
+                                </li>
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+                            </if>
+                            <if condition="!empty($cate_id)">
+                                <li class="goods_flLi goods_flLiLf"><a class="goods_flLiA" href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$cat,'cate_id'=>$cate_id))}>"><{$cates[$cate_id]['cate_name']}><em></em></a><a href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$cat,'cate_id'=>0))}>" class="goods_flLiFl">ｘ</a>
+                                    <div class="goods_flLiLfk"><a href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$cat,'cate_id'=>0))}>">全部</a>
+                                        <foreach name="cates" item="item">
+                                            <eq name="item.parent_id" value="$cat">
+                                            |<a <eq name="item.cate_id" value="$cate_id">class="on"</eq> href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$cat,'cate_id'=>$item['cate_id']))}>"><{$cates[$item['cate_id']]['cate_name']}></a>
+                                            </eq>
+                                        </foreach>
+                                    </div>
+                                </li>
+                                <li class="goods_flLi goods_flLix">&gt;</li>
+                            </if>
+                            
+                        </ul>
+                    </li>
+                </if>
+
+                <if condition="empty($cat)">
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">分类：</div>
+                        <div class="left goods_flList_r">
+                            <a class="goods_flListA on" href="<{:LinkTo('zhe/index',$linkArr)}>">全部</a>
+                            <foreach name="shopcates" item="item">
+                                <eq name="item.parent_id" value="0">
+                                <a class="goods_flListA" href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$item['cate_id']))}>"><{$cates[$item['cate_id']]['cate_name']}></a>
+                                </eq>
+                            </foreach>
+                        </div>
+                    </li>
+                </if>
+
+                <if condition="!empty($cat) and empty($cate_id)">
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">分类：</div>
+                        <div class="left goods_flList_r">
+                            <a class="goods_flListA on" href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$cat))}>">全部</a>
+                            <foreach name="shopcates" item="item">
+                                <eq name="item.parent_id" value="$cat">
+                                <a class="goods_flListA" href="<{:LinkTo('zhe/index',$linkArr,array('cat'=>$cat,'cate_id'=>$item['cate_id']))}>"><{$cates[$item['cate_id']]['cate_name']}></a>
+                                </eq>
+                            </foreach>
+                        </div>
+                    </li>
+                </if>
+
+              
+                    <li class="goods_flList">
+                        <div class="left goods_flList_l">地区：</div>
+                        <div class="left goods_flList_r">
+                         <a <if condition="empty($area_id)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('zhe/index',$linkArr,array('area'=>0))}>">全部</a>
+                            <foreach name="areas" item="item">
+                              <eq name="item.city_id" value="$city_id">
+                                <a href="<{:LinkTo('zhe/index',$linkArr,array('area'=>$item['area_id']))}>"  <if condition="$area_id eq $item['area_id']">class="goods_flListA on"<else/>class="goods_flListA"</if> ><{$item.area_name}></a>
+                                </eq>
+                            </foreach>
+                        </div>
+                    </li>
+           
+
+                
+                <li class="goods_flList">
+                <div class="left goods_flList_l">星期：</div>
+                <div class="left goods_flList_r"> 
+                    <a <if condition="empty($week_id)">class="goods_flListA on"<else/>class="goods_flListA"</if> href="<{:LinkTo('zhe/index',$linkArr,array('week_id'=>0))}>">全部</a>
+                    <volist name='weeks' id='item'> 
+                        <a href="<{:LinkTo('zhe/index',$linkArr,array('week_id'=>$i))}>" <if condition="$week_id eq $i">class="goods_flListA on"<else/>class="goods_flListA"</if> ><{$item}></a> 
+                    </volist>
+                </div>
+            </li>
+            
+             
+            </ul>
+        </div>
+
+        <div class="nearbuy_sxk">
+            <ul>
+                <li class="nearbuy_sxkLi <eq name='order' value='d'>on</eq> "><a class="nearbuy_sxkLiA" href="<{:LinkTo('zhe/index',$linkArr,array('order'=>'d'))}>">默认</a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='s'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('zhe/index',$linkArr,array('order'=>'s'))}>">预约量<em class="em_up"></em></a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='p'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('zhe/index',$linkArr,array('order'=>'p'))}>">价格<em></em></a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='v'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('zhe/index',$linkArr,array('order'=>'v'))}>">热度<em class="em_up"></em></a></li>
+                <li class="nearbuy_sxkLi <eq name='order' value='t'>on</eq>"><a class="nearbuy_sxkLiA" href="<{:LinkTo('zhe/index',$linkArr,array('order'=>'t'))}>">发布时间<em class="em_up"></em></a></li>
+               
+            </ul>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $(".nearbuy_sxkLi input").click(function () {
+                    if ($(this).prop('checked') == true) {
+                        location.href = $(this).attr('rel');
+                    } else {
+                        location.href = $(this).attr('data');
+                    }
+                });
+            });
+        </script>
+
+        <div class="nearbuy_cpList">
+            <ul>
+                <foreach name="list" item="item">
+                    <li class="nearbuy_cpLi">
+                        <div class="sy_sjcpLi nearbuy_cpLik">
+                            <a href="<{:U('zhe/detail',array('zhe_id'=>$item['zhe_id']))}>"><img src="<{:config_img($item['photo'])}>" width="225" height="225" /></a>
+
+                            <p class="sy_hottjbt"><{$item.zhe_name}></p>
+                            <p class="sy_hottjp"><{$item.description}></p>
+                            <p class="sy_hottjJg">
+                                <span class="left">限额：&yen;<{$item['limit']}>元，人数：<{$item['person']}></span>
+                            </p>
+                            <hr style=" border:none 0px; border-bottom: 1px solid #e0e0e0; margin-top:6px;" />
+                            <p class="nearbuy_cpLiPf"><span style="cursor: pointer;" title="<{$shops[$item['shop_id']]['addr']}>" class="left"><em></em><{:bao_msubstr($shops[$item['shop_id']]['shop_name'],0,16,false)}></span>
+                            <span class="right">
+                            	<a class="sy_hottjJd" target="_blank" href="<{:U('zhe/detail',array('zhe_id'=>$item['zhe_id']))}>" >查看详情</a>
+                            </span>
+                            </p>
+                         
+                           <div class="sy_sjcpBq">
+                            <span class="sy_sjcpBq1"><{$shop_cates[$item['cate_id']]['cate_name']}></span>
+                            <div class="sy_sjcpLiDw">
+                                <div class="sy_sjcpDwBox goods_sjcpDwBox">
+                               <script type="text/javascript">
+                                $(function () {
+                                    var str = "<{$host}><{:u('wap/zhe/detail',array('zhe_id'=>$item['zhe_id']))}>";
+                                    $("#code_<{$item.zhe_id}>").empty();
+                                    $('#code_<{$item.zhe_id}>').qrcode(str);
+                                })
+                               </script>
+                          <div class="sy_sjcpDwNr" style="padding-top:15px;">
+                          <p>扫描二维码预约</p>
+                  <a href="<{:U('zhe/detail',array('zhe_id'=>$item['zhe_id']))}>"><div class="sy_sjcpwx"  id="code_<{$item.zhe_id}>"></div></a>
+                                    </div>
+                                    <div class="sy_sjcpDwBg">&nbsp;</div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+
+		 <if condition="empty($check_user_zhe)">
+		<div id="cart_waimai" class="cart left">
+            <div class="title">欢迎您申请五折卡</div>
+            <div class="nrForm">
+                <form method="post" target="baocms_frm" action="<{:U('zhe/buy',array('zhe_id'=>$detail['zhe_id']))}>">
+                    
+                    <span class="buy_zhe">
+                    	<label>
+                           &nbsp; &nbsp; &nbsp;  <input type="radio" name="type" value="1" placeholder="周卡" />
+                            <a class="buy_zhe_text">周卡，价格 &yen;<{$CONFIG['zhe']['week_card_price']}>元</a>
+                        </label> 
+                    </span>
+                    <span class="buy_zhe">
+                    	<label>
+                           &nbsp; &nbsp; &nbsp;  <input type="radio" name="type" value="2"  checked="checked"  placeholder="年卡" />
+                            <a class="buy_zhe_text">年卡，价格 &yen;<{$CONFIG['zhe']['year_card_price']}>元</a>
+                        </label> 
+                    </span>
+                 <input type="submit" class="btn btns" value="立即申请五折卡" />
+                </form>
+             </div>
+        </div><else/>
+		<div id="cart_waimai" class="cart">
+            <div class="title">欢迎您使用五折卡</div>
+            <div class="left nrForm">
+			<div id="card">
+        <div class="cardcenter">
+            <div class="msk">
+                <p class="explain2">
+                    <a id="showcard" class="receive" ><{$check_user_zhe.nickname}>(<eq name="detail.type" value="1">周卡<else/>年卡</eq>)</a>
+                    <span>购卡时间：<em class="text-gray"><{$detail.create_time|date='Y-m-d H:i',###}></em> </span>
+                </p>
+            </div>
+        <div class="card">
+            <a href="javascript:void(0)">
+                <img class="cardbg" src="<{:config_img($CONFIG['zhe']['zhe_card_background'])}>">
+            </a>
+            <img class="logo" src="<{:config_img($CONFIG['site']['logo'])}>">
+            <h1 style="color:#000000"><{$CONFIG['site']['sitename']}></h1>
+            <strong class="pdo verify">
+                <span id="cdnb" style="color:#000000">
+                <em style="position: absolute; left: 12px; top: -10px;">有效期至: </em>
+                <em style="position: absolute; left: 12px; top: 5px;"><{$check_user_zhe.end_time|date="Y-m-d H:i:s",###}></em>
+                <em style="margin-top:5px;">NO.<{$check_user_zhe.number}></em></span>
+            </strong>
+            </div>
+        </div>
+    </div>
+
+        </div>
+
+
+        </if>
+        <div class="x">
+            <{$page}>
+        </div>
+    </div>
+  
+</div>
+
+<include file="public:footer"/>

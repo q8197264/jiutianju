@@ -1,8 +1,10 @@
 <?php
-class CheckAction extends CommonAction{
+class CheckAction extends CommonAction
+{
     protected $shop_id = 0;
     protected $branch_id = 0;
-    public function _initialize(){
+    public function _initialize()
+    {
         parent::_initialize();
         $this->shop_id = (int) $this->_get('shop_id');
         $this->branch_id = (int) $this->_get('branch_id');
@@ -12,7 +14,7 @@ class CheckAction extends CommonAction{
         if (ACTION_NAME != 'password') {
             $this->pwd = session('pwd');
             if (empty($this->pwd)) {
-                header("Location: " . U('pchome/check/password', array('shop_id' => $this->shop_id, 'branch_id' => $this->branch_id)));
+                header("Location: " . U('Home/check/password', array('shop_id' => $this->shop_id, 'branch_id' => $this->branch_id)));
                 die;
             }
             $result = D('Shopbranch')->where(array('shop_id' => $this->shop_id, 'branch_id' => $this->branch_id))->find();
@@ -23,14 +25,15 @@ class CheckAction extends CommonAction{
                 $this->error('您的店没设置口令，暂不支持！');
             }
             if (md5($result['password'] . C('AUTH_KEY')) != $this->pwd) {
-                header("Location: " . U('pchome/check/password', array('shop_id' => $this->shop_id, 'branch_id' => $this->branch_id)));
+                header("Location: " . U('Home/check/password', array('shop_id' => $this->shop_id, 'branch_id' => $this->branch_id)));
                 die;
             }
         }
         $this->assign('shop_id', $this->shop_id);
         $this->assign('branch_id', $this->branch_id);
     }
-    public function index(){
+    public function index()
+    {
         if ($this->isPost()) {
             $code = $this->_post('code', false);
             $res = array();
@@ -59,14 +62,7 @@ class CheckAction extends CommonAction{
                             if (!empty($data['price'])) {
                                 $data['intro'] = '抢购消费' . $data['order_id'];
                                 $data['settlement_price'] = D('Quanming')->quanming($data['user_id'], $data['settlement_price'], 'tuan');
-                                $shopmoney->add(array(
-									'shop_id' => $data['shop_id'], 
-									'money' => $data['settlement_price'], 
-									'create_ip' => $ip, 
-									'create_time' => NOW_TIME, 
-									'order_id' => $data['order_id'], 
-									'intro' => $data['intro']
-								));
+                                $shopmoney->add(array('shop_id' => $data['shop_id'], 'money' => $data['settlement_price'], 'create_ip' => $ip, 'create_time' => NOW_TIME, 'order_id' => $data['order_id'], 'intro' => $data['intro']));
                                 $return[$var] = $var;
                                 $obj->save(array('code_id' => $data['code_id'], 'branch_id' => $this->branch_id, 'used_time' => NOW_TIME, 'used_ip' => $ip));
                                 $userobj->gouwu($data['user_id'], $data['price'], '团购消费');
@@ -84,7 +80,8 @@ class CheckAction extends CommonAction{
             $this->display();
         }
     }
-    public function password(){
+    public function password()
+    {
         if ($this->isPost()) {
             $password = htmlspecialchars($_REQUEST['password']);
             if (empty($password)) {
@@ -100,7 +97,8 @@ class CheckAction extends CommonAction{
             $this->display();
         }
     }
-    public function coupon(){
+    public function coupon()
+    {
         if ($this->isPost()) {
             $code = $this->_post('code', false);
             $res = array();
@@ -119,11 +117,7 @@ class CheckAction extends CommonAction{
                 if (!empty($var)) {
                     $data = $obj->find(array('where' => array('code' => $var)));
                     if (!empty($data) && $data['shop_id'] == $this->shop_id && $data['is_used'] == 0) {
-                        $obj->save(array('download_id' => $data['download_id'], 
-						'branch_id' => $this->branch_id, 
-						'is_used' => 1, 
-						'used_time' => NOW_TIME, 
-						'used_ip' => $ip));
+                        $obj->save(array('download_id' => $data['download_id'], 'branch_id' => $this->branch_id, 'is_used' => 1, 'used_time' => NOW_TIME, 'used_ip' => $ip));
                         $return[$var] = $var;
                     }
                 }
@@ -140,7 +134,8 @@ class CheckAction extends CommonAction{
             $this->display();
         }
     }
-    public function tuanlist(){
+    public function tuanlist()
+    {
         $tuancode = D('Tuancode');
         import('ORG.Util.Page');
         $map = array('status' => 0, 'is_used' => 1, 'shop_id' => $this->shop_id, 'branch_id' => $this->branch_id, 'fail_date' => array('EGT', TODAY));
@@ -165,7 +160,8 @@ class CheckAction extends CommonAction{
         $this->assign('page', $show);
         $this->display();
     }
-    public function couponlist(){
+    public function couponlist()
+    {
         $cd = D('CouponDownload');
         $cp = D('Coupon');
         $u = D('Users');

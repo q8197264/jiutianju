@@ -1,0 +1,40 @@
+<include  file='public:header'/>
+<div class="mainBt">
+    <ul>
+        <li class="li1">设置</li>
+        <li class="li2">基本设置</li>
+        <li class="li2 li3">云购设置</li>
+    </ul>
+</div>
+<div class="main-cate">
+    <p class="attention"><span>注意：</span>这里配置是云购相关的信息,这个服务费这里填好后，商家增加云购时会自动计算结算价格，统一收费管理。</p>
+</div>       
+<div class="mainScAdd">
+    <div class="tableBox">
+        <form  target="baocms_frm" action="<{:U('setting/cloud')}>" method="post">
+            <table  bordercolor="#dbdbdb" cellspacing="0" width="100%" border="1px"  style=" border-collapse: collapse; margin:0px; vertical-align:middle; background-color:#FFF;" >
+                <tr>
+                    <td class="lfTdBt" >云购技术服务费：</td>
+                    <td class="rgTdBt">
+                        <input type="text" name="data[default_cloudprice]" value="<{$CONFIG.cloud.default_cloudprice}>" class="scAddTextName " id="input"/>%
+						<script type="text/javascript">
+var text = document.getElementById("input");
+text.onkeyup = function(){
+
+if(text.value>100){
+  text.value = 100;
+}
+if(text.value<1){
+  text.value =1;
+}
+}
+</script>
+                        <code>云购服务费【只能填1-100之间的数字，100表示全部结算给网站，1表示收费的99%都归商户。】</code>
+                    </td>
+                </tr>
+            </table>
+            <div class="smtQr"><input type="submit" value="确认设置" class="smtQrIpt" /></div>
+        </form>
+    </div>
+</div>
+<include  file='public:footer'/>       

@@ -2,61 +2,65 @@
 class UsersModel extends CommonModel{
     protected $pk = 'user_id';
     protected $tableName = 'users';
-    protected $_integral_type = array('share' => '发帖分享', 'reply' => '回复帖子', 'mobile' => '手机认证', 'email' => '邮件认证');
+    protected $_integral_type = array(
+		'login' => '每日登陆', 
+		'dianping_shop' => '商家点评', 
+		'thread' => '回复帖子', 
+		'mobile' => '手机认证', 
+		'email' => '邮件认证',
+		'sign' => '用户每天签到',
+		'register' => '用户首次注册',
+		'useraux' => '用户实名认证成功',
+	);
+	
+	protected $Type = array(
+        'goods' => '商城',
+		'tuan' => '抢购',
+		'ele' => '外卖',
+    );
 	
 	public function getError() {
         return $this->error;
     }
 	
 	
-    public function checkInvite($uid, $money){
-        //推广员功能
-        $uid = (int) $uid;
-        $money = (int) $money;
-        if ($money <= 0) {
+	//判断是不是商家
+    public function get_is_shop($user_id){
+        $Shop = D('Shop')->where(array('user_id'=>$user_id))->find();
+        if (empty($Shop)) {
             return false;
-        }
-        $user = $this->find($uid);
-        $invite_t = NOW_TIME - 30 * 86400;
-        if (!empty($user['invite_id'])) {
-            if ($invite_t < $user['reg_time']) {
-                //30天推广有效果
-                $user2 = $this->find($user['invite_id']);
-                //邀请人
-                $ranks = D('Userrank')->fetchAll();
-                //查出所有的Userrank
-                $integral = (int) ($money * $ranks[$user2['rank_id']]['rebate'] / 100);
-                if ($money <= 0) {
-                    return false;
-                }
-                return array('uid' => $user2['user_id'], 'integral' => $integral);
-            }
-        }
-        return false;
+        }else{
+			return true;	
+		}
+    }
+	//判断是不是配送员
+    public function get_is_delivery($user_id){
+        $Deliver = D('Delivery')->where(array('user_id'=>$user_id))->find();
+        if (empty($Deliver)) {
+            return false;
+        }else{
+			return true;	
+		}
     }
     public function getUserByAccount($account){
         $data = $this->find(array('where' => array('account' => $account)));
         return $this->_format($data);
     }
-    public function getUserByMobile($mobile)
-    {
+    public function getUserByMobile($mobile){
         $data = $this->find(array('where' => array('mobile' => $mobile)));
         return $this->_format($data);
     }
     //邮件登录暂时不处理
-    public function getUserByEmail($email)
-    {
+    public function getUserByEmail($email){
         $data = $this->find(array('where' => array('email' => $email)));
         return $this->_format($data);
     }
-    public function getUserByUcId($uc_id)
-    {
+    public function getUserByUcId($uc_id){
         $data = $this->find(array('where' => array('uc_id' => (int) $uc_id)));
         return $this->_format($data);
     }
     //声望不记录日志了
-    public function prestige($user_id, $mdl)
-    {
+    public function prestige($user_id, $mdl){
         static $CONFIG;
         if (empty($CONFIG)) {
             $CONFIG = D('Setting')->fetchAll();
@@ -70,12 +74,46 @@ class UsersModel extends CommonModel{
                     $data['rank_id'] = $val['rank_id'];
                 }
             }
+			$this->add_user_prestige($user_id,$CONFIG['prestige'][$mdl], $this->_integral_type[$mdl].'奖励'.$CONFIG['prestige'][$name]);
             return $this->save($data);
         }
         return false;
     }
-    public function integral($user_id, $mdl)
-    {
+	
+	//实际销售额返利声望【万能接口】
+    public function reward_prestige($user_id, $prestige, $intro){
+        $user = $this->find($user_id);
+        if (!empty($user) && !empty($prestige)) {
+            $data = array('user_id' => $user_id, 'prestige' => $user['prestige'] + $prestige);
+            $userrank = D('Userrank')->fetchAll();
+            foreach ($userrank as $val) {
+                if ($val['prestige'] <= $data['prestige']) {
+                    $data['rank_id'] = $val['rank_id'];
+                }
+            }
+			
+			$this->add_user_prestige($user_id,$prestige, $intro);
+            return $this->save($data);
+        }
+        return false;
+    }
+	//写入声望日志，暂时不想做啊
+	public function add_user_prestige($user_id,$prestige, $intro){
+		   if(!empty($user_id) && !empty($prestige)) {
+				D('Userprestigelogs')->add(array(
+					'user_id' => $user_id, 
+					'prestige' => $prestige, 
+					'intro' => $intro, 
+					'create_time' => NOW_TIME, 
+					'create_ip' => get_client_ip()
+				));
+				D('Weixinmsg')->weixinTmplCapital($type = 4,$user_id,$prestige,$intro);//声望微信模板通知
+			    return true;
+		  }
+        return false;
+    }
+	
+    public function integral($user_id, $mdl){
         static $CONFIG;
         if (empty($CONFIG)) {
             $CONFIG = D('Setting')->fetchAll();
@@ -88,23 +126,8 @@ class UsersModel extends CommonModel{
         }
         return false;
     }
-    //购物返积分
-    public function gouwu($user_id, $price, $intro)
-    {
-        static $CONFIG;
-        if (empty($CONFIG)) {
-            $CONFIG = D('Setting')->fetchAll();
-        }
-        if (empty($CONFIG['integral']['gouwu'])) {
-            return false;
-        }
-        $price = (int) ($price / 100);
-        $integral = (int) ($price * $CONFIG['integral']['gouwu']);
-        if ($integral <= 0) {
-            return false;
-        }
-        return $this->addIntegral($user_id, $integral, $intro);
-    }
+	
+   
 	
 	 //积分兑换商品返还积分给商家中间层
     public function return_integral($user_id, $jifen, $intro){
@@ -122,16 +145,9 @@ class UsersModel extends CommonModel{
         return $this->addIntegral($user_id, $integral, $intro);
     }
 	
-	
+	//写入商户金块已就是商户资金余额
     public function addGold($user_id, $num, $intro = ''){
-        if ($this->updateCount($user_id, 'gold', $num)) {
-            return D('Usergoldlogs')->add(array('user_id' => $user_id, 'gold' => $num, 'intro' => $intro, 'create_time' => NOW_TIME, 'create_ip' => get_client_ip()));
-        }
-        return false;
-    }
-	
-	//写入商户金块
-	  public function Money($user_id, $num, $intro = ''){
+		D('Weixinmsg')->weixinTmplCapital($type = 3,$user_id,$num,$intro);//商户资金模板通知
         if ($this->updateCount($user_id, 'gold', $num)) {
             return D('Usergoldlogs')->add(array(
 				'user_id' => $user_id, 
@@ -143,10 +159,18 @@ class UsersModel extends CommonModel{
         }
         return false;
     }
+
 	//写入用户余额
     public function addMoney($user_id, $num, $intro = ''){
         if ($this->updateCount($user_id, 'money', $num)) {
-            return D('Usermoneylogs')->add(array('user_id' => $user_id, 'money' => $num, 'intro' => $intro, 'create_time' => NOW_TIME, 'create_ip' => get_client_ip()));
+			D('Weixinmsg')->weixinTmplCapital($type = 1,$user_id,$num,$intro);//余额模板通知
+            return D('Usermoneylogs')->add(array(
+				'user_id' => $user_id, 
+				'money' => $num, 
+				'intro' => $intro, 
+				'create_time' => NOW_TIME, 
+				'create_ip' => get_client_ip()
+			));
         }
         return false;
     }
@@ -154,13 +178,71 @@ class UsersModel extends CommonModel{
 	
     public function addIntegral($user_id, $num, $intro = ''){
         if ($this->updateCount($user_id, 'integral', $num)) {
-            return D('Userintegrallogs')->add(array('user_id' => $user_id, 'integral' => $num, 'intro' => $intro, 'create_time' => NOW_TIME, 'create_ip' => get_client_ip()));
+			D('Weixinmsg')->weixinTmplCapital($type = 2,$user_id,$num,$intro);//积分模板通知
+            return D('Userintegrallogs')->add(array(
+				'user_id' => $user_id, 
+				'integral' => $num, 
+				'intro' => $intro, 
+				'create_time' => NOW_TIME, 
+				'create_ip' => get_client_ip()
+			));
+			
         }
 	
         return false;
     }
+	
+	
+	//三级分销封装
+    public function addProfit($user_id, $orderType = 0,  $type, $orderId,$shop_id, $num, $is_separate){
+        return D('Userprofitlogs')->add(array(
+			'order_type' => $orderType, 
+			'type' => $type, 
+			'order_id' => $orderId, 
+			'user_id' => $user_id, 
+			'shop_id' => $shop_id, 
+			'money' => $num, 
+			'create_time' => NOW_TIME, 
+			'is_separate' => $is_separate
+		));
+    }
+	
+	
+	//积分返利哈土豆开发完美无BUG
+	 public function add_Integral_restore($library_id,$user_id, $integral, $intro = '', $logo_id = 0, $restore_date){
+       if($integral > 0){
+           if($user_id){
+			   $data = array();
+			   $data['library_id'] = $library_id;
+			   $data['user_id'] = $user_id;
+			   $data['integral'] = $integral;
+			   $data['intro'] = $intro;
+			   $data['create_time'] = NOW_TIME;
+			   $data['create_ip'] = get_client_ip();
+			   $data['restore_date'] = $restore_date;
+			   if($restore_id = D('Userintegralrestore')->add($data)){
+				   if($this->addIntegral($user_id, $integral, $intro)){
+					  $obj = D('Userintegrallibrary');
+					  $obj->where(array('library_id'=>$library_id))->setInc('integral_library_total_success',1);
+					  $obj->where(array('library_id'=>$library_id))->setInc('integral_library_success',$integral);
+					  $obj->where(array('library_id'=>$library_id))->setDec('integral_library_surplus',$integral); 
+					  return true;
+				   }else{
+					  return false; 
+				   }
+				  
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+	   }
+	   return false;
+   }  
+	
+	
     public function CallDataForMat($items){
-        //专门针对CALLDATA 标签处理的
         if (empty($items)) {
             return array();
         }
@@ -176,7 +258,6 @@ class UsersModel extends CommonModel{
         }
         return $items;
     }
-	
 	//检测积分设置合法性
 	public function check_integral_buy($integral_buy){
 		$config = D('Setting')->fetchAll();
@@ -206,6 +287,195 @@ class UsersModel extends CommonModel{
 			return false;
 		}
        return false;
+    }
+	
+	//导入会员
+	public function ImportMember($shop_ids,$shop_id,$mobile,$school_year,$addr,$identity){
+		$Shop = D('Shop')->find($shop_ids);
+		if($shop_ids != $shop_id){
+			return false;
+		}
+		if(!isPhone($mobile) && !isMobile($mobile)) {
+            return false;
+        }
+		if($this->where(array('mobile'=>$mobile))->find()){
+			return false;
+		}
+		if($this->where(array('account'=>$mobile))->find()){
+			return false;
+		}
+		$data = array();
+		$data['account'] = $mobile;
+		$data['password'] =rand(100000, 999999);
+		$data['nickname'] = $mobile;
+		$data['mobile'] = $mobile;;
+		$data['school_year'] = $school_year;
+		$data['addr'] = $addr;
+		$data['identity'] = $identity;
+		$data['create_time'] =NOW_TIME;
+		$data['create_ip'] =get_client_ip();
+	
+				
+		$user_id = D('Passport')->register($data,$Shop['user_id'],$type = '1');//注册数据，推荐人id，类型1支持返回会员id
+		
+		D('Sms')->register($user_id,$mobile,$data['account'],$data['password'],$shop_ids);//会员id，手机号，昵称，密码,商家id可用弃
+		
+		D('Shopfavorites')->add(array('user_id'=>$user_id,'shop_id'=>$shop_ids,'is_sms'=>'1','is_weixin'=>'1','create_time'=>NOW_TIME,'create_ip' =>get_client_ip()));
+		
+		D('Useraddr')->add(array(
+			'user_id'=>$user_id,
+			'city_id'=>$Shop['city_id'],
+			'area_id'=>$Shop['area_id'],
+			'business_id'=>$Shop['business_id'],
+			'name'=>$mobile,
+			'mobile' =>$mobile,
+			'addr' =>$addr,
+			'is_default' =>'1',
+			'closed' =>'0',
+		));
+		
+       return true;
+    }
+	
+	 //购物返积分总体封装
+    public function integral_restore_user($user_id,$order_id,$id, $settlement_price, $type){
+        $config = D('Setting')->fetchAll();
+		if($config['integral']['is_restore'] == 1){
+			$integral = $this->get_integral_restore_num($order_id,$id, $settlement_price, $type);
+			return $this->addIntegral($user_id, $integral, $intro = $this->_type[$type].'购物积分返利');
+		}else{
+			return false;
+		}
+    }
+	
+	//获取具体返利积分,1会员id，2订单id，3其他id，4结算价，5类型
+    public function get_integral_restore_num($order_id,$id, $settlement_price, $type){
+        $config = D('Setting')->fetchAll();
+		if($type == 'goods'){
+			$Order = D('Order')->find($order_id);
+			if($config['integral']['is_goods_restore'] == 1){
+				if($config['integral']['restore_type'] == 1){
+					$integral = $Order['need_pay'];
+				}elseif($config['integral']['restore_type'] == 2){
+					$integral = $settlement_price;
+				}elseif($config['integral']['restore_type'] == 3){
+					$integral = $Order['need_pay']- $settlement_price;
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}elseif($type == 'ele'){
+			$order = D('Eleorder')->find($order_id);
+			if($config['integral']['is_ele_restore'] == 1){
+				if($config['integral']['restore_type'] == 1){
+					$integral = $order['need_pay'];;
+				}elseif($config['integral']['restore_type'] == 2){
+					$integral = $order['settlement_price'];
+				}elseif($config['integral']['restore_type'] == 3){
+					$integral = $order['need_pay'] - $order['settlement_price'];
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}elseif($type == 'tuan'){
+			$Tuancode = D('Tuancode')->find($id);
+			if($config['integral']['is_tuan_restore'] == 1){
+				if($config['integral']['restore_type'] == 1){
+					$integral = $Tuancode['real_money'];
+				}elseif($config['integral']['restore_type'] == 2){
+					$integral = $Tuancode['settlement_price'];
+				}elseif($config['integral']['restore_type'] == 3){
+					$integral = $Tuancode['real_money']-$Tuancode['settlement_price'];
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}
+		if($config['integral']['restore_points'] < 100){
+			if($config['integral']['restore_points']){
+				$integral = int($integral - (($integral * $config['integral']['restore_points'])/100))/100;
+				if($integral > 0){
+					return $integral;
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+		
+    }
+	
+	
+	
+	//设置冻结商户资金入账
+	public function set_frozen_gold($user_id,$gold,$intro){
+		   if(!$detail = D('Users')->find($user_id)){
+              $this->error = '没有该用户';
+			  return false;
+           }
+		   if($detail['gold'] < $gold){
+			   $this->error = '商户冻结金不得大于商户资金余额';
+			   return false;
+           }
+		   if($gold < $detail['frozen_gold']){
+			   $this->error = '恢复冻结金不得大于'.($detail['frozen_gold']/100).'元';
+			   return false;
+           }
+           D('Users')->save(array(
+			   'user_id'=>$user_id,
+			   'gold'=> $detail['gold'] - $gold,
+			   'frozen_gold'=> $detail['frozen_gold'] + $gold,
+			   'frozen_gold_time'=>NOW_TIME
+		   ));
+           D('Usergoldlogs')->add(array(
+			   'user_id' => $user_id,
+			   'gold'=>$gold,
+			   'intro' => $intro,
+			   'create_time' => NOW_TIME,
+			   'create_ip'  => get_client_ip()
+		   ));
+		   D('Weixinmsg')->weixinTmplCapital($type = 3,$user_id,$gold,$intro);//商户冻结金变动通知
+		 return true;
+    }
+	
+	//设置冻结会员资金入账
+	public function set_frozen_money($user_id,$money,$intro){
+		   if(!$detail = D('Users')->find($user_id)){
+              $this->error = '没有该用户';
+			  return false;
+           }
+		   if($detail['money'] < $money){
+			   $this->error = '会员冻结金不得大于商户资金余额';
+			   return false;
+           }
+		   if($money < $detail['money_gold']){
+			   $this->error = '恢复冻结金不得大于'.($detail['money_gold']/100).'元';
+			   return false;
+           }
+           D('Users')->save(array(
+			   'user_id'=>$user_id,
+			   'money'=> $detail['money'] - $money,
+			   'frozen_money'=> $detail['frozen_money'] + $money,
+			   'frozen_money_time'=>NOW_TIME
+		   ));
+           D('Usermoneylogs')->add(array(
+			   'user_id' => $user_id,
+			   'money'=>$money,
+			   'intro' => $intro,
+			   'create_time' => NOW_TIME,
+			   'create_ip'  => get_client_ip()
+		   ));
+		  D('Weixinmsg')->weixinTmplCapital($type = 1,$user_id,$money,$intro);//冻结余额模板通知
+		 return true;
     }
 	
 	//检测积分兑换余额的合法性
@@ -241,17 +511,43 @@ class UsersModel extends CommonModel{
 		return true;
     }
 	
-	//三级分销封装
-    public function addProfit($user_id, $orderType = 0, $orderId, $num, $is_separate){
-        return D('Userprofitlogs')->add(array(
-			'user_id' => $user_id, 
-			'money' => $num, 
-			'order_id' => $orderId, 
-			'order_type' => $orderType, 
-			'create_time' => NOW_TIME, 
-			'is_separate' => $is_separate
-		));
+    
+	
+	//充值余额送积分
+    public function return_recharge_integral($logs_id,$user_id, $money){
+		$CONFIG = D('Setting')->fetchAll();
+        if (!empty($CONFIG['cash']['is_recharge_integral'])) {
+			$money = intval($money/100);//先除以100这里获取整数
+ 			$integral = $this->get_return_recharge_integral($money);
+			if($integral !=0){
+				$intro = '余额充值订单号'.$logs_id.'返还积分';
+				$this->addIntegral($user_id, $integral, $intro);
+		    }
+			return true;
+        }else{
+			return true;//忽略报错
+		}
     }
+	
+	public function get_return_recharge_integral($money){
+		$CONFIG = D('Setting')->fetchAll();
+        if ($CONFIG['cash']['return_recharge_integral'] ==1) {
+ 			$integral = $money * $CONFIG['cash']['return_recharge_integral'];
+			return $integral;
+        }elseif($CONFIG['cash']['return_recharge_integral'] ==10){
+			$integral = $money * $CONFIG['cash']['return_recharge_integral'];
+			return $integral;
+		}elseif($CONFIG['cash']['return_recharge_integral'] ==100){
+			$integral = $money * $CONFIG['cash']['return_recharge_integral'];
+			return $integral;
+		}else{
+			$integral = 0;
+			return $integral;//后台填写错误，但是忽略
+		}
+
+    }
+	
+	
 	
 	//充值多少送多少
     public function Recharge_Full_Gvie_User_Money($user_id, $money){
@@ -345,4 +641,18 @@ class UsersModel extends CommonModel{
 		}
 		return false;
     }
+	
+	//检测会员支付密码
+	public function check_pay_password($user_id){
+			$Users = D('Users')->find($user_id);
+			if(!empty($Users['pay_password'])){
+				return true;
+			}else{
+				return false;
+			}
+        return false;
+    }
+	
+	
+	
 }

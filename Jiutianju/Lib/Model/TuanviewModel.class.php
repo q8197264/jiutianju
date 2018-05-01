@@ -1,12 +1,10 @@
 <?php
-
-
-
-class TuanviewModel extends CommonModel{
-    protected $pk   = 'view_id';
-    protected $tableName =  'tuan_view';
- 
-    public function getViews($users_id, $tuan_id) {
+class TuanviewModel extends CommonModel
+{
+    protected $pk = 'view_id';
+    protected $tableName = 'tuan_view';
+    public function getViews($users_id, $tuan_id)
+    {
         if (!empty($users_id)) {
             $result['user_id'] = $users_id;
             $result['tuan_id'] = $tuan_id;

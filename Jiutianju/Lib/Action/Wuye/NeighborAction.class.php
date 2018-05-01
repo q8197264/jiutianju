@@ -1,21 +1,17 @@
 <?php
-
-class NeighborAction extends CommonAction {
-    public function index() {
-    
-		$this->assign('nextpage', LinkTo('neighbor/loadneighbor', array('t' => NOW_TIME, 'community_id' => $this->community_id, 'p' => '0000')));
-		$this->display();
+class NeighborAction extends CommonAction{
+    public function index(){
+        $this->assign('nextpage', LinkTo('neighbor/loadneighbor', array('t' => NOW_TIME, 'community_id' => $this->community_id, 'p' => '0000')));
+        $this->display();
     }
-
-     //贴吧邻居加载
+    //贴吧邻居加载
     public function loadneighbor(){
-		
         $Users = D('Communityusers');
-        import('ORG.Util.Page'); // 导入分页类
+        import('ORG.Util.Page');
         $map = array('community_id' => $this->community_id);
-        $count = $Users->where($map)->count(); // 查询满足要求的总记录数 
-        $Page = new Page($count, 10); // 实例化分页类 传入总记录数和每页显示的记录数
-        $show = $Page->show(); // 分页显示输出
+        $count = $Users->where($map)->count();
+        $Page = new Page($count, 10);
+        $show = $Page->show();
         $var = C('VAR_PAGE') ? C('VAR_PAGE') : 'p';
         $p = $_GET[$var];
         if ($Page->totalPages < $p) {
@@ -29,36 +25,21 @@ class NeighborAction extends CommonAction {
             }
         }
         $this->assign('users', D('Users')->itemsByIds($ids));
-        $this->assign('list', $list); // 赋值数据集www.hatudou.com  二开开发qq  120585022
-        $this->assign('page', $show); // 赋值分页输出
-        $this->display(); // 输出模板
+        $this->assign('list', $list);
+        $this->assign('page', $show);
+        $this->display();
     }
-	
-		
-	 public function delete($join_id = 0) {
-		 
-	    /*if ($detail['community_id'] != $this->community_id) {
-            $this->error('请不要删除别人物业公司的业主！');
-        }*/
-		
-		
+    public function delete($join_id = 0){
         if (is_numeric($join_id) && ($join_id = (int) $join_id)) {
             $obj = D('Communityusers');
-			
-			
-			if (!$detail = $obj->find($join_id)) {
-            $this->error('该通知不存在');
-			}
-			if ($detail['community_id'] != $this->community_id) {
-				$this->error('请不要删除他人好友');
-			}
-		
-		
-		
-            $obj ->where(array('join_id'=>$join_id))->delete();
+            if (!($detail = $obj->find($join_id))) {
+                $this->error('该通知不存在');
+            }
+            if ($detail['community_id'] != $this->community_id) {
+                $this->error('请不要删除他人好友');
+            }
+            $obj->where(array('join_id' => $join_id))->delete();
             $this->success('删除成功！', U('neighbor/index'));
         }
     }
-	
-   
 }

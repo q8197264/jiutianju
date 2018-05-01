@@ -2,7 +2,7 @@
 <script src="__PUBLIC__/js/my97/WdatePicker.js"></script>  
 	<header class="top-fixed bg-yellow bg-inverse">
 		<div class="top-back">
-			<a class="top-addr" href="<{:U('wuye/index/index')}>"><i class="icon-angle-left"></i></a>
+			<a class="top-addr" href="<{:U('wuye/index/index')}>"><i class="iconfont icon-angle-left"></i></a>
 		</div>
 		<div class="top-title">
 			小区账单
@@ -85,11 +85,7 @@
       <dd class="zhong">
         <div class="x2">
         
-            <?php if(strstr($users[$var['user_id']]['face'],"http")){ ?>
-            <img  style="width:90%;" src="<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
-            <?php }else{ ?>
-            <img  style="width:90%;"  src="__ROOT__/attachs/<{$users[$var['user_id']]['face']|default='default.jpg'}>" />
-            <?php }?>
+            <img  style="width:90%;" src="<{:config_img($users[$var['user_id']]['face'])}>" />
          </div>
          <div class="10">
             <p class="text-gray">业主姓名：<{$users[$var['user_id']]['nickname']}>(<{$var.user_id}>)</p>
